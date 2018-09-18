@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Base">
+      <UniqueIdentifier>{02db62b3-23af-4624-9c12-bb8705f08eeb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DGMath_stdafx.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="macro.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="DGMath.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DGMath_stdafx.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="DGMath.cpp" />
+  </ItemGroup>
+</Project>

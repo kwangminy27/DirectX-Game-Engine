@@ -8,10 +8,10 @@ namespace DG
 	{
 		friend class Singleton<Device>;
 	public:
-		void DG_DLL Initialize(HWND _window);
-		void DG_DLL Clear();
-		void DG_DLL Present();
-		void DG_DLL ReportLiveObjects();
+		void DG_ENGINE_DLL Initialize(HWND _window);
+		void DG_ENGINE_DLL Clear();
+		void DG_ENGINE_DLL Present();
+		void DG_ENGINE_DLL ReportLiveObjects();
 
 	private:
 		Device() = default;
@@ -20,7 +20,7 @@ namespace DG
 		Device& operator=(Device const&) = delete;
 		Device& operator=(Device&&) noexcept = delete;
 
-		virtual void DG_DLL _Release() override;
+		virtual void DG_ENGINE_DLL _Release() override;
 
 		HMODULE DXGIDebug_{};
 		Microsoft::WRL::ComPtr<IDXGIDebug> debug_{};

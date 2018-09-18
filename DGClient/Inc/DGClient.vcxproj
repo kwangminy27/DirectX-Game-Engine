@@ -78,8 +78,8 @@
     <OutDir>../Bin/</OutDir>
     <IntDir>../Obj/</IntDir>
     <TargetName>$(ProjectName)_Debug</TargetName>
-    <IncludePath>$(SolutionDir)Engine\Inc\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Engine\Bin\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Engine\Inc\;$(SolutionDir)Math\Inc\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Engine\Bin\;$(SolutionDir)Math\Bin\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -88,8 +88,8 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>../Bin/</OutDir>
     <IntDir>../Obj/</IntDir>
-    <IncludePath>$(SolutionDir)Engine\Inc\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Engine\Bin\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Engine\Inc\;$(SolutionDir)Math\Inc\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Engine\Bin\;$(SolutionDir)Math\Bin\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -173,6 +173,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\DGEngine\Inc\DGEngine.vcxproj">
       <Project>{efd61888-0041-4871-a825-48556d5038b5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DGMath\Inc\DGMath.vcxproj">
+      <Project>{a3e30f05-35f9-4f1d-b625-53e29d205378}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
