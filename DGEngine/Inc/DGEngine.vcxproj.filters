@@ -7,6 +7,9 @@
     <Filter Include="1. Core">
       <UniqueIdentifier>{2299c5b5-b8c5-4e32-8ce0-c5f98f91faa0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2. Device">
+      <UniqueIdentifier>{d7de3496-b391-4fa2-b335-16d0e7f910ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -24,6 +27,9 @@
     <ClInclude Include="core.h">
       <Filter>1. Core</Filter>
     </ClInclude>
+    <ClInclude Include="device.h">
+      <Filter>2. Device</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -34,6 +40,9 @@
     </ClCompile>
     <ClCompile Include="core.cpp">
       <Filter>1. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="device.cpp">
+      <Filter>2. Device</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

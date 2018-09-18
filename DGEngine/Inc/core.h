@@ -21,10 +21,19 @@ namespace DG
 		virtual void DG_DLL _Release() override;
 
 		static LRESULT CALLBACK _WindowProc(HWND _window, UINT _message, WPARAM _w_param, LPARAM _l_param);
+
 		void _RegisterClass(std::wstring const& _class_name, int _icon);
 		void _CreateWindow(std::wstring const& _class_name, std::wstring const& _window_name);
 
+		void _Logic();
+		void _Input(float _time);
+		void _Update(float _time);
+		void _LateUpdate(float _time);
+		void _Collision(float _time);
+		void _Render(float _time);
+
 		static MESSAGE_LOOP state_;
+
 		HINSTANCE instance_{};
 		HWND window_{};
 	};

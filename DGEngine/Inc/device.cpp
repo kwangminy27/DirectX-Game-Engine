@@ -1,0 +1,104 @@
+#include "DGEngine_stdafx.h"
+#include "device.h"
+
+using namespace std;
+using namespace DirectX::Colors;
+using namespace DG;
+
+using Microsoft::WRL::ComPtr;
+
+void Device::Initialize(HWND _window)
+{
+	try
+	{
+		DXGIDebug_ = LoadLibrary(L"DXGIDebug.dll");
+		ThrowIfFailed(reinterpret_cast<HRESULT(*)(REFIID, void**)>(GetProcAddress(DXGIDebug_, "DXGIGetDebugInterface"))(__uuidof(IDXGIDebug), &debug_));
+
+		UINT flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
+#ifdef _DEBUG
+		flags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+		std::array<D3D_FEATURE_LEVEL, 1> d3d_feature_levels{ D3D_FEATURE_LEVEL_11_0 };
+		ThrowIfFailed(D3D11CreateDevice(
+			nullptr,
+			D3D_DRIVER_TYPE_HARDWARE,
+			nullptr,
+			flags,
+			d3d_feature_levels.data(),
+			static_cast<UINT>(d3d_feature_levels.size()),
+			D3D11_SDK_VERSION,
+			&device_,
+			nullptr,
+			&context_
+		));
+
+		ComPtr<IDXGIDevice> dxgi_device{};
+		ComPtr<IDXGIAdapter> dxgi_adapter{};
+		ComPtr<IDXGIFactory> dxgi_factory{};
+		ThrowIfFailed(device_.As(&dxgi_device));
+		ThrowIfFailed(dxgi_device->GetAdapter(&dxgi_adapter));
+		ThrowIfFailed((dxgi_adapter->GetParent(__uuidof(IDXGIFactory), &dxgi_factory)));
+
+		DXGI_SWAP_CHAIN_DESC dxgi_swap_chain_desc{};
+		dxgi_swap_chain_desc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+		dxgi_swap_chain_desc.SampleDesc.Count = 1;
+		dxgi_swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		dxgi_swap_chain_desc.BufferCount = 1;
+		dxgi_swap_chain_desc.OutputWindow = _window;
+		dxgi_swap_chain_desc.Windowed = true;
+		dxgi_swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+		ThrowIfFailed((dxgi_factory->CreateSwapChain(device_.Get(), &dxgi_swap_chain_desc, &swap_chain_)));
+
+		ComPtr<ID3D11Texture2D> buffer{};
+		ThrowIfFailed(swap_chain_->GetBuffer(0, __uuidof(ID3D11Texture2D), &buffer));
+		ThrowIfFailed(device_->CreateRenderTargetView(buffer.Get(), nullptr, &RTV_));
+
+		D3D11_TEXTURE2D_DESC depth_stencil_buffer_desc{};
+		depth_stencil_buffer_desc.Width = static_cast<UINT>(RESOLUTION::WIDTH);
+		depth_stencil_buffer_desc.Height = static_cast<UINT>(RESOLUTION::HEIGHT);
+		depth_stencil_buffer_desc.MipLevels = 1;
+		depth_stencil_buffer_desc.ArraySize = 1;
+		depth_stencil_buffer_desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		depth_stencil_buffer_desc.SampleDesc.Count = 1;
+		depth_stencil_buffer_desc.Usage = D3D11_USAGE_DEFAULT;
+		depth_stencil_buffer_desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+		ThrowIfFailed(device_->CreateTexture2D(&depth_stencil_buffer_desc, nullptr, &buffer));
+
+		D3D11_DEPTH_STENCIL_VIEW_DESC depth_stencil_view_desc{};
+		depth_stencil_view_desc.Format = depth_stencil_buffer_desc.Format;
+		depth_stencil_view_desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		ThrowIfFailed(device_->CreateDepthStencilView(buffer.Get(), &depth_stencil_view_desc, &DSV_));
+	}
+	catch (exception const& _e)
+	{
+		cerr << _e.what() << endl;
+	}
+}
+
+void Device::Clear()
+{
+	context_->ClearRenderTargetView(RTV_.Get(), PaleGreen);
+	context_->ClearDepthStencilView(DSV_.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+}
+
+void Device::Present()
+{
+	swap_chain_->Present(0, NULL);
+}
+
+void Device::ReportLiveObjects()
+{
+	try
+	{
+		ThrowIfFailed(debug_->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_DETAIL));
+	}
+	catch (exception const& _e)
+	{
+		cerr << _e.what() << endl;
+	}
+}
+
+void Device::_Release()
+{
+	FreeLibrary(DXGIDebug_);
+}

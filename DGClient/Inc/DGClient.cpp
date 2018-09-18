@@ -10,10 +10,12 @@ int WINAPI wWinMain(HINSTANCE _instance, HINSTANCE _prev_instance, PWSTR _cmd_li
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	auto const& core = DG::Core::singleton();
+	auto const& core = Core::singleton();
 
 	core->Initialize(L"DirectX Game Engine", L"DirectX Game Engine", _instance, IDI_ICON1);
 	core->Run();
+
+	Core::singleton().reset();
 
 	return 0;
 }

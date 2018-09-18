@@ -1,6 +1,8 @@
 #include "DGEngine_stdafx.h"
 #include "core.h"
 
+#include "device.h"
+
 using namespace std;
 using namespace DG;
 
@@ -14,10 +16,12 @@ void Core::Initialize(wstring const& _class_name, wstring const& _window_name, H
 	{
 		_RegisterClass(_class_name, _icon);
 		_CreateWindow(_class_name, _window_name);
+
+		Device::singleton()->Initialize(window_);
 	}
-	catch (string const& _desc)
+	catch (string const& _s)
 	{
-		cerr << _desc << endl;
+		cerr << _s << endl;
 	}
 }
 
@@ -31,11 +35,14 @@ void Core::Run()
 			TranslateMessage(&message);
 			DispatchMessage(&message);
 		}
+		else
+			_Logic();
 	}
 }
 
 void Core::_Release()
 {
+	Device::singleton().reset();
 }
 
 LRESULT Core::_WindowProc(HWND _window, UINT _message, WPARAM _w_param, LPARAM _l_param)
@@ -89,4 +96,37 @@ void Core::_CreateWindow(wstring const& _class_name, wstring const& _window_name
 	MoveWindow(window_, 160, 90, rc.right - rc.left, rc.bottom - rc.top, true);
 
 	ShowWindow(window_, SW_SHOW);
+}
+
+void Core::_Logic()
+{
+	_Input(0.f);
+	_Update(0.f);
+	_LateUpdate(0.f);
+	_Collision(0.f);
+	_Render(0.f);
+}
+
+void Core::_Input(float _time)
+{
+}
+
+void Core::_Update(float _time)
+{
+}
+
+void Core::_LateUpdate(float _time)
+{
+}
+
+void Core::_Collision(float _time)
+{
+}
+
+void Core::_Render(float _time)
+{
+	auto const& device = Device::singleton();
+
+	device->Clear();
+	device->Present();
 }
