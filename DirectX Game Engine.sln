@@ -3,9 +3,51 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Client", "1. Client", "{70712F54-0752-4454-80B4-621F1C248BE4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Engine", "2. Engine", "{0EFDFF74-A311-4D88-853E-54EFD69C8EFA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DGClient", "DGClient\Inc\DGClient.vcxproj", "{7B8120ED-B883-439E-B46D-91B7E982866B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DGEngine", "DGEngine\Inc\DGEngine.vcxproj", "{EFD61888-0041-4871-A825-48556D5038B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DD2E57B1-615B-4BAA-948C-7FED8A1F774A}"
+	ProjectSection(SolutionItems) = preProject
+		DGEngine.bat = DGEngine.bat
+		extension.txt = extension.txt
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B8120ED-B883-439E-B46D-91B7E982866B}.Debug|x64.ActiveCfg = Debug|x64
+		{7B8120ED-B883-439E-B46D-91B7E982866B}.Debug|x64.Build.0 = Debug|x64
+		{7B8120ED-B883-439E-B46D-91B7E982866B}.Debug|x86.ActiveCfg = Debug|Win32
+		{7B8120ED-B883-439E-B46D-91B7E982866B}.Debug|x86.Build.0 = Debug|Win32
+		{7B8120ED-B883-439E-B46D-91B7E982866B}.Release|x64.ActiveCfg = Release|x64
+		{7B8120ED-B883-439E-B46D-91B7E982866B}.Release|x64.Build.0 = Release|x64
+		{7B8120ED-B883-439E-B46D-91B7E982866B}.Release|x86.ActiveCfg = Release|Win32
+		{7B8120ED-B883-439E-B46D-91B7E982866B}.Release|x86.Build.0 = Release|Win32
+		{EFD61888-0041-4871-A825-48556D5038B5}.Debug|x64.ActiveCfg = Debug|x64
+		{EFD61888-0041-4871-A825-48556D5038B5}.Debug|x64.Build.0 = Debug|x64
+		{EFD61888-0041-4871-A825-48556D5038B5}.Debug|x86.ActiveCfg = Debug|Win32
+		{EFD61888-0041-4871-A825-48556D5038B5}.Debug|x86.Build.0 = Debug|Win32
+		{EFD61888-0041-4871-A825-48556D5038B5}.Release|x64.ActiveCfg = Release|x64
+		{EFD61888-0041-4871-A825-48556D5038B5}.Release|x64.Build.0 = Release|x64
+		{EFD61888-0041-4871-A825-48556D5038B5}.Release|x86.ActiveCfg = Release|Win32
+		{EFD61888-0041-4871-A825-48556D5038B5}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7B8120ED-B883-439E-B46D-91B7E982866B} = {70712F54-0752-4454-80B4-621F1C248BE4}
+		{EFD61888-0041-4871-A825-48556D5038B5} = {0EFDFF74-A311-4D88-853E-54EFD69C8EFA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {122886D7-43F3-4F8E-ACEE-13D254C5DEC5}

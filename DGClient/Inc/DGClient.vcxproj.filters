@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Base">
+      <UniqueIdentifier>{e41b1a9e-ff3e-46c4-97ce-6d74e436b96b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{4fbb9e0b-c33c-4f8e-89ae-ed26437e362f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DGClient_stdafx.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DGClient_stdafx.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="DGClient.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DGClient.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico">
+      <Filter>Resource</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

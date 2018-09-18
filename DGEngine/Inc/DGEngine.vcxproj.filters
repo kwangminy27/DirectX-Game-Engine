@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Base">
+      <UniqueIdentifier>{64585878-6139-466a-bc2e-dc253397c1a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. Core">
+      <UniqueIdentifier>{2299c5b5-b8c5-4e32-8ce0-c5f98f91faa0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DGEngine_stdafx.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="singleton.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="macro.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="enum.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="core.h">
+      <Filter>1. Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DGEngine_stdafx.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="singleton.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="core.cpp">
+      <Filter>1. Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="singleton.inl">
+      <Filter>Base</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,92 @@
+#include "DGEngine_stdafx.h"
+#include "core.h"
+
+using namespace std;
+using namespace DG;
+
+MESSAGE_LOOP Core::state_ = MESSAGE_LOOP::RUN;
+
+void Core::Initialize(wstring const& _class_name, wstring const& _window_name, HINSTANCE _instance, int _icon)
+{
+	instance_ = _instance;
+
+	try
+	{
+		_RegisterClass(_class_name, _icon);
+		_CreateWindow(_class_name, _window_name);
+	}
+	catch (string const& _desc)
+	{
+		cerr << _desc << endl;
+	}
+}
+
+void Core::Run()
+{
+	MSG message{};
+	while (Core::state_ == MESSAGE_LOOP::RUN)
+	{
+		if (PeekMessage(&message, nullptr, NULL, NULL, PM_REMOVE))
+		{
+			TranslateMessage(&message);
+			DispatchMessage(&message);
+		}
+	}
+}
+
+void Core::_Release()
+{
+}
+
+LRESULT Core::_WindowProc(HWND _window, UINT _message, WPARAM _w_param, LPARAM _l_param)
+{
+	switch (_message)
+	{
+	case WM_DESTROY:
+		Core::state_ = MESSAGE_LOOP::EXIT;
+		PostQuitMessage(0);
+		return 0;
+	}
+
+	return DefWindowProc(_window, _message, _w_param, _l_param);
+}
+
+void Core::_RegisterClass(wstring const& _class_name, int _icon)
+{
+	WNDCLASSEX wcex{};
+	wcex.cbSize = sizeof(wcex);
+	wcex.lpfnWndProc = Core::_WindowProc;
+	wcex.hInstance = instance_;
+	wcex.hIcon = LoadIcon(instance_, MAKEINTRESOURCE(_icon));
+	wcex.hbrBackground = static_cast<HBRUSH>(GetStockObject(LTGRAY_BRUSH));
+	wcex.lpszClassName = _class_name.c_str();
+	wcex.hIconSm = LoadIcon(instance_, MAKEINTRESOURCE(_icon));
+	if (!RegisterClassEx(&wcex))
+		throw "RegisterClassEx"s;
+}
+
+void Core::_CreateWindow(wstring const& _class_name, wstring const& _window_name)
+{
+	window_ = CreateWindowEx(
+		NULL,
+		_class_name.c_str(),
+		_window_name.c_str(),
+		WS_CAPTION | WS_SYSMENU,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		nullptr,
+		nullptr,
+		instance_,
+		nullptr);
+
+	if (!window_)
+		throw "CreateWindowEx"s;
+
+	RECT rc{ 0, 0, static_cast<int>(RESOLUTION::WIDTH), static_cast<int>(RESOLUTION::HEIGHT) };
+	AdjustWindowRectEx(&rc, WS_CAPTION | WS_SYSMENU, false, NULL);
+	MoveWindow(window_, 160, 90, rc.right - rc.left, rc.bottom - rc.top, true);
+
+	ShowWindow(window_, SW_SHOW);
+}
