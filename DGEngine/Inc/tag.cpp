@@ -33,3 +33,13 @@ void Tag::set_enablement(bool _boolean)
 {
 	enablement_ = _boolean;
 }
+
+Tag::Tag(Tag const& _other)
+{
+	*this = _other;
+}
+
+Tag::Tag(Tag&& _other) noexcept
+{
+	*this = move(_other);
+}

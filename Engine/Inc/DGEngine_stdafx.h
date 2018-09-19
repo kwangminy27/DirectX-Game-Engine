@@ -13,6 +13,7 @@
 #include <mutex>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 // DirectX
 #include <wrl/client.h>
@@ -30,6 +31,7 @@
 // DGEngine
 #include "macro.h"
 #include "enum.h"
+#include "type.h"
 
 namespace DG
 {

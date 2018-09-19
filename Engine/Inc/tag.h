@@ -15,10 +15,10 @@ namespace DG
 
 	protected:
 		Tag() = default;
-		Tag(Tag const&) = delete;
-		Tag(Tag&&) noexcept = delete;
-		Tag& operator=(Tag const&) = delete;
-		Tag& operator=(Tag&&) noexcept = delete;
+		Tag(Tag const& _other);
+		Tag(Tag&& _other) noexcept;
+		Tag& operator=(Tag const&) = default;
+		Tag& operator=(Tag&&) noexcept = default;
 
 		virtual void _Release() = 0;
 

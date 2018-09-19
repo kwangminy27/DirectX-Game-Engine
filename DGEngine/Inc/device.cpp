@@ -32,22 +32,22 @@ void Device::Initialize(HWND _window)
 			&context_
 		));
 
-		ComPtr<IDXGIDevice> dxgi_device{};
-		ComPtr<IDXGIAdapter> dxgi_adapter{};
-		ComPtr<IDXGIFactory> dxgi_factory{};
-		ThrowIfFailed(device_.As(&dxgi_device));
-		ThrowIfFailed(dxgi_device->GetAdapter(&dxgi_adapter));
-		ThrowIfFailed((dxgi_adapter->GetParent(__uuidof(IDXGIFactory), &dxgi_factory)));
+		ComPtr<IDXGIDevice> device{};
+		ComPtr<IDXGIAdapter> adapter{};
+		ComPtr<IDXGIFactory> factory{};
+		ThrowIfFailed(device_.As(&device));
+		ThrowIfFailed(device->GetAdapter(&adapter));
+		ThrowIfFailed((adapter->GetParent(__uuidof(IDXGIFactory), &factory)));
 
-		DXGI_SWAP_CHAIN_DESC dxgi_swap_chain_desc{};
-		dxgi_swap_chain_desc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-		dxgi_swap_chain_desc.SampleDesc.Count = 1;
-		dxgi_swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		dxgi_swap_chain_desc.BufferCount = 1;
-		dxgi_swap_chain_desc.OutputWindow = _window;
-		dxgi_swap_chain_desc.Windowed = true;
-		dxgi_swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-		ThrowIfFailed((dxgi_factory->CreateSwapChain(device_.Get(), &dxgi_swap_chain_desc, &swap_chain_)));
+		DXGI_SWAP_CHAIN_DESC swap_chain_desc{};
+		swap_chain_desc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+		swap_chain_desc.SampleDesc.Count = 1;
+		swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		swap_chain_desc.BufferCount = 1;
+		swap_chain_desc.OutputWindow = _window;
+		swap_chain_desc.Windowed = true;
+		swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+		ThrowIfFailed((factory->CreateSwapChain(device_.Get(), &swap_chain_desc, &swap_chain_)));
 
 		ComPtr<ID3D11Texture2D> buffer{};
 		ThrowIfFailed(swap_chain_->GetBuffer(0, __uuidof(ID3D11Texture2D), &buffer));
@@ -98,6 +98,16 @@ void Device::ReportLiveObjects()
 		cerr << _e.what() << endl;
 	}
 #endif
+}
+
+ComPtr<ID3D11Device> const& Device::device() const
+{
+	return device_;
+}
+
+ComPtr<ID3D11DeviceContext> const& Device::context() const
+{
+	return context_;
 }
 
 void Device::_Release()

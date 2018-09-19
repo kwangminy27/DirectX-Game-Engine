@@ -9,7 +9,6 @@ namespace DG
 		friend class Singleton<PathManager>;
 	public:
 		void Initialize();
-
 		std::filesystem::path const& FindPath(std::string const& _tag) const;
 
 	private:

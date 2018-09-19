@@ -3,6 +3,7 @@
 
 #include "device.h"
 #include "path_manager.h"
+#include "resource_manager.h"
 #include "timer.h"
 
 using namespace std;
@@ -21,12 +22,13 @@ void Core::Initialize(wstring const& _class_name, wstring const& _window_name, H
 
 		Device::singleton()->Initialize(window_);
 		PathManager::singleton()->Initialize();
+		ResourceManager::singleton()->Initialize();
 
 		_CreateTimer();
 	}
-	catch (string const& _s)
+	catch (exception const& _e)
 	{
-		cerr << _s << endl;
+		cerr << _e.what() << endl;
 	}
 }
 
@@ -41,7 +43,11 @@ void Core::Run()
 			DispatchMessage(&message);
 		}
 		else
+		{
+			timer_->Update();
+
 			_Logic();
+		}
 	}
 }
 
@@ -49,6 +55,7 @@ void Core::_Release()
 {
 	Device::singleton().reset();
 	PathManager::singleton().reset();
+	ResourceManager::singleton().reset();
 }
 
 LRESULT Core::_WindowProc(HWND _window, UINT _message, WPARAM _w_param, LPARAM _l_param)
@@ -75,7 +82,7 @@ void Core::_RegisterClass(wstring const& _class_name, int _icon)
 	wcex.lpszClassName = _class_name.c_str();
 	wcex.hIconSm = LoadIcon(instance_, MAKEINTRESOURCE(_icon));
 	if (!RegisterClassEx(&wcex))
-		throw "RegisterClassEx"s;
+		throw exception{ "RegisterClassEx" };
 }
 
 void Core::_CreateWindow(wstring const& _class_name, wstring const& _window_name)
@@ -92,10 +99,11 @@ void Core::_CreateWindow(wstring const& _class_name, wstring const& _window_name
 		nullptr,
 		nullptr,
 		instance_,
-		nullptr);
+		nullptr
+	);
 
 	if (!window_)
-		throw "CreateWindowEx"s;
+		throw exception{ "CreateWindowEx" };
 
 	RECT rc{ 0, 0, static_cast<int>(RESOLUTION::WIDTH), static_cast<int>(RESOLUTION::HEIGHT) };
 	AdjustWindowRectEx(&rc, WS_CAPTION | WS_SYSMENU, false, NULL);

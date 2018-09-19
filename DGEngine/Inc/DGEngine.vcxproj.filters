@@ -16,6 +16,12 @@
     <Filter Include="3. Path">
       <UniqueIdentifier>{5877b8d3-78e0-4b43-80a7-5bf2c64ae20b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="4. Resource">
+      <UniqueIdentifier>{418e7dae-c1fa-47d2-bab8-1932d1236c8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4. Resource\1. Mesh">
+      <UniqueIdentifier>{227884fc-0fc6-43f2-a35b-789fa508f855}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -45,6 +51,15 @@
     <ClInclude Include="path_manager.h">
       <Filter>3. Path</Filter>
     </ClInclude>
+    <ClInclude Include="resource_manager.h">
+      <Filter>4. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>4. Resource\1. Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="type.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -67,6 +82,12 @@
     </ClCompile>
     <ClCompile Include="path_manager.cpp">
       <Filter>3. Path</Filter>
+    </ClCompile>
+    <ClCompile Include="resource_manager.cpp">
+      <Filter>4. Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>4. Resource\1. Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

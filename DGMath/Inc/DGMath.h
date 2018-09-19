@@ -174,9 +174,9 @@ namespace DG
 			static Vector3 const Forward;
 			static Vector3 const Backward;
 
-			float x{};
-			float y{};
-			float z{};
+			float x;
+			float y;
+			float z;
 		};
 
 		Vector3 DG_MATH_DLL operator+(Vector3 const& _v1, Vector3 const& _v2);
@@ -264,10 +264,10 @@ namespace DG
 			static Vector4 const UnitZ;
 			static Vector4 const UnitW;
 
-			float x{};
-			float y{};
-			float z{};
-			float w{};
+			float x;
+			float y;
+			float z;
+			float w;
 		};
 
 		Vector4 DG_MATH_DLL operator+(Vector4 const& _v1, Vector4 const& _v2);

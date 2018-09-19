@@ -13,6 +13,9 @@ namespace DG
 		void Present();
 		void ReportLiveObjects();
 
+		Microsoft::WRL::ComPtr<ID3D11Device> const& device() const;
+		Microsoft::WRL::ComPtr<ID3D11DeviceContext> const& context() const;
+
 	private:
 		Device() = default;
 		Device(Device const&) = delete;
