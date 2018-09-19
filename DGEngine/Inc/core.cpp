@@ -2,6 +2,7 @@
 #include "core.h"
 
 #include "device.h"
+#include "path_manager.h"
 #include "timer.h"
 
 using namespace std;
@@ -19,6 +20,7 @@ void Core::Initialize(wstring const& _class_name, wstring const& _window_name, H
 		_CreateWindow(_class_name, _window_name);
 
 		Device::singleton()->Initialize(window_);
+		PathManager::singleton()->Initialize();
 
 		_CreateTimer();
 	}
@@ -46,6 +48,7 @@ void Core::Run()
 void Core::_Release()
 {
 	Device::singleton().reset();
+	PathManager::singleton().reset();
 }
 
 LRESULT Core::_WindowProc(HWND _window, UINT _message, WPARAM _w_param, LPARAM _l_param)

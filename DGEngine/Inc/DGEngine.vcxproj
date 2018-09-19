@@ -171,6 +171,7 @@
     <ClInclude Include="DGEngine_stdafx.h" />
     <ClInclude Include="enum.h" />
     <ClInclude Include="macro.h" />
+    <ClInclude Include="path_manager.h" />
     <ClInclude Include="singleton.h" />
     <ClInclude Include="tag.h" />
     <ClInclude Include="timer.h" />
@@ -182,6 +183,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="path_manager.cpp" />
     <ClCompile Include="singleton.cpp" />
     <ClCompile Include="tag.cpp" />
     <ClCompile Include="timer.cpp" />

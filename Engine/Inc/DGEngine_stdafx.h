@@ -6,11 +6,13 @@
 // C++ Standard Library
 #include <array>
 #include <chrono>
+#include <filesystem>
 #include <functional>
 #include <iostream>
 #include <memory>
 #include <mutex>
 #include <string>
+#include <unordered_map>
 
 // DirectX
 #include <wrl/client.h>

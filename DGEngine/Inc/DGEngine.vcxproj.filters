@@ -13,6 +13,9 @@
     <Filter Include="1. Core\1. Timer">
       <UniqueIdentifier>{9e3e70d2-b75c-44f2-81da-9cefef0ec47a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3. Path">
+      <UniqueIdentifier>{5877b8d3-78e0-4b43-80a7-5bf2c64ae20b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -39,6 +42,9 @@
     <ClInclude Include="tag.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="path_manager.h">
+      <Filter>3. Path</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -58,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="tag.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="path_manager.cpp">
+      <Filter>3. Path</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

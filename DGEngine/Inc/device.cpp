@@ -88,7 +88,7 @@ void Device::Present()
 
 void Device::ReportLiveObjects()
 {
-#ifdef _DEBUG;
+#ifdef _DEBUG
 	try
 	{
 		ThrowIfFailed(debug_->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_DETAIL));
@@ -102,7 +102,7 @@ void Device::ReportLiveObjects()
 
 void Device::_Release()
 {
-#ifdef _DEBUG;
+#ifdef _DEBUG
 	FreeLibrary(DXGIDebug_);
 #endif
 }
