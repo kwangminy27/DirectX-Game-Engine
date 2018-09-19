@@ -172,6 +172,7 @@
     <ClInclude Include="enum.h" />
     <ClInclude Include="macro.h" />
     <ClInclude Include="singleton.h" />
+    <ClInclude Include="tag.h" />
     <ClInclude Include="timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +183,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="singleton.cpp" />
+    <ClCompile Include="tag.cpp" />
     <ClCompile Include="timer.cpp" />
   </ItemGroup>
   <ItemGroup>

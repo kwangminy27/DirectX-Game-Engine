@@ -36,6 +36,9 @@
     <ClInclude Include="timer.h">
       <Filter>1. Core\1. Timer</Filter>
     </ClInclude>
+    <ClInclude Include="tag.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -52,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="timer.cpp">
       <Filter>1. Core\1. Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="tag.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

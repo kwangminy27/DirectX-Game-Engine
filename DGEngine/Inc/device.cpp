@@ -11,12 +11,12 @@ void Device::Initialize(HWND _window)
 {
 	try
 	{
-		DXGIDebug_ = LoadLibrary(L"DXGIDebug.dll");
-		ThrowIfFailed(reinterpret_cast<HRESULT(*)(REFIID, void**)>(GetProcAddress(DXGIDebug_, "DXGIGetDebugInterface"))(__uuidof(IDXGIDebug), &debug_));
-
 		UINT flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 #ifdef _DEBUG
 		flags |= D3D11_CREATE_DEVICE_DEBUG;
+
+		DXGIDebug_ = LoadLibrary(L"DXGIDebug.dll");
+		ThrowIfFailed(reinterpret_cast<HRESULT(*)(REFIID, void**)>(GetProcAddress(DXGIDebug_, "DXGIGetDebugInterface"))(__uuidof(IDXGIDebug), &debug_));
 #endif
 		std::array<D3D_FEATURE_LEVEL, 1> d3d_feature_levels{ D3D_FEATURE_LEVEL_11_0 };
 		ThrowIfFailed(D3D11CreateDevice(
@@ -88,6 +88,7 @@ void Device::Present()
 
 void Device::ReportLiveObjects()
 {
+#ifdef _DEBUG;
 	try
 	{
 		ThrowIfFailed(debug_->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_DETAIL));
@@ -96,9 +97,12 @@ void Device::ReportLiveObjects()
 	{
 		cerr << _e.what() << endl;
 	}
+#endif
 }
 
 void Device::_Release()
 {
+#ifdef _DEBUG;
 	FreeLibrary(DXGIDebug_);
+#endif
 }
