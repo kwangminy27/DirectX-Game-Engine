@@ -2,6 +2,7 @@
 #include "core.h"
 
 #include "device.h"
+#include "timer.h"
 
 using namespace std;
 using namespace DG;
@@ -18,6 +19,8 @@ void Core::Initialize(wstring const& _class_name, wstring const& _window_name, H
 		_CreateWindow(_class_name, _window_name);
 
 		Device::singleton()->Initialize(window_);
+
+		_CreateTimer();
 	}
 	catch (string const& _s)
 	{
@@ -98,13 +101,23 @@ void Core::_CreateWindow(wstring const& _class_name, wstring const& _window_name
 	ShowWindow(window_, SW_SHOW);
 }
 
+void Core::_CreateTimer()
+{
+	timer_ = unique_ptr<Timer, function<void(Timer*)>>{ new Timer, [](Timer* _p) {
+		delete _p;
+	} };
+	time_scale_ = 1.f;
+}
+
 void Core::_Logic()
 {
-	_Input(0.f);
-	_Update(0.f);
-	_LateUpdate(0.f);
-	_Collision(0.f);
-	_Render(0.f);
+	float delta_time = timer_->delta_time() * time_scale_;
+
+	_Input(delta_time);
+	_Update(delta_time);
+	_LateUpdate(delta_time);
+	_Collision(delta_time);
+	_Render(delta_time);
 }
 
 void Core::_Input(float _time)

@@ -4,6 +4,8 @@
 
 namespace DG
 {
+	class Timer;
+
 	class Core final : public Singleton<Core>
 	{
 		friend class Singleton<Core>;
@@ -25,6 +27,8 @@ namespace DG
 		void _RegisterClass(std::wstring const& _class_name, int _icon);
 		void _CreateWindow(std::wstring const& _class_name, std::wstring const& _window_name);
 
+		void _CreateTimer();
+
 		void _Logic();
 		void _Input(float _time);
 		void _Update(float _time);
@@ -36,5 +40,8 @@ namespace DG
 
 		HINSTANCE instance_{};
 		HWND window_{};
+
+		std::unique_ptr<Timer, std::function<void(Timer*)>> timer_{};
+		float time_scale_{};
 	};
 }
