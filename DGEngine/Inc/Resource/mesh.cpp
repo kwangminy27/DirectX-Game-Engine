@@ -1,3 +1,4 @@
+
 #include "DGEngine_stdafx.h"
 #include "mesh.h"
 
@@ -6,28 +7,46 @@
 using namespace std;
 using namespace DG;
 
+void Mesh::Render()
+{
+	auto const& context = Device::singleton()->context();
+
+	for (auto const& mesh_container : mesh_container_vector_)
+	{
+		context->IASetPrimitiveTopology(mesh_container->topology);
+
+		UINT stride{ static_cast<UINT>(mesh_container->VB.size) };
+		UINT offset{};
+		context->IASetVertexBuffers(0, 1, mesh_container->VB.buffer.GetAddressOf(), &stride, &offset);
+
+		if (mesh_container->IB_vector.empty())
+			context->Draw(mesh_container->VB.count, 0);
+		else
+		{
+			for (auto const& IB : mesh_container->IB_vector)
+			{
+				context->IASetIndexBuffer(IB.buffer.Get(), IB.format, 0);
+				context->DrawIndexed(IB.count, 0, 0);
+			}
+		}
+	}
+}
+
 string const& Mesh::vertex_shader_tag() const
 {
 	return vertex_shader_tag_;
-}
-
-string const& Mesh::input_layout_tag() const
-{
-	return input_layout_tag_;
 }
 
 Mesh::Mesh(Mesh const& _other) : Tag(_other)
 {
 	mesh_container_vector_ = _other.mesh_container_vector_;
 	vertex_shader_tag_ = _other.vertex_shader_tag_;
-	input_layout_tag_ = _other.input_layout_tag_;
 }
 
 Mesh::Mesh(Mesh&& _other) noexcept : Tag(move(_other))
 {
 	mesh_container_vector_ = move(_other.mesh_container_vector_);
 	vertex_shader_tag_ = move(_other.vertex_shader_tag_);
-	input_layout_tag_ = move(_other.input_layout_tag_);
 }
 
 void Mesh::_Release()
@@ -35,32 +54,25 @@ void Mesh::_Release()
 }
 
 void Mesh::_CreateMesh(
-	string const& _tag, string const& _vertex_shader_tag, string const& _input_layout_tag, D3D11_PRIMITIVE_TOPOLOGY _topology,
+	string const& _tag, string const& _vertex_shader_tag, D3D11_PRIMITIVE_TOPOLOGY _topology,
 	void* _vtx_data, int _vtx_size, int _vtx_count, D3D11_USAGE _vtx_usage,
 	void* _idx_data, int _idx_size, int _idx_count, D3D11_USAGE _idx_usage, DXGI_FORMAT _idx_format)
 {
 	tag_ = _tag;
 	vertex_shader_tag_ = _vertex_shader_tag;
-	input_layout_tag_ = _input_layout_tag;
 
-	try
-	{
-		auto mesh_container_buffer = shared_ptr<MeshContainer>{ new MeshContainer, [](MeshContainer* _p) {
-			delete[] _p->VB.data;
-			for (auto const& IB : _p->IB_vector)
-				delete[] IB.data;
-		} };
-		mesh_container_buffer->topology = _topology;
+	auto mesh_container_buffer = shared_ptr<MeshContainer>{ new MeshContainer, [](MeshContainer* _p) {
+		delete[] _p->VB.data;
+		for (auto& IB : _p->IB_vector)
+			delete[] IB.data;
+		delete _p;
+	} };
+	mesh_container_buffer->topology = _topology;
 
-		mesh_container_vector_.push_back(move(mesh_container_buffer));
+	mesh_container_vector_.push_back(move(mesh_container_buffer));
 
-		_CreateVertexBuffer(_vtx_data, _vtx_size, _vtx_count, _vtx_usage);
-		_CreateIndexBuffer(_idx_data, _idx_size, _idx_count, _idx_usage, _idx_format);
-	}
-	catch (exception const& _e)
-	{
-		cerr << _e.what() << endl;
-	}
+	_CreateVertexBuffer(_vtx_data, _vtx_size, _vtx_count, _vtx_usage);
+	_CreateIndexBuffer(_idx_data, _idx_size, _idx_count, _idx_usage, _idx_format);
 }
 
 void Mesh::_CreateVertexBuffer(void* _data, int _size, int _count, D3D11_USAGE _usage)
@@ -140,30 +152,5 @@ void Mesh::_UpdateVertexBuffer(void* _data, int _mesh_container_idx)
 		memcpy_s(mapped_subresource.pData, byte_width, _data, byte_width);
 		Device::singleton()->context()->Unmap(mesh_container->VB.buffer.Get(), 0);
 		break;
-	}
-}
-
-void Mesh::_Render()
-{
-	auto const& context = Device::singleton()->context();
-
-	for (auto const& mesh_container : mesh_container_vector_)
-	{
-		context->IASetPrimitiveTopology(mesh_container->topology);
-
-		UINT stride{ static_cast<UINT>(mesh_container->VB.size) };
-		UINT offset{};
-		context->IASetVertexBuffers(0, 1, mesh_container->VB.buffer.GetAddressOf(), &stride, &offset);
-
-		if (mesh_container->IB_vector.empty())
-			context->Draw(mesh_container->VB.count, 0);
-		else
-		{
-			for (auto const& IB : mesh_container->IB_vector)
-			{
-				context->IASetIndexBuffer(IB.buffer.Get(), IB.format, 0);
-				context->DrawIndexed(IB.count, 0, 0);
-			}
-		}
 	}
 }

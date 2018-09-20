@@ -22,6 +22,15 @@
     <Filter Include="4. Resource\1. Mesh">
       <UniqueIdentifier>{227884fc-0fc6-43f2-a35b-789fa508f855}</UniqueIdentifier>
     </Filter>
+    <Filter Include="5. Rendering">
+      <UniqueIdentifier>{d8bbfdcd-3fe9-4c46-9f52-3aa3f7380e5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5. Rendering\1. Shader">
+      <UniqueIdentifier>{47a12bf4-3ffa-4461-950d-b9dcec82c1cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5. Rendering\1. Shader\1. HLSL">
+      <UniqueIdentifier>{19033698-0dea-4c07-9720-372467aa9258}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -51,14 +60,23 @@
     <ClInclude Include="path_manager.h">
       <Filter>3. Path</Filter>
     </ClInclude>
-    <ClInclude Include="resource_manager.h">
-      <Filter>4. Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="mesh.h">
-      <Filter>4. Resource\1. Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="type.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\resource_manager.h">
+      <Filter>4. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\mesh.h">
+      <Filter>4. Resource\1. Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\rendering_manager.h">
+      <Filter>5. Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shader.h">
+      <Filter>5. Rendering\1. Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\shader_manager.h">
+      <Filter>5. Rendering\1. Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -83,16 +101,36 @@
     <ClCompile Include="path_manager.cpp">
       <Filter>3. Path</Filter>
     </ClCompile>
-    <ClCompile Include="resource_manager.cpp">
+    <ClCompile Include="Resource\resource_manager.cpp">
       <Filter>4. Resource</Filter>
     </ClCompile>
-    <ClCompile Include="mesh.cpp">
+    <ClCompile Include="Resource\mesh.cpp">
       <Filter>4. Resource\1. Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\rendering_manager.cpp">
+      <Filter>5. Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\shader.cpp">
+      <Filter>5. Rendering\1. Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\shader_manager.cpp">
+      <Filter>5. Rendering\1. Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="singleton.inl">
       <Filter>Base</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="BasicVS.hlsl">
+      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="type.hlsl">
+      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicPS.hlsl">
+      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

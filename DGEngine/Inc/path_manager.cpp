@@ -7,18 +7,22 @@ using namespace DG;
 
 void PathManager::Initialize()
 {
-	path path_buffer = current_path();
-	path_buffer.replace_filename("Bin\\");
-
-	path_map_.insert(make_pair("RootPath", move(path_buffer)));
-
 	try
 	{
+		path path_buffer = current_path();
+		path_buffer.replace_filename("Bin\\");
 
+		path_map_.insert(make_pair("RootPath", move(path_buffer)));
+
+		_AddPath("ShaderPath", "Shader\\");
 	}
 	catch (exception const& _e)
 	{
 		cerr << _e.what() << endl;
+	}
+	catch (...)
+	{
+		cerr << "PathManager::Initialize" << endl;
 	}
 }
 
@@ -27,7 +31,7 @@ path const& PathManager::FindPath(string const& _tag) const
 	auto iter = path_map_.find(_tag);
 
 	if (iter == path_map_.end())
-		throw exception{ "PathManager::FindPath" };
+		return path_nullptr_;
 
 	return iter->second;
 }

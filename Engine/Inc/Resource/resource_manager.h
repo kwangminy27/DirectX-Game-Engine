@@ -23,7 +23,7 @@ namespace DG
 		virtual void _Release() override;
 
 		void _CreateMesh(
-			std::string const& _tag, std::string const& _vertex_shader_tag, std::string const& _input_layout_tag, D3D11_PRIMITIVE_TOPOLOGY _topology,
+			std::string const& _tag, std::string const& _vertex_shader_tag, D3D11_PRIMITIVE_TOPOLOGY _topology,
 			void* _vtx_data, int _vtx_size, int _vtx_count, D3D11_USAGE _vtx_usage,
 			void* _idx_data, int _idx_size, int _idx_count, D3D11_USAGE _idx_usage, DXGI_FORMAT _idx_format);
 

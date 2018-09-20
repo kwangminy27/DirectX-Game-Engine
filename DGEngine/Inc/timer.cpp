@@ -5,6 +5,11 @@ using namespace std;
 using namespace chrono;
 using namespace DG;
 
+void Timer::Initialize()
+{
+	last_time_point_ = std::chrono::high_resolution_clock::now();
+}
+
 void Timer::Update()
 {
 	static int frame_per_second{};

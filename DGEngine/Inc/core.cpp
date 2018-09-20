@@ -2,9 +2,13 @@
 #include "core.h"
 
 #include "device.h"
-#include "path_manager.h"
-#include "resource_manager.h"
 #include "timer.h"
+#include "path_manager.h"
+#include "Resource/resource_manager.h"
+#include "Resource/mesh.h"
+#include "Rendering/rendering_manager.h"
+#include "Rendering/shader_manager.h"
+#include "Rendering/shader.h"
 
 using namespace std;
 using namespace DG;
@@ -13,22 +17,29 @@ MESSAGE_LOOP Core::state_ = MESSAGE_LOOP::RUN;
 
 void Core::Initialize(wstring const& _class_name, wstring const& _window_name, HINSTANCE _instance, int _icon)
 {
-	instance_ = _instance;
-
 	try
 	{
+		instance_ = _instance;
+
 		_RegisterClass(_class_name, _icon);
 		_CreateWindow(_class_name, _window_name);
+
+		_CreateTimer();
 
 		Device::singleton()->Initialize(window_);
 		PathManager::singleton()->Initialize();
 		ResourceManager::singleton()->Initialize();
+		RenderingManager::singleton()->Initialize();
 
-		_CreateTimer();
+		timer_->Initialize();
 	}
 	catch (exception const& _e)
 	{
 		cerr << _e.what() << endl;
+	}
+	catch (...)
+	{
+		cerr << "Core::Initialize" << endl;
 	}
 }
 
@@ -53,9 +64,14 @@ void Core::Run()
 
 void Core::_Release()
 {
-	Device::singleton().reset();
-	PathManager::singleton().reset();
+	RenderingManager::singleton().reset();
 	ResourceManager::singleton().reset();
+	PathManager::singleton().reset();
+
+#ifdef _DEBUG
+	Device::singleton()->ReportLiveObjects();
+#endif
+	Device::singleton().reset();
 }
 
 LRESULT Core::_WindowProc(HWND _window, UINT _message, WPARAM _w_param, LPARAM _l_param)
@@ -152,5 +168,9 @@ void Core::_Render(float _time)
 	auto const& device = Device::singleton();
 
 	device->Clear();
+
+	ShaderManager::singleton()->FindShader("BasicShader")->SetShader();
+	ResourceManager::singleton()->FindMesh("ColorTri")->Render();
+
 	device->Present();
 }

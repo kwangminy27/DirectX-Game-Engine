@@ -68,10 +68,22 @@ void Device::Initialize(HWND _window)
 		depth_stencil_view_desc.Format = depth_stencil_buffer_desc.Format;
 		depth_stencil_view_desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 		ThrowIfFailed(device_->CreateDepthStencilView(buffer.Get(), &depth_stencil_view_desc, &DSV_));
+
+		D3D11_VIEWPORT viewport{};
+		viewport.Width = static_cast<int>(RESOLUTION::WIDTH);
+		viewport.Height = static_cast<int>(RESOLUTION::HEIGHT);
+		viewport.MaxDepth = 1.f;
+
+		context_->RSSetViewports(1, &viewport);
+		context_->OMSetRenderTargets(1, RTV_.GetAddressOf(), DSV_.Get());
 	}
 	catch (exception const& _e)
 	{
 		cerr << _e.what() << endl;
+	}
+	catch (...)
+	{
+		cerr << "Device::Initialize" << endl;
 	}
 }
 
@@ -96,6 +108,10 @@ void Device::ReportLiveObjects()
 	catch (exception const& _e)
 	{
 		cerr << _e.what() << endl;
+	}
+	catch (...)
+	{
+		cerr << "Device::ReportLiveObjects" << endl;
 	}
 #endif
 }
