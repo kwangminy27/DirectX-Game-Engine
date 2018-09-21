@@ -9,6 +9,7 @@
 #include "Rendering/rendering_manager.h"
 #include "Rendering/shader_manager.h"
 #include "Rendering/shader.h"
+#include "Scene/scene_manager.h"
 
 using namespace std;
 using namespace DG;
@@ -30,6 +31,7 @@ void Core::Initialize(wstring const& _class_name, wstring const& _window_name, H
 		PathManager::singleton()->Initialize();
 		ResourceManager::singleton()->Initialize();
 		RenderingManager::singleton()->Initialize();
+		SceneManager::singleton()->Initialize();
 
 		timer_->Initialize();
 	}
@@ -64,6 +66,7 @@ void Core::Run()
 
 void Core::_Release()
 {
+	SceneManager::singleton().reset();
 	RenderingManager::singleton().reset();
 	ResourceManager::singleton().reset();
 	PathManager::singleton().reset();

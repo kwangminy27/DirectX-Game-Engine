@@ -35,7 +35,7 @@ void ResourceManager::Initialize()
 	}
 }
 
-shared_ptr<Mesh> const& ResourceManager::FindMesh(string const& _tag)
+shared_ptr<Mesh> const& ResourceManager::FindMesh(string const& _tag) const
 {
 	auto iter = mesh_map_.find(_tag);
 

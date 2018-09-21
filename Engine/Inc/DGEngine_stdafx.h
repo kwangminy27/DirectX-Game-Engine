@@ -1,6 +1,7 @@
 #pragma once
 
 // Windows API
+#define NOMINMAX
 #include <Windows.h>
 
 // C++ Standard Library
@@ -10,6 +11,8 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include <limits>
+#include <list>
 #include <memory>
 #include <mutex>
 #include <string>

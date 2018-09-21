@@ -31,6 +31,15 @@
     <Filter Include="5. Rendering\1. Shader\1. HLSL">
       <UniqueIdentifier>{19033698-0dea-4c07-9720-372467aa9258}</UniqueIdentifier>
     </Filter>
+    <Filter Include="6. Scene">
+      <UniqueIdentifier>{bb934f6a-97c8-4299-a30a-975f3e4d6ede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6. Scene\1. SceneComponent">
+      <UniqueIdentifier>{3e9950d9-c8e8-4049-9915-b8554f1c65c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6. Scene\2. Layer">
+      <UniqueIdentifier>{97b8d869-c234-483b-9b3a-4c2a88d49203}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -78,6 +87,18 @@
     <ClInclude Include="Rendering\shader_manager.h">
       <Filter>5. Rendering\1. Shader</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\scene_manager.h">
+      <Filter>6. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\scene.h">
+      <Filter>6. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\scene_component.h">
+      <Filter>6. Scene\1. SceneComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\layer.h">
+      <Filter>6. Scene\2. Layer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -116,10 +137,25 @@
     <ClCompile Include="Rendering\shader_manager.cpp">
       <Filter>5. Rendering\1. Shader</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\scene_manager.cpp">
+      <Filter>6. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\scene.cpp">
+      <Filter>6. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\scene_component.cpp">
+      <Filter>6. Scene\1. SceneComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\layer.cpp">
+      <Filter>6. Scene\2. Layer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="singleton.inl">
       <Filter>Base</Filter>
+    </None>
+    <None Include="scene.inl">
+      <Filter>6. Scene</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

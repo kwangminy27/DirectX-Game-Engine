@@ -11,7 +11,7 @@ namespace DG
 		friend class Singleton<ShaderManager>;
 	public:
 		void Initialize();
-		std::shared_ptr<Shader> const& FindShader(std::string const& _tag);
+		std::shared_ptr<Shader> const& FindShader(std::string const& _tag) const;
 
 	private:
 		ShaderManager() = default;

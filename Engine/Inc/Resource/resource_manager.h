@@ -11,7 +11,7 @@ namespace DG
 		friend class Singleton<ResourceManager>;
 	public:
 		void Initialize();
-		std::shared_ptr<Mesh> const& FindMesh(string const& _tag);
+		std::shared_ptr<Mesh> const& FindMesh(string const& _tag) const;
 
 	private:
 		ResourceManager() = default;

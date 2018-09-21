@@ -40,7 +40,7 @@ void ShaderManager::Initialize()
 	}
 }
 
-shared_ptr<Shader> const& ShaderManager::FindShader(string const& _tag)
+shared_ptr<Shader> const& ShaderManager::FindShader(string const& _tag) const
 {
 	auto iter = shader_map_.find(_tag);
 

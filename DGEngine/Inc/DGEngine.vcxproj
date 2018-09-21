@@ -179,6 +179,10 @@
     <ClInclude Include="Rendering\shader_manager.h" />
     <ClInclude Include="Resource\mesh.h" />
     <ClInclude Include="Resource\resource_manager.h" />
+    <ClInclude Include="Scene\layer.h" />
+    <ClInclude Include="Scene\scene.h" />
+    <ClInclude Include="Scene\scene_component.h" />
+    <ClInclude Include="Scene\scene_manager.h" />
     <ClInclude Include="singleton.h" />
     <ClInclude Include="tag.h" />
     <ClInclude Include="timer.h" />
@@ -197,11 +201,16 @@
     <ClCompile Include="Rendering\shader_manager.cpp" />
     <ClCompile Include="Resource\mesh.cpp" />
     <ClCompile Include="Resource\resource_manager.cpp" />
+    <ClCompile Include="Scene\layer.cpp" />
+    <ClCompile Include="Scene\scene.cpp" />
+    <ClCompile Include="Scene\scene_component.cpp" />
+    <ClCompile Include="Scene\scene_manager.cpp" />
     <ClCompile Include="singleton.cpp" />
     <ClCompile Include="tag.cpp" />
     <ClCompile Include="timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="scene.inl" />
     <None Include="singleton.inl" />
   </ItemGroup>
   <ItemGroup>
