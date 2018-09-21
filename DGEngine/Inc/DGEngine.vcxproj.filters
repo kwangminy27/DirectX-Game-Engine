@@ -40,6 +40,9 @@
     <Filter Include="6. Scene\2. Layer">
       <UniqueIdentifier>{97b8d869-c234-483b-9b3a-4c2a88d49203}</UniqueIdentifier>
     </Filter>
+    <Filter Include="7. Object">
+      <UniqueIdentifier>{b373d263-e019-4148-b321-5bc8bf8b703b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -99,6 +102,9 @@
     <ClInclude Include="Scene\layer.h">
       <Filter>6. Scene\2. Layer</Filter>
     </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>7. Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -148,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="Scene\layer.cpp">
       <Filter>6. Scene\2. Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="object.cpp">
+      <Filter>7. Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

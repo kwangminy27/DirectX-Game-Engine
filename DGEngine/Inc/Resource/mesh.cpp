@@ -32,21 +32,14 @@ void Mesh::Render()
 	}
 }
 
-string const& Mesh::vertex_shader_tag() const
-{
-	return vertex_shader_tag_;
-}
-
 Mesh::Mesh(Mesh const& _other) : Tag(_other)
 {
 	mesh_container_vector_ = _other.mesh_container_vector_;
-	vertex_shader_tag_ = _other.vertex_shader_tag_;
 }
 
 Mesh::Mesh(Mesh&& _other) noexcept : Tag(move(_other))
 {
 	mesh_container_vector_ = move(_other.mesh_container_vector_);
-	vertex_shader_tag_ = move(_other.vertex_shader_tag_);
 }
 
 void Mesh::_Release()
@@ -59,7 +52,6 @@ void Mesh::_CreateMesh(
 	void* _idx_data, int _idx_size, int _idx_count, D3D11_USAGE _idx_usage, DXGI_FORMAT _idx_format)
 {
 	tag_ = _tag;
-	vertex_shader_tag_ = _vertex_shader_tag;
 
 	auto mesh_container_buffer = shared_ptr<MeshContainer>{ new MeshContainer, [](MeshContainer* _p) {
 		delete[] _p->VB.data;

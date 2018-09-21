@@ -36,8 +36,6 @@ namespace DG
 	public:
 		void Render();
 
-		std::string const& vertex_shader_tag() const;
-
 	private:
 		Mesh() = default;
 		Mesh(Mesh const& _other);
@@ -56,6 +54,5 @@ namespace DG
 		void _UpdateVertexBuffer(void* _data, int _mesh_container_idx);
 
 		std::vector<std::shared_ptr<MeshContainer>> mesh_container_vector_{};
-		std::string vertex_shader_tag_{};
 	};
 }

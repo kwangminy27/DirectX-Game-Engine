@@ -5,11 +5,14 @@
 namespace DG
 {
 	class Scene;
+	class Object;
 
-	class Layer final : public Tag
+	class Layer final : public Tag, public std::enable_shared_from_this<Layer>
 	{
 		friend class Scene;
 	public:
+		void AddObject(std::shared_ptr<Object> const& _object);
+
 		int z_order() const;
 		std::shared_ptr<Scene> scene() const;
 
@@ -33,6 +36,7 @@ namespace DG
 		void _Render(float _time);
 
 		int z_order_{};
+		std::list<std::shared_ptr<Object>> object_list_{};
 		std::weak_ptr<Scene> scene_{};
 	};
 }
