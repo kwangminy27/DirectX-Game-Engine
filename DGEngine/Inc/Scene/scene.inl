@@ -14,7 +14,7 @@ void Scene::_AddSceneComponent(string const& _tag)
 	scene_component->set_tag(_tag);
 	scene_component->set_scene(shared_from_this());
 
-	scene_component->_Initialize();
+	scene_component->Initialize();
 
 	scene_component_list_.push_back(move(scene_component));
 }

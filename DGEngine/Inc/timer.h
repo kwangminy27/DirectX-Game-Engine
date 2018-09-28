@@ -2,7 +2,7 @@
 
 namespace DG
 {
-	class Timer
+	class DG_ENGINE_DLL Timer
 	{
 		friend class Core;
 	public:

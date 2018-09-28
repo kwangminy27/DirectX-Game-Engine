@@ -5,8 +5,9 @@
 namespace DG
 {
 	class Scene;
+	class Object;
 
-	class SceneManager final : public Singleton<SceneManager>
+	class DG_ENGINE_DLL SceneManager final : public Singleton<SceneManager>
 	{
 		friend class Singleton<SceneManager>;
 	public:
@@ -16,6 +17,12 @@ namespace DG
 		void LateUpdate(float _time);
 		void Collision(float _time);
 		void Render(float _time);
+
+		template <typename T> void AddSceneComponent(std::string const& _tag);
+		std::shared_ptr<Object> const& FindObject(std::string const& _tag) const;
+
+		std::shared_ptr<Scene> scene() const;
+		std::shared_ptr<Scene> next_scene() const;
 
 	private:
 		SceneManager() = default;
@@ -32,3 +39,5 @@ namespace DG
 		std::shared_ptr<Scene> next_scene_{};
 	};
 }
+
+#include "scene_manager.inl"

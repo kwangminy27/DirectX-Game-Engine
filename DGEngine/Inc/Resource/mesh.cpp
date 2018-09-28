@@ -51,7 +51,7 @@ void Mesh::_CreateMesh(
 	void* _vtx_data, int _vtx_size, int _vtx_count, D3D11_USAGE _vtx_usage,
 	void* _idx_data, int _idx_size, int _idx_count, D3D11_USAGE _idx_usage, DXGI_FORMAT _idx_format)
 {
-	tag_ = _tag;
+	set_tag(_tag);
 
 	auto mesh_container_buffer = shared_ptr<MeshContainer>{ new MeshContainer, [](MeshContainer* _p) {
 		delete[] _p->VB.data;

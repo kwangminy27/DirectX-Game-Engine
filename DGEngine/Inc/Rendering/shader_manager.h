@@ -6,7 +6,7 @@ namespace DG
 {
 	class Shader;
 
-	class ShaderManager final : public Singleton<ShaderManager>
+	class DG_ENGINE_DLL ShaderManager final : public Singleton<ShaderManager>
 	{
 		friend class Singleton<ShaderManager>;
 	public:

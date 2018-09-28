@@ -4,7 +4,7 @@
 
 namespace DG
 {
-	class Device final : public Singleton<Device>
+	class DG_ENGINE_DLL Device final : public Singleton<Device>
 	{
 		friend class Singleton<Device>;
 	public:

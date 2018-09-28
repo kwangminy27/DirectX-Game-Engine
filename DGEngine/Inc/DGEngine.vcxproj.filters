@@ -43,6 +43,18 @@
     <Filter Include="7. Object">
       <UniqueIdentifier>{b373d263-e019-4148-b321-5bc8bf8b703b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="8. Component">
+      <UniqueIdentifier>{652daa3b-266d-40a5-a787-31d71e3dc9da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8. Component\1. Transform">
+      <UniqueIdentifier>{32efe619-0a65-4861-8faf-320a4b58e69d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8. Component\2. Renderer">
+      <UniqueIdentifier>{7fed039d-124a-4b31-919c-e95f3bcd1f25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8. Component\3. UserComponent">
+      <UniqueIdentifier>{7506a7ee-d85d-40e6-9476-52af98b3d816}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -105,6 +117,18 @@
     <ClInclude Include="object.h">
       <Filter>7. Object</Filter>
     </ClInclude>
+    <ClInclude Include="Component\component.h">
+      <Filter>8. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\transform.h">
+      <Filter>8. Component\1. Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\renderer.h">
+      <Filter>8. Component\2. Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\user_component.h">
+      <Filter>8. Component\3. UserComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -158,12 +182,30 @@
     <ClCompile Include="object.cpp">
       <Filter>7. Object</Filter>
     </ClCompile>
+    <ClCompile Include="Component\component.cpp">
+      <Filter>8. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\transform.cpp">
+      <Filter>8. Component\1. Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\renderer.cpp">
+      <Filter>8. Component\2. Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\user_component.cpp">
+      <Filter>8. Component\3. UserComponent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="singleton.inl">
       <Filter>Base</Filter>
     </None>
-    <None Include="scene.inl">
+    <None Include="object.inl">
+      <Filter>7. Object</Filter>
+    </None>
+    <None Include="Scene\scene_manager.inl">
+      <Filter>6. Scene</Filter>
+    </None>
+    <None Include="Scene\scene.inl">
       <Filter>6. Scene</Filter>
     </None>
   </ItemGroup>

@@ -6,13 +6,15 @@ namespace DG
 {
 	class SceneComponent;
 	class Layer;
+	class Object;
 
-	class Scene final : public Tag, public std::enable_shared_from_this<Scene>
+	class DG_ENGINE_DLL Scene final : public Tag, public std::enable_shared_from_this<Scene>
 	{
 		friend class SceneManager;
 	public:
 		std::shared_ptr<SceneComponent> const& FindSceneComponent(std::string const& _tag) const;
 		std::shared_ptr<Layer> const& FindLayer(std::string const& _tag) const;
+		std::shared_ptr<Object> const& FindObject(std::string const& _tag) const;
 
 	private:
 		Scene() = default;
@@ -33,9 +35,9 @@ namespace DG
 		void _Collision(float _time);
 		void _Render(float _time);
 
-		std::shared_ptr<SceneComponent> scene_component_nullptr_{};
+		static std::shared_ptr<SceneComponent> scene_component_nullptr_;
+		static std::shared_ptr<Layer> layer_nullptr_;
 		std::list<std::shared_ptr<SceneComponent>> scene_component_list_{};
-		std::shared_ptr<Layer> layer_nullptr_{};
 		std::list<std::shared_ptr<Layer>> layer_list_{};
 	};
 }

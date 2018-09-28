@@ -7,11 +7,12 @@ namespace DG
 	class Scene;
 	class Object;
 
-	class Layer final : public Tag, public std::enable_shared_from_this<Layer>
+	class DG_ENGINE_DLL Layer final : public Tag, public std::enable_shared_from_this<Layer>
 	{
 		friend class Scene;
 	public:
 		void AddObject(std::shared_ptr<Object> const& _object);
+		std::shared_ptr<Object> const& FindObject(std::string const& _tag) const;
 
 		int z_order() const;
 		std::shared_ptr<Scene> scene() const;
@@ -34,6 +35,8 @@ namespace DG
 		void _LateUpdate(float _time);
 		void _Collision(float _time);
 		void _Render(float _time);
+
+		static std::shared_ptr<Object> object_nullptr_;
 
 		int z_order_{};
 		std::list<std::shared_ptr<Object>> object_list_{};

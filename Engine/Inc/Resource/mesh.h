@@ -4,7 +4,7 @@
 
 namespace DG
 {
-	struct VertexBuffer
+	struct DG_ENGINE_DLL VertexBuffer
 	{
 		Microsoft::WRL::ComPtr<ID3D11Buffer> buffer;
 		void* data;
@@ -13,7 +13,7 @@ namespace DG
 		D3D11_USAGE usage;
 	};
 
-	struct IndexBuffer
+	struct DG_ENGINE_DLL IndexBuffer
 	{
 		Microsoft::WRL::ComPtr<ID3D11Buffer> buffer;
 		void* data;
@@ -23,14 +23,14 @@ namespace DG
 		DXGI_FORMAT format;
 	};
 
-	struct MeshContainer
+	struct DG_ENGINE_DLL MeshContainer
 	{
 		D3D11_PRIMITIVE_TOPOLOGY topology;
 		VertexBuffer VB;
 		std::vector<IndexBuffer> IB_vector;
 	};
 
-	class Mesh final : public Tag
+	class DG_ENGINE_DLL Mesh final : public Tag
 	{
 		friend class ResourceManager;
 	public:

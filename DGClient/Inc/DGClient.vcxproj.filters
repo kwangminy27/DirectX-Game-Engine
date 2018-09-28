@@ -7,6 +7,12 @@
     <Filter Include="Resource">
       <UniqueIdentifier>{4fbb9e0b-c33c-4f8e-89ae-ed26437e362f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="1. SceneComponent">
+      <UniqueIdentifier>{dba2eb4e-9190-460e-a12d-d42b6737ed70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. UserComponent">
+      <UniqueIdentifier>{83b3070b-a78f-4cb2-a452-082193bf537b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGClient_stdafx.h">
@@ -15,12 +21,24 @@
     <ClInclude Include="resource.h">
       <Filter>Resource</Filter>
     </ClInclude>
+    <ClInclude Include="UserComponent\player_component.h">
+      <Filter>2. UserComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneComponent\main_scene_component.h">
+      <Filter>1. SceneComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGClient_stdafx.cpp">
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="DGClient.cpp" />
+    <ClCompile Include="UserComponent\player_component.cpp">
+      <Filter>2. UserComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneComponent\main_scene_component.cpp">
+      <Filter>1. SceneComponent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DGClient.rc">

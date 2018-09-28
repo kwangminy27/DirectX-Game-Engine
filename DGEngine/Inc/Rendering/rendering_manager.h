@@ -4,11 +4,14 @@
 
 namespace DG
 {
-	class RenderingManager final : public Singleton<RenderingManager>
+	class Shader;
+
+	class DG_ENGINE_DLL RenderingManager final : public Singleton<RenderingManager>
 	{
 		friend class Singleton<RenderingManager>;
 	public:
 		void Initialize();
+		std::shared_ptr<Shader> FindShader(std::string const& _tag);
 
 	private:
 		RenderingManager() = default;

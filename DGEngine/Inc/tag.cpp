@@ -1,45 +1,42 @@
 #include "DGEngine_stdafx.h"
 #include "tag.h"
 
-using namespace std;
-using namespace DG;
-
-string const& Tag::tag() const
+std::string const& DG::Tag::tag() const
 {
 	return tag_;
 }
 
-bool Tag::activation() const
+bool DG::Tag::active_flag() const
 {
-	return activation_;
+	return active_flag_;
 }
 
-bool Tag::enablement() const
+bool DG::Tag::enable_flag() const
 {
-	return enablement_;
+	return enable_flag_;
 }
 
-void Tag::set_tag(string const& _tag)
+void DG::Tag::set_tag(std::string const& _tag)
 {
 	tag_ = _tag;
 }
 
-void Tag::set_activation(bool _boolean)
+void DG::Tag::set_active_flag(bool _flag)
 {
-	activation_ = _boolean;
+	active_flag_ = _flag;
 }
 
-void Tag::set_enablement(bool _boolean)
+void DG::Tag::set_enable_flag(bool _flag)
 {
-	enablement_ = _boolean;
+	enable_flag_ = _flag;
 }
 
-Tag::Tag(Tag const& _other)
+DG::Tag::Tag(DG::Tag const& _other)
 {
 	*this = _other;
 }
 
-Tag::Tag(Tag&& _other) noexcept
+DG::Tag::Tag(DG::Tag&& _other) noexcept
 {
-	*this = move(_other);
+	*this = std::move(_other);
 }

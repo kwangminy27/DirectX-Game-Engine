@@ -3,7 +3,6 @@
 
 #include "scene.h"
 
-using namespace std;
 using namespace DG;
 
 void SceneManager::Initialize()
@@ -45,6 +44,21 @@ void SceneManager::Collision(float _time)
 void SceneManager::Render(float _time)
 {
 	scene_->_Render(_time);
+}
+
+std::shared_ptr<Object> const& SceneManager::FindObject(std::string const& _tag) const
+{
+	return scene_->FindObject(_tag);
+}
+
+std::shared_ptr<Scene> SceneManager::scene() const
+{
+	return scene_;
+}
+
+std::shared_ptr<Scene> SceneManager::next_scene() const
+{
+	return next_scene_;
 }
 
 void SceneManager::_Release()

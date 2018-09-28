@@ -350,7 +350,7 @@ inline void Vector2::Clamp(Vector2 const& _v_min, Vector2 const& _v_max)
 	XMStoreFloat2(reinterpret_cast<XMFLOAT2*>(this), XMVectorClamp(v1, v2, v3));
 }
 
-inline Vector2 operator+(Vector2 const& _v1, Vector2 const& _v2)
+inline Vector2 DG::Math::operator+(Vector2 const& _v1, Vector2 const& _v2)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat2(reinterpret_cast<XMFLOAT2 const*>(&_v1));
@@ -360,7 +360,7 @@ inline Vector2 operator+(Vector2 const& _v1, Vector2 const& _v2)
 	return R;
 }
 
-inline Vector2 operator-(Vector2 const& _v1, Vector2 const& _v2)
+inline Vector2 DG::Math::operator-(Vector2 const& _v1, Vector2 const& _v2)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat2(reinterpret_cast<XMFLOAT2 const*>(&_v1));
@@ -370,7 +370,7 @@ inline Vector2 operator-(Vector2 const& _v1, Vector2 const& _v2)
 	return R;
 }
 
-inline Vector2 operator*(Vector2 const& _v1, Vector2 const& _v2)
+inline Vector2 DG::Math::operator*(Vector2 const& _v1, Vector2 const& _v2)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat2(reinterpret_cast<XMFLOAT2 const*>(&_v1));
@@ -380,7 +380,7 @@ inline Vector2 operator*(Vector2 const& _v1, Vector2 const& _v2)
 	return R;
 }
 
-inline Vector2 operator*(Vector2 const& _v, float _s)
+inline Vector2 DG::Math::operator*(Vector2 const& _v, float _s)
 {
 	using namespace DirectX;
 	XMVECTOR v = XMLoadFloat2(reinterpret_cast<XMFLOAT2 const*>(&_v));
@@ -389,7 +389,7 @@ inline Vector2 operator*(Vector2 const& _v, float _s)
 	return R;
 }
 
-inline Vector2 operator/(Vector2 const& _v1, Vector2 const& _v2)
+inline Vector2 DG::Math::operator/(Vector2 const& _v1, Vector2 const& _v2)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat2(reinterpret_cast<XMFLOAT2 const*>(&_v1));
@@ -399,7 +399,7 @@ inline Vector2 operator/(Vector2 const& _v1, Vector2 const& _v2)
 	return R;
 }
 
-inline Vector2 operator/(Vector2 const& _v, float _s)
+inline Vector2 DG::Math::operator/(Vector2 const& _v, float _s)
 {
 	using namespace DirectX;
 	assert(_s != 0.f);
@@ -763,7 +763,7 @@ inline void Vector3::Clamp(Vector3 const& _v_min, Vector3 const& _v_max)
 	XMStoreFloat3(reinterpret_cast<XMFLOAT3*>(this), XMVectorClamp(v1, v2, v3));
 }
 
-inline Vector3 operator+(Vector3 const& _v1, Vector3 const& _v2)
+inline Vector3 DG::Math::operator+(Vector3 const& _v1, Vector3 const& _v2)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat3(reinterpret_cast<XMFLOAT3 const*>(&_v1));
@@ -773,7 +773,7 @@ inline Vector3 operator+(Vector3 const& _v1, Vector3 const& _v2)
 	return R;
 }
 
-inline Vector3 operator-(Vector3 const& _v1, Vector3 const& _v2)
+inline Vector3 DG::Math::operator-(Vector3 const& _v1, Vector3 const& _v2)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat3(reinterpret_cast<XMFLOAT3 const*>(&_v1));
@@ -783,7 +783,7 @@ inline Vector3 operator-(Vector3 const& _v1, Vector3 const& _v2)
 	return R;
 }
 
-inline Vector3 operator*(Vector3 const& _v1, Vector3 const& _v2)
+inline Vector3 DG::Math::operator*(Vector3 const& _v1, Vector3 const& _v2)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat3(reinterpret_cast<XMFLOAT3 const*>(&_v1));
@@ -793,7 +793,7 @@ inline Vector3 operator*(Vector3 const& _v1, Vector3 const& _v2)
 	return R;
 }
 
-inline Vector3 operator*(Vector3 const& _v, float _s)
+inline Vector3 DG::Math::operator*(Vector3 const& _v, float _s)
 {
 	using namespace DirectX;
 	XMVECTOR v = XMLoadFloat3(reinterpret_cast<XMFLOAT3 const*>(&_v));
@@ -802,7 +802,7 @@ inline Vector3 operator*(Vector3 const& _v, float _s)
 	return R;
 }
 
-inline Vector3 operator/(Vector3 const& _v1, Vector3 const& _v2)
+inline Vector3 DG::Math::operator/(Vector3 const& _v1, Vector3 const& _v2)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat3(reinterpret_cast<XMFLOAT3 const*>(&_v1));
@@ -812,7 +812,7 @@ inline Vector3 operator/(Vector3 const& _v1, Vector3 const& _v2)
 	return R;
 }
 
-inline Vector3 operator/(Vector3 const& _v, float _s)
+inline Vector3 DG::Math::operator/(Vector3 const& _v, float _s)
 {
 	using namespace DirectX;
 	assert(_s != 0.f);
@@ -1173,7 +1173,7 @@ inline void Vector4::Clamp(Vector4 const& _v_min, Vector4 const& _v_max)
 	XMStoreFloat4(reinterpret_cast<XMFLOAT4*>(this), XMVectorClamp(v1, v2, v3));
 }
 
-inline Vector4 operator+(Vector4 const& _v1, Vector4 const& _v2)
+inline Vector4 DG::Math::operator+(Vector4 const& _v1, Vector4 const& _v2)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat4(reinterpret_cast<XMFLOAT4 const*>(&_v1));
@@ -1183,7 +1183,7 @@ inline Vector4 operator+(Vector4 const& _v1, Vector4 const& _v2)
 	return R;
 }
 
-inline Vector4 operator-(Vector4 const& _v1, Vector4 const& _v2)
+inline Vector4 DG::Math::operator-(Vector4 const& _v1, Vector4 const& _v2)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat4(reinterpret_cast<XMFLOAT4 const*>(&_v1));
@@ -1193,7 +1193,7 @@ inline Vector4 operator-(Vector4 const& _v1, Vector4 const& _v2)
 	return R;
 }
 
-inline Vector4 operator*(Vector4 const& _v1, Vector4 const& _v2)
+inline Vector4 DG::Math::operator*(Vector4 const& _v1, Vector4 const& _v2)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat4(reinterpret_cast<XMFLOAT4 const*>(&_v1));
@@ -1203,7 +1203,7 @@ inline Vector4 operator*(Vector4 const& _v1, Vector4 const& _v2)
 	return R;
 }
 
-inline Vector4 operator*(Vector4 const& _v, float _s)
+inline Vector4 DG::Math::operator*(Vector4 const& _v, float _s)
 {
 	using namespace DirectX;
 	XMVECTOR v = XMLoadFloat4(reinterpret_cast<XMFLOAT4 const*>(&_v));
@@ -1212,7 +1212,7 @@ inline Vector4 operator*(Vector4 const& _v, float _s)
 	return R;
 }
 
-inline Vector4 operator/(Vector4 const& _v1, Vector4 const& _v2)
+inline Vector4 DG::Math::operator/(Vector4 const& _v1, Vector4 const& _v2)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat4(reinterpret_cast<XMFLOAT4 const*>(&_v1));
@@ -1222,7 +1222,7 @@ inline Vector4 operator/(Vector4 const& _v1, Vector4 const& _v2)
 	return R;
 }
 
-inline Vector4 operator/(Vector4 const& _v, float _s)
+inline Vector4 DG::Math::operator/(Vector4 const& _v, float _s)
 {
 	using namespace DirectX;
 	assert(_s != 0.f);
@@ -1484,7 +1484,7 @@ float Matrix::Determinant() const
 	return XMVectorGetX(XMMatrixDeterminant(m));
 }
 
-Matrix operator+(Matrix const& _m1, Matrix const& _m2)
+Matrix DG::Math::operator+(Matrix const& _m1, Matrix const& _m2)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat4(reinterpret_cast<XMFLOAT4 const*>(&_m1._11));
@@ -1503,7 +1503,7 @@ Matrix operator+(Matrix const& _m1, Matrix const& _m2)
 	return R;
 }
 
-Matrix operator-(Matrix const& _m1, Matrix const& _m2)
+Matrix DG::Math::operator-(Matrix const& _m1, Matrix const& _m2)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat4(reinterpret_cast<XMFLOAT4 const*>(&_m1._11));
@@ -1522,7 +1522,7 @@ Matrix operator-(Matrix const& _m1, Matrix const& _m2)
 	return R;
 }
 
-Matrix operator*(Matrix const& _m1, Matrix const& _m2)
+Matrix DG::Math::operator*(Matrix const& _m1, Matrix const& _m2)
 {
 	using namespace DirectX;
 	XMMATRIX m1 = XMLoadFloat4x4(reinterpret_cast<XMFLOAT4X4 const*>(&_m1));
@@ -1532,7 +1532,7 @@ Matrix operator*(Matrix const& _m1, Matrix const& _m2)
 	return R;
 }
 
-Matrix operator*(Matrix const& _m1, float _s)
+Matrix DG::Math::operator*(Matrix const& _m1, float _s)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat4(reinterpret_cast<XMFLOAT4 const*>(&_m1._11));
@@ -1547,7 +1547,7 @@ Matrix operator*(Matrix const& _m1, float _s)
 	return R;
 }
 
-Matrix operator/(Matrix const& _m1, Matrix const& _m2)
+Matrix DG::Math::operator/(Matrix const& _m1, Matrix const& _m2)
 {
 	using namespace DirectX;
 	XMVECTOR v1 = XMLoadFloat4(reinterpret_cast<XMFLOAT4 const*>(&_m1._11));
@@ -1566,7 +1566,7 @@ Matrix operator/(Matrix const& _m1, Matrix const& _m2)
 	return R;
 }
 
-Matrix operator/(Matrix const& _m1, float _s)
+Matrix DG::Math::operator/(Matrix const& _m1, float _s)
 {
 	using namespace DirectX;
 	assert(_s != 0.f);

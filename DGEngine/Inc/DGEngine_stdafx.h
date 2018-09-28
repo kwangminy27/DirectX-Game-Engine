@@ -1,5 +1,7 @@
 #pragma once
 
+#pragma warning(disable:4251)
+
 // Windows API
 #define NOMINMAX
 #include <Windows.h>

@@ -6,12 +6,12 @@ namespace DG
 {
 	class Timer;
 
-	class Core final : public Singleton<Core>
+	class DG_ENGINE_DLL Core final : public Singleton<Core>
 	{
 		friend class Singleton<Core>;
 	public:
-		void DG_ENGINE_DLL Initialize(std::wstring const& _class_name, std::wstring const& _window_name, HINSTANCE _instance, int _icon);
-		void DG_ENGINE_DLL Run();
+		void Initialize(std::wstring const& _class_name, std::wstring const& _window_name, HINSTANCE _instance, int _icon);
+		void Run();
 
 	private:
 		Core() = default;
@@ -20,7 +20,7 @@ namespace DG
 		Core& operator=(Core const&) = delete;
 		Core& operator=(Core&&) noexcept = delete;
 
-		virtual void DG_ENGINE_DLL _Release() override;
+		virtual void _Release() override;
 
 		static LRESULT CALLBACK _WindowProc(HWND _window, UINT _message, WPARAM _w_param, LPARAM _l_param);
 

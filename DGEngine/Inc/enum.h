@@ -18,3 +18,16 @@ enum class SHADER_TYPE
 	PIXEL,
 	END
 };
+
+enum class COMPONENT_TYPE
+{
+	TRANSFORM,
+	RENDERER,
+	END
+};
+
+enum class USER_COMPONENT_TYPE
+{
+	PLAYER = static_cast<int>(COMPONENT_TYPE::END),
+	END
+};

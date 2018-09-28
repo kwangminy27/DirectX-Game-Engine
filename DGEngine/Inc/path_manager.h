@@ -4,7 +4,7 @@
 
 namespace DG
 {
-	class PathManager final : public Singleton<PathManager>
+	class DG_ENGINE_DLL PathManager final : public Singleton<PathManager>
 	{
 		friend class Singleton<PathManager>;
 	public:

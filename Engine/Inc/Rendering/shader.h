@@ -4,7 +4,7 @@
 
 namespace DG
 {
-	class Shader : public Tag
+	class DG_ENGINE_DLL Shader : public Tag
 	{
 		friend class ShaderManager;
 	public:

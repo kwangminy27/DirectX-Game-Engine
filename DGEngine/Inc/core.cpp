@@ -152,18 +152,22 @@ void Core::_Logic()
 
 void Core::_Input(float _time)
 {
+	SceneManager::singleton()->Input(_time);
 }
 
 void Core::_Update(float _time)
 {
+	SceneManager::singleton()->Update(_time);
 }
 
 void Core::_LateUpdate(float _time)
 {
+	SceneManager::singleton()->LateUpdate(_time);
 }
 
 void Core::_Collision(float _time)
 {
+	SceneManager::singleton()->Collision(_time);
 }
 
 void Core::_Render(float _time)
@@ -172,8 +176,7 @@ void Core::_Render(float _time)
 
 	device->Clear();
 
-	ShaderManager::singleton()->FindShader("BasicShader")->SetShader();
-	ResourceManager::singleton()->FindMesh("ColorTri")->Render();
+	SceneManager::singleton()->Render(_time);
 
 	device->Present();
 }

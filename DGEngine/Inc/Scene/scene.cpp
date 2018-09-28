@@ -5,7 +5,9 @@
 #include "layer.h"
 
 using namespace std;
-using namespace DG;
+
+std::shared_ptr<SceneComponent> Scene::scene_component_nullptr_{};
+std::shared_ptr<Layer> Scene::layer_nullptr_{};
 
 shared_ptr<SceneComponent> const& Scene::FindSceneComponent(string const& _tag) const
 {
@@ -27,6 +29,19 @@ shared_ptr<Layer> const& Scene::FindLayer(string const& _tag) const
 	}
 
 	return layer_nullptr_;
+}
+
+std::shared_ptr<Object> const& Scene::FindObject(std::string const& _tag) const
+{
+	for (auto layer : layer_list_)
+	{
+		auto const& object = layer->FindObject(_tag);
+
+		if (object)
+			return object;
+	}
+
+	return Layer::object_nullptr_;
 }
 
 Scene::Scene(Scene const& _other) : Tag(_other)
@@ -52,7 +67,7 @@ void Scene::_AddLayer(string const& _tag, int _z_order)
 		delete _p;
 	} };
 
-	layer->set_tag(_tag);
+	layer->tag_ = _tag;
 	layer->set_z_order(_z_order);
 	layer->set_scene(shared_from_this());
 
@@ -75,9 +90,9 @@ void Scene::_Input(float _time)
 {
 	for (auto iter = scene_component_list_.begin(); iter != scene_component_list_.end();)
 	{
-		if (!(*iter)->activation())
+		if (!(*iter)->active_flag())
 			iter = scene_component_list_.erase(iter);
-		else if (!(*iter)->enablement())
+		else if (!(*iter)->enable_flag())
 			++iter;
 		else
 		{
@@ -88,9 +103,9 @@ void Scene::_Input(float _time)
 
 	for (auto iter = layer_list_.begin(); iter != layer_list_.end();)
 	{
-		if (!(*iter)->activation())
+		if (!(*iter)->active_flag())
 			iter = layer_list_.erase(iter);
-		else if (!(*iter)->enablement())
+		else if (!(*iter)->enable_flag())
 			++iter;
 		else
 		{
@@ -104,9 +119,9 @@ void Scene::_Update(float _time)
 {
 	for (auto iter = scene_component_list_.begin(); iter != scene_component_list_.end();)
 	{
-		if (!(*iter)->activation())
+		if (!(*iter)->active_flag())
 			iter = scene_component_list_.erase(iter);
-		else if (!(*iter)->enablement())
+		else if (!(*iter)->enable_flag())
 			++iter;
 		else
 		{
@@ -117,9 +132,9 @@ void Scene::_Update(float _time)
 
 	for (auto iter = layer_list_.begin(); iter != layer_list_.end();)
 	{
-		if (!(*iter)->activation())
+		if (!(*iter)->active_flag())
 			iter = layer_list_.erase(iter);
-		else if (!(*iter)->enablement())
+		else if (!(*iter)->enable_flag())
 			++iter;
 		else
 		{
@@ -133,9 +148,9 @@ void Scene::_LateUpdate(float _time)
 {
 	for (auto iter = scene_component_list_.begin(); iter != scene_component_list_.end();)
 	{
-		if (!(*iter)->activation())
+		if (!(*iter)->active_flag())
 			iter = scene_component_list_.erase(iter);
-		else if (!(*iter)->enablement())
+		else if (!(*iter)->enable_flag())
 			++iter;
 		else
 		{
@@ -146,9 +161,9 @@ void Scene::_LateUpdate(float _time)
 
 	for (auto iter = layer_list_.begin(); iter != layer_list_.end();)
 	{
-		if (!(*iter)->activation())
+		if (!(*iter)->active_flag())
 			iter = layer_list_.erase(iter);
-		else if (!(*iter)->enablement())
+		else if (!(*iter)->enable_flag())
 			++iter;
 		else
 		{
@@ -162,9 +177,9 @@ void Scene::_Collision(float _time)
 {
 	for (auto iter = scene_component_list_.begin(); iter != scene_component_list_.end();)
 	{
-		if (!(*iter)->activation())
+		if (!(*iter)->active_flag())
 			iter = scene_component_list_.erase(iter);
-		else if (!(*iter)->enablement())
+		else if (!(*iter)->enable_flag())
 			++iter;
 		else
 		{
@@ -175,9 +190,9 @@ void Scene::_Collision(float _time)
 
 	for (auto iter = layer_list_.begin(); iter != layer_list_.end();)
 	{
-		if (!(*iter)->activation())
+		if (!(*iter)->active_flag())
 			iter = layer_list_.erase(iter);
-		else if (!(*iter)->enablement())
+		else if (!(*iter)->enable_flag())
 			++iter;
 		else
 		{
@@ -191,9 +206,9 @@ void Scene::_Render(float _time)
 {
 	for (auto iter = scene_component_list_.begin(); iter != scene_component_list_.end();)
 	{
-		if (!(*iter)->activation())
+		if (!(*iter)->active_flag())
 			iter = scene_component_list_.erase(iter);
-		else if (!(*iter)->enablement())
+		else if (!(*iter)->enable_flag())
 			++iter;
 		else
 		{
@@ -204,9 +219,9 @@ void Scene::_Render(float _time)
 
 	for (auto iter = layer_list_.begin(); iter != layer_list_.end();)
 	{
-		if (!(*iter)->activation())
+		if (!(*iter)->active_flag())
 			iter = layer_list_.erase(iter);
-		else if (!(*iter)->enablement())
+		else if (!(*iter)->enable_flag())
 			++iter;
 		else
 		{

@@ -6,7 +6,7 @@ namespace DG
 {
 	class Mesh;
 
-	class ResourceManager final : public Singleton<ResourceManager>
+	class DG_ENGINE_DLL ResourceManager final : public Singleton<ResourceManager>
 	{
 		friend class Singleton<ResourceManager>;
 	public:
