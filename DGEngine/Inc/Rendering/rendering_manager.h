@@ -11,6 +11,7 @@ namespace DG
 		friend class Singleton<RenderingManager>;
 	public:
 		void Initialize();
+		void UpdateConstantBuffer(std::string const& _tag, void* _data);
 		std::shared_ptr<Shader> FindShader(std::string const& _tag);
 
 	private:

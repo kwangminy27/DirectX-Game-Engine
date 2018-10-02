@@ -3,17 +3,24 @@
 
 #include "shader_manager.h"
 
-void DG::RenderingManager::Initialize()
+using namespace DG;
+
+void RenderingManager::Initialize()
 {
-	DG::ShaderManager::singleton()->Initialize();
+	ShaderManager::singleton()->Initialize();
 }
 
-std::shared_ptr<Shader> DG::RenderingManager::FindShader(std::string const& _tag)
+void RenderingManager::UpdateConstantBuffer(std::string const& _tag, void* _data)
 {
-	return DG::ShaderManager::singleton()->FindShader(_tag);
+	return ShaderManager::singleton()->_UpdateConstantBuffer(_tag, _data);
 }
 
-void DG::RenderingManager::_Release()
+std::shared_ptr<Shader> RenderingManager::FindShader(std::string const& _tag)
 {
-	DG::ShaderManager::singleton().reset();
+	return ShaderManager::singleton()->FindShader(_tag);
+}
+
+void RenderingManager::_Release()
+{
+	ShaderManager::singleton().reset();
 }

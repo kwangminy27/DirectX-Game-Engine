@@ -30,6 +30,8 @@ namespace DG
 		virtual void _Render(float _time) override;
 		virtual std::unique_ptr<Component, std::function<void(Component*)>> _Clone() const override;
 
+		void _UpdateTransform();
+
 		std::shared_ptr<Mesh> mesh_{};
 		std::shared_ptr<Shader> shader_{};
 	};

@@ -51,6 +51,9 @@ namespace DG
 
 		bool update_flag_{ true };
 		bool static_flag_{};
+		Math::Matrix local_scale_{ Math::Matrix::Identity };
+		Math::Matrix local_rotate_{ Math::Matrix::Identity };
+		Math::Matrix local_translate_{ Math::Matrix::Identity };
 		Math::Matrix local_{ Math::Matrix::Identity };
 		Math::Matrix parent_{ Math::Matrix::Identity };
 		Math::Matrix world_{ Math::Matrix::Identity };

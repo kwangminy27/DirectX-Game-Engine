@@ -8,12 +8,6 @@ namespace DG
 	{
 	public:
 		virtual void Initialize() = 0;
-		virtual void Input(float _time);
-		virtual void Update(float _time);
-		virtual void LateUpdate(float _time);
-		virtual void Collision(float _time);
-		virtual void Render(float _time);
-		virtual std::unique_ptr<Component, std::function<void(Component*)>> _Clone() const = 0;
 
 	protected:
 		UserComponent() = default;
@@ -23,5 +17,12 @@ namespace DG
 		UserComponent& operator=(UserComponent&&) noexcept = default;
 
 		virtual void _Release() override;
+
+		virtual void _Input(float _time);
+		virtual void _Update(float _time);
+		virtual void _LateUpdate(float _time);
+		virtual void _Collision(float _time);
+		virtual void _Render(float _time);
+		virtual std::unique_ptr<Component, std::function<void(Component*)>> _Clone() const = 0;
 	};
 }

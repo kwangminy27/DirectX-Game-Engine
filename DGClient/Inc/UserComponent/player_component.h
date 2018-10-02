@@ -10,8 +10,6 @@ namespace DG
 		friend class Object;
 	public:
 		virtual void Initialize() override;
-		virtual void Input(float _time);
-		virtual std::unique_ptr<Component, std::function<void(Component*)>> _Clone() const override;
 
 	private:
 		PlayerComponent() = default;
@@ -21,5 +19,8 @@ namespace DG
 		PlayerComponent& operator=(PlayerComponent&&) noexcept = default;
 
 		virtual void _Release() override;
+
+		virtual void _Input(float _time);
+		virtual std::unique_ptr<Component, std::function<void(Component*)>> _Clone() const override;
 	};
 }

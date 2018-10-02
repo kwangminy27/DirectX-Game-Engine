@@ -10,4 +10,19 @@ namespace DG
 		Math::Vector3 position;
 		Math::Vector4 color;
 	};
+
+	struct ConstantBuffer
+	{
+		Microsoft::WRL::ComPtr<ID3D11Buffer> buffer;
+		int size;
+		int shader_type;
+	};
+
+	struct TransformConstantBuffer
+	{
+		Math::Matrix world;
+		Math::Matrix view;
+		Math::Matrix projection;
+		Math::Matrix WVP;
+	};
 }

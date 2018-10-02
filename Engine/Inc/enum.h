@@ -19,6 +19,12 @@ enum class SHADER_TYPE
 	END
 };
 
+enum class CONSTANT_BUFFER_SHADER_TYPE
+{
+	VERTEX = 0x1,
+	PIXEL = 0x2
+};
+
 enum class COMPONENT_TYPE
 {
 	TRANSFORM,

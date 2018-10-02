@@ -17,49 +17,49 @@ void Transform::Initialize()
 
 void Transform::Scaling(Math::Vector3 const& _v)
 {
-	local_ *= Math::Matrix::CreateScale(_v);
+	local_scale_ *= Math::Matrix::CreateScale(_v);
 
 	update_flag_ = true;
 }
 
 void Transform::RotationX(float _radians)
 {
-	local_ *= Math::Matrix::CreateRotationX(_radians);
+	local_rotate_ *= Math::Matrix::CreateRotationX(_radians);
 
 	update_flag_ = true;
 }
 
 void Transform::RotationY(float _radians)
 {
-	local_ *= Math::Matrix::CreateRotationY(_radians);
+	local_rotate_ *= Math::Matrix::CreateRotationY(_radians);
 
 	update_flag_ = true;
 }
 
 void Transform::RotationZ(float _radians)
 {
-	local_ *= Math::Matrix::CreateRotationZ(_radians);
+	local_rotate_ *= Math::Matrix::CreateRotationZ(_radians);
 
 	update_flag_ = true;
 }
 
 void Transform::RotationRollPitchYaw(float _pitch, float _yaw, float _roll)
 {
-	local_ *= Math::Matrix::CreateFromRollPitchYaw(_pitch, _yaw, _roll);
+	local_rotate_ *= Math::Matrix::CreateFromRollPitchYaw(_pitch, _yaw, _roll);
 
 	update_flag_ = true;
 }
 
 void Transform::RotationAxis(Math::Vector3 const& _axis, float _radians)
 {
-	local_ *= Math::Matrix::CreateFromAxisAngle(_axis, _radians);
+	local_rotate_ *= Math::Matrix::CreateFromAxisAngle(_axis, _radians);
 
 	update_flag_ = true;
 }
 
 void Transform::Translation(Math::Vector3 const& _v)
 {
-	local_ *= Math::Matrix::CreateTranslation(_v);
+	local_translate_ *= Math::Matrix::CreateTranslation(_v);
 
 	update_flag_ = true;
 }
@@ -143,6 +143,9 @@ Transform::Transform(Transform const& _other) : Component(_other)
 {
 	update_flag_ = _other.update_flag_;
 	static_flag_ = _other.static_flag_;
+	local_scale_ = _other.local_scale_;
+	local_rotate_ = _other.local_rotate_;
+	local_translate_ = _other.local_translate_;
 	local_ = _other.local_;
 	parent_ = _other.parent_;
 	world_ = _other.world_;
@@ -152,6 +155,9 @@ Transform::Transform(Transform&& _other) noexcept : Component(std::move(_other))
 {
 	update_flag_ = std::move(_other.update_flag_);
 	static_flag_ = std::move(_other.static_flag_);
+	local_scale_ = std::move(_other.local_scale_);
+	local_rotate_ = std::move(_other.local_rotate_);
+	local_translate_ = std::move(_other.local_translate_);
 	local_ = std::move(_other.local_);
 	parent_ = std::move(_other.parent_);
 	world_ = std::move(_other.world_);
@@ -169,6 +175,7 @@ void Transform::_Update(float _time)
 	if (!update_flag_)
 		return;
 
+	local_ = local_scale_ * local_rotate_ * local_translate_;
 	world_ = local_ * parent_;
 
 	update_flag_ = false;
@@ -182,6 +189,7 @@ void Transform::_LateUpdate(float _time)
 	if (!update_flag_)
 		return;
 
+	local_ = local_scale_ * local_rotate_ * local_translate_;
 	world_ = local_ * parent_;
 
 	update_flag_ = false;

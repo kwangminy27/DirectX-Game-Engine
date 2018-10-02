@@ -5,6 +5,8 @@
 #include "Resource/mesh.h"
 #include "Rendering/rendering_manager.h"
 #include "Rendering/shader.h"
+#include "object.h"
+#include "Component/transform.h"
 
 using namespace DG;
 
@@ -58,6 +60,8 @@ void Renderer::_Release()
 
 void Renderer::_Render(float _time)
 {
+	_UpdateTransform();
+
 	shader_->SetShader();
 	mesh_->Render();
 }
@@ -68,4 +72,25 @@ std::unique_ptr<Component, std::function<void(Component*)>> Renderer::_Clone() c
 		dynamic_cast<Renderer*>(_p)->_Release();
 		delete dynamic_cast<Renderer*>(_p);
 	} };
+}
+
+void Renderer::_UpdateTransform()
+{
+	TransformConstantBuffer transform_constant_buffer{};
+	transform_constant_buffer.world = dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM))->world();
+	transform_constant_buffer.view = DirectX::XMMatrixLookAtLH(Math::Vector3(0.f, 0.f, -5.f), Math::Vector3(0.f, 0.f, 0.f), Math::Vector3::UnitY);
+	transform_constant_buffer.projection = DirectX::XMMatrixPerspectiveFovLH(
+		DirectX::XM_PIDIV4,
+		static_cast<float>(RESOLUTION::WIDTH) / static_cast<float>(RESOLUTION::HEIGHT),
+		0.001f,
+		1000.f
+	);
+	transform_constant_buffer.WVP = transform_constant_buffer.world * transform_constant_buffer.view * transform_constant_buffer.projection;
+
+	transform_constant_buffer.world = transform_constant_buffer.world.Transpose();
+	transform_constant_buffer.view = transform_constant_buffer.view.Transpose();
+	transform_constant_buffer.projection = transform_constant_buffer.projection.Transpose();
+	transform_constant_buffer.WVP = transform_constant_buffer.WVP.Transpose();
+
+	RenderingManager::singleton()->UpdateConstantBuffer("Transform", &transform_constant_buffer);
 }
