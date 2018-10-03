@@ -10,6 +10,7 @@ namespace DG
 
 	class DG_ENGINE_DLL Object final : public Tag, public std::enable_shared_from_this<Object>
 	{
+		friend class Scene;
 		friend class Layer;
 	public:
 		static std::shared_ptr<Object> CreatePrototype(std::string const& _tag, bool _current_flag);

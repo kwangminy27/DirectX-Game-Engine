@@ -15,8 +15,8 @@ void MainSceneComponent::Initialize()
 {
 	auto const& default_layer = scene()->FindLayer("Default");
 
-	auto player_object = Object::CreateObject("PlayerObject", default_layer);
-	auto player_component = player_object->AddComponent<PlayerComponent>("PlayerComponent");
+	auto player = Object::CreateObject("Player", default_layer);
+	auto player_component = player->AddComponent<PlayerComponent>("Player");
 }
 
 MainSceneComponent::MainSceneComponent(MainSceneComponent const& _other) : SceneComponent(_other)

@@ -52,7 +52,10 @@
     <Filter Include="8. Component\2. Renderer">
       <UniqueIdentifier>{7fed039d-124a-4b31-919c-e95f3bcd1f25}</UniqueIdentifier>
     </Filter>
-    <Filter Include="8. Component\3. UserComponent">
+    <Filter Include="8. Component\3. Camera">
+      <UniqueIdentifier>{34d070c4-1aa7-476d-8fb6-7c07deceba06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8. Component\4. UserComponent">
       <UniqueIdentifier>{7506a7ee-d85d-40e6-9476-52af98b3d816}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -127,7 +130,10 @@
       <Filter>8. Component\2. Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Component\user_component.h">
-      <Filter>8. Component\3. UserComponent</Filter>
+      <Filter>8. Component\4. UserComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\camera.h">
+      <Filter>8. Component\3. Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -192,7 +198,10 @@
       <Filter>8. Component\2. Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Component\user_component.cpp">
-      <Filter>8. Component\3. UserComponent</Filter>
+      <Filter>8. Component\4. UserComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\camera.cpp">
+      <Filter>8. Component\3. Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

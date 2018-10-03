@@ -29,6 +29,7 @@ enum class COMPONENT_TYPE
 {
 	TRANSFORM,
 	RENDERER,
+	CAMERA,
 	END
 };
 
@@ -36,4 +37,10 @@ enum class USER_COMPONENT_TYPE
 {
 	PLAYER = static_cast<int>(COMPONENT_TYPE::END),
 	END
+};
+
+enum class CAMERA_TYPE
+{
+	PERSPECTIVE,
+	ORTHOGONAL
 };

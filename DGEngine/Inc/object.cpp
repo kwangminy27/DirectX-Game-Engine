@@ -83,10 +83,8 @@ std::shared_ptr<Object> Object::CreateObject(std::string const& _tag, std::share
 	object->tag_ = _tag;
 	object->_Initialize();
 
-	if (!_layer)
-		throw std::exception{ "Object::CreateObject" };
-
-	_layer->AddObject(object);
+	if (_layer)
+		_layer->AddObject(object);
 
 	return object;
 }

@@ -37,9 +37,9 @@ void PlayerComponent::_Input(float _time)
 	if (GetAsyncKeyState('D') & 0x8000)
 		transform->RotationZ(DirectX::XMConvertToRadians(-180.f * _time));
 	if (GetAsyncKeyState('S') & 0x8000)
-		transform->Translation(transform->GetLocalUp() * -2.f * _time);
+		transform->Translation(transform->GetLocalUp() * -20.f * _time);
 	if (GetAsyncKeyState('W') & 0x8000)
-		transform->Translation(transform->GetLocalUp() * 2.f * _time);
+		transform->Translation(transform->GetLocalUp() * 20.f * _time);
 }
 
 std::unique_ptr<Component, std::function<void(Component*)>> PlayerComponent::_Clone() const
