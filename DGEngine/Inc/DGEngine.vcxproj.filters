@@ -61,6 +61,12 @@
     <Filter Include="4. Resource\2. Texture">
       <UniqueIdentifier>{6fcf5dca-bb3a-4fd6-a526-1d6048605666}</UniqueIdentifier>
     </Filter>
+    <Filter Include="5. Rendering\2. RenderState">
+      <UniqueIdentifier>{ff939dba-8b02-4a2f-bdd1-2fe8f980ca6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="8. Component\5. Material">
+      <UniqueIdentifier>{a6b5d8c9-a02a-487f-8b33-b7b6c292f923}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -144,6 +150,15 @@
     <ClInclude Include="Resource\sampler.h">
       <Filter>4. Resource\2. Texture</Filter>
     </ClInclude>
+    <ClInclude Include="Rendering\render_state.h">
+      <Filter>5. Rendering\2. RenderState</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\blend_state.h">
+      <Filter>5. Rendering\2. RenderState</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\material.h">
+      <Filter>8. Component\5. Material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -217,6 +232,15 @@
     </ClCompile>
     <ClCompile Include="Resource\sampler.cpp">
       <Filter>4. Resource\2. Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\render_state.cpp">
+      <Filter>5. Rendering\2. RenderState</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\blend_state.cpp">
+      <Filter>5. Rendering\2. RenderState</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\material.cpp">
+      <Filter>8. Component\5. Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

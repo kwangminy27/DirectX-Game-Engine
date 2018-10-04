@@ -35,6 +35,10 @@ namespace DG
 		friend class ResourceManager;
 	public:
 		void Render();
+		void Render(int _container_idx, int _subset_idx);
+
+		size_t GetContainerSize() const;
+		size_t GetSubsetSize(int _container_idx) const;
 
 	private:
 		Mesh() = default;

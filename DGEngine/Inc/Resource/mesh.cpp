@@ -32,6 +32,38 @@ void Mesh::Render()
 	}
 }
 
+void Mesh::Render(int _container_idx, int _subset_idx)
+{
+	auto const& context = Device::singleton()->context();
+
+	context->IASetPrimitiveTopology(mesh_container_vector_.at(_container_idx)->topology);
+
+	UINT stride{ static_cast<UINT>(mesh_container_vector_.at(_container_idx)->VB.size) };
+	UINT offset{};
+	context->IASetVertexBuffers(0, 1, mesh_container_vector_.at(_container_idx)->VB.buffer.GetAddressOf(), &stride, &offset);
+
+	if (mesh_container_vector_.at(_container_idx)->IB_vector.empty())
+		context->Draw(mesh_container_vector_.at(_container_idx)->VB.count, 0);
+	else
+	{
+		for (auto const& IB : mesh_container_vector_.at(_container_idx)->IB_vector)
+		{
+			context->IASetIndexBuffer(IB.buffer.Get(), IB.format, 0);
+			context->DrawIndexed(IB.count, 0, 0);
+		}
+	}
+}
+
+size_t Mesh::GetContainerSize() const
+{
+	return mesh_container_vector_.size();
+}
+
+size_t Mesh::GetSubsetSize(int _container_idx) const
+{
+	return mesh_container_vector_.at(_container_idx)->IB_vector.size();
+}
+
 Mesh::Mesh(Mesh const& _other) : Tag(_other)
 {
 	mesh_container_vector_ = _other.mesh_container_vector_;

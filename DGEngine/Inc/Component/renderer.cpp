@@ -9,6 +9,7 @@
 #include "object.h"
 #include "Component/transform.h"
 #include "Component/camera.h"
+#include "Component/material.h"
 
 using namespace DG;
 
@@ -17,6 +18,8 @@ void Renderer::Initialize()
 	try
 	{
 		type_ = COMPONENT_TYPE::RENDERER;
+
+		material_ = dynamic_pointer_cast<Material>(object()->AddComponent<Material>("Material"));
 	}
 	catch (std::exception const& _e)
 	{
@@ -65,7 +68,16 @@ void Renderer::_Render(float _time)
 	_UpdateTransform();
 
 	shader_->SetShader();
-	mesh_->Render();
+
+	for (auto i = 0; i < mesh_->GetContainerSize(); ++i)
+	{
+		for (auto j = 0; j < mesh_->GetSubsetSize(i); ++j)
+		{
+			material_->SetToShader(i, j);
+
+			mesh_->Render(i, j);
+		}
+	}
 }
 
 std::unique_ptr<Component, std::function<void(Component*)>> Renderer::_Clone() const

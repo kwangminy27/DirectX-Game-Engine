@@ -6,6 +6,7 @@ namespace DG
 {
 	class Mesh;
 	class Shader;
+	class Material;
 
 	class DG_ENGINE_DLL Renderer final : public Component
 	{
@@ -34,5 +35,6 @@ namespace DG
 
 		std::shared_ptr<Mesh> mesh_{};
 		std::shared_ptr<Shader> shader_{};
+		std::shared_ptr<Material> material_{};
 	};
 }

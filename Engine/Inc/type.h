@@ -22,6 +22,7 @@ namespace DG
 		Microsoft::WRL::ComPtr<ID3D11Buffer> buffer;
 		int size;
 		int shader_type;
+		int slot;
 	};
 
 	struct TransformConstantBuffer
@@ -30,5 +31,10 @@ namespace DG
 		Math::Matrix view;
 		Math::Matrix projection;
 		Math::Matrix WVP;
+	};
+
+	struct MaterialConstantBuffer
+	{
+		Math::Vector4 diffuse;
 	};
 }

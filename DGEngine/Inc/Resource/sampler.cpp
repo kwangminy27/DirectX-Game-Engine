@@ -5,6 +5,11 @@
 
 using namespace DG;
 
+void Sampler::SetToShader(int _slot)
+{
+	Device::singleton()->context()->PSSetSamplers(_slot, 1, sampler_.GetAddressOf());
+}
+
 Sampler::Sampler(Sampler const& _other) : Tag(_other)
 {
 	sampler_ = _other.sampler_;
@@ -38,9 +43,4 @@ void Sampler::_CreateSampler(
 	sampler_desc.MaxAnisotropy = 1;
 
 	ThrowIfFailed(device->CreateSamplerState(&sampler_desc, &sampler_));
-}
-
-void Sampler::_SetSampler(int _slot)
-{
-	Device::singleton()->context()->PSSetSamplers(_slot, 1, sampler_.GetAddressOf());
 }

@@ -17,6 +17,11 @@ cbuffer Transform : register(b0)
 	matrix g_WVP;
 }
 
+cbuffer Material : register(b1)
+{
+	float4 g_diffuse;
+}
+
 Texture2D g_texture : register(t0);
 SamplerState g_sampler : register(s0);
 
@@ -24,7 +29,7 @@ PS_OUTPUT_SINGLE_TARGET BasicTexPS(VS_OUTPUT_POSITION_TEX input)
 {
 	PS_OUTPUT_SINGLE_TARGET output = (PS_OUTPUT_SINGLE_TARGET)0;
 
-	output.target = g_texture.Sample(g_sampler, input.uv);
+	output.target = g_texture.Sample(g_sampler, input.uv) * g_diffuse;
 
 	return output;
 }

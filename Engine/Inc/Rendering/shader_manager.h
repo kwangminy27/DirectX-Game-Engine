@@ -29,7 +29,7 @@ namespace DG
 			std::vector<std::pair<SHADER_TYPE, std::wstring>> const& _cso_info_vector,
 			std::vector<D3D11_INPUT_ELEMENT_DESC> const& input_element_desc_vector,
 			std::string const& _path_tag);
-		void _CreateConstantBuffer(std::string const& _tag, int _size, int _shader_type);
+		void _CreateConstantBuffer(std::string const& _tag, int _size, int _shader_type, int _slot);
 		void _UpdateConstantBuffer(std::string const& _tag, void* _data);
 
 		static std::shared_ptr<Shader> shader_nullptr_;

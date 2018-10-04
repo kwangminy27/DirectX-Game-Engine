@@ -7,6 +7,9 @@ namespace DG
 	class DG_ENGINE_DLL Sampler final : public Tag
 	{
 		friend class ResourceManager;
+	public:
+		void SetToShader(int _slot);
+
 	private:
 		Sampler() = default;
 		Sampler(Sampler const& _other);
@@ -22,7 +25,6 @@ namespace DG
 			D3D11_TEXTURE_ADDRESS_MODE _address_u,
 			D3D11_TEXTURE_ADDRESS_MODE _address_v,
 			D3D11_TEXTURE_ADDRESS_MODE _address_w);
-		void _SetSampler(int _slot);
 
 		Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler_{};
 	};

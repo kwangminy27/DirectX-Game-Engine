@@ -52,7 +52,15 @@ void ShaderManager::Initialize()
 		_CreateConstantBuffer(
 			"Transform",
 			sizeof(TransformConstantBuffer),
-			static_cast<int>(CONSTANT_BUFFER_SHADER_TYPE::VERTEX) | static_cast<int>(CONSTANT_BUFFER_SHADER_TYPE::PIXEL)
+			static_cast<int>(CONSTANT_BUFFER_SHADER_TYPE::VERTEX) | static_cast<int>(CONSTANT_BUFFER_SHADER_TYPE::PIXEL),
+			0
+		);
+
+		_CreateConstantBuffer(
+			"Material",
+			sizeof(MaterialConstantBuffer),
+			static_cast<int>(CONSTANT_BUFFER_SHADER_TYPE::PIXEL),
+			1
 		);
 	}
 	catch (exception const& _e)
@@ -113,7 +121,7 @@ void ShaderManager::_LoadCompiledShader(
 	shader_map_.insert(make_pair(_tag, move(shader_buffer)));
 }
 
-void ShaderManager::_CreateConstantBuffer(std::string const& _tag, int _size, int _shader_type)
+void ShaderManager::_CreateConstantBuffer(std::string const& _tag, int _size, int _shader_type, int _slot)
 {
 	if (FindConstantBuffer(_tag))
 		throw std::exception{ "ShaderManager::_CreateConstantBuffer" };
@@ -123,6 +131,7 @@ void ShaderManager::_CreateConstantBuffer(std::string const& _tag, int _size, in
 	} };
 	constant_buffer->size = _size;
 	constant_buffer->shader_type = _shader_type;
+	constant_buffer->slot = _slot;
 
 	D3D11_BUFFER_DESC buffer_desc{};
 	buffer_desc.ByteWidth = _size;
@@ -150,8 +159,8 @@ void ShaderManager::_UpdateConstantBuffer(std::string const& _tag, void* _data)
 	context->Unmap(constant_buffer->buffer.Get(), 0);
 
 	if (constant_buffer->shader_type & static_cast<int>(CONSTANT_BUFFER_SHADER_TYPE::VERTEX))
-		context->VSSetConstantBuffers(0, 1, constant_buffer->buffer.GetAddressOf());
+		context->VSSetConstantBuffers(constant_buffer->slot, 1, constant_buffer->buffer.GetAddressOf());
 
 	if (constant_buffer->shader_type & static_cast<int>(CONSTANT_BUFFER_SHADER_TYPE::PIXEL))
-		context->PSSetConstantBuffers(0, 1, constant_buffer->buffer.GetAddressOf());
+		context->PSSetConstantBuffers(constant_buffer->slot, 1, constant_buffer->buffer.GetAddressOf());
 }

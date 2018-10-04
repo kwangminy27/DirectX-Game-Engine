@@ -8,6 +8,11 @@ using namespace DG;
 
 using std::filesystem::path;
 
+void Texture::SetToShader(int _slot)
+{
+	Device::singleton()->context()->PSSetShaderResources(_slot, 1, SRV_.GetAddressOf());
+}
+
 Texture::Texture(Texture const& _other) : Tag(_other)
 {
 	texture_2d_vector_ = _other.texture_2d_vector_;
@@ -43,16 +48,11 @@ void Texture::_LoadTexture2D(std::string const& _tag, std::wstring const& _file_
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> texture_2d{};
 
 	if (extension.string() == ".dds")
-		ThrowIfFailed(DirectX::CreateDDSTextureFromFile(device.Get(), _file_name.c_str(), &resource, &SRV_));
+		ThrowIfFailed(DirectX::CreateDDSTextureFromFile(device.Get(), path_buffer.c_str(), &resource, &SRV_));
 	else
-		ThrowIfFailed(DirectX::CreateWICTextureFromFile(device.Get(), _file_name.c_str(), &resource, &SRV_));
+		ThrowIfFailed(DirectX::CreateWICTextureFromFile(device.Get(), path_buffer.c_str(), &resource, &SRV_));
 
 	ThrowIfFailed(resource.As(&texture_2d));
 
 	texture_2d_vector_.push_back(std::move(texture_2d));
-}
-
-void Texture::_SetShaderResourceView(int _slot)
-{
-	Device::singleton()->context()->PSSetShaderResources(_slot, 1, SRV_.GetAddressOf());
 }

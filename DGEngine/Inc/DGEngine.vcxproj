@@ -155,7 +155,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>DGEngine_stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;$(SolutionDir)DirectXTK\Inc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -170,6 +170,7 @@
   <ItemGroup>
     <ClInclude Include="Component\camera.h" />
     <ClInclude Include="Component\component.h" />
+    <ClInclude Include="Component\material.h" />
     <ClInclude Include="Component\renderer.h" />
     <ClInclude Include="Component\transform.h" />
     <ClInclude Include="Component\user_component.h" />
@@ -180,7 +181,9 @@
     <ClInclude Include="macro.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="path_manager.h" />
+    <ClInclude Include="Rendering\blend_state.h" />
     <ClInclude Include="Rendering\rendering_manager.h" />
+    <ClInclude Include="Rendering\render_state.h" />
     <ClInclude Include="Rendering\shader.h" />
     <ClInclude Include="Rendering\shader_manager.h" />
     <ClInclude Include="Resource\mesh.h" />
@@ -199,6 +202,7 @@
   <ItemGroup>
     <ClCompile Include="Component\camera.cpp" />
     <ClCompile Include="Component\component.cpp" />
+    <ClCompile Include="Component\material.cpp" />
     <ClCompile Include="Component\renderer.cpp" />
     <ClCompile Include="Component\transform.cpp" />
     <ClCompile Include="Component\user_component.cpp" />
@@ -210,7 +214,9 @@
     </ClCompile>
     <ClCompile Include="object.cpp" />
     <ClCompile Include="path_manager.cpp" />
+    <ClCompile Include="Rendering\blend_state.cpp" />
     <ClCompile Include="Rendering\rendering_manager.cpp" />
+    <ClCompile Include="Rendering\render_state.cpp" />
     <ClCompile Include="Rendering\shader.cpp" />
     <ClCompile Include="Rendering\shader_manager.cpp" />
     <ClCompile Include="Resource\mesh.cpp" />
