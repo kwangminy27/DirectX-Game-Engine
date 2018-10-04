@@ -58,6 +58,9 @@
     <Filter Include="8. Component\4. UserComponent">
       <UniqueIdentifier>{7506a7ee-d85d-40e6-9476-52af98b3d816}</UniqueIdentifier>
     </Filter>
+    <Filter Include="4. Resource\2. Texture">
+      <UniqueIdentifier>{6fcf5dca-bb3a-4fd6-a526-1d6048605666}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -135,6 +138,12 @@
     <ClInclude Include="Component\camera.h">
       <Filter>8. Component\3. Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Resource\texture.h">
+      <Filter>4. Resource\2. Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\sampler.h">
+      <Filter>4. Resource\2. Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -203,6 +212,12 @@
     <ClCompile Include="Component\camera.cpp">
       <Filter>8. Component\3. Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Resource\texture.cpp">
+      <Filter>4. Resource\2. Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\sampler.cpp">
+      <Filter>4. Resource\2. Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="singleton.inl">
@@ -226,6 +241,12 @@
       <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="BasicPS.hlsl">
+      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicTexVS.hlsl">
+      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicTexPS.hlsl">
       <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
   </ItemGroup>

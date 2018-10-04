@@ -34,6 +34,11 @@
 // DirectXMath
 #include <DirectXColors.h>
 
+// DirectXTK
+#include <DDSTextureLoader.h>
+#include <WICTextureLoader.h>
+#include <ScreenGrab.h>
+
 // DGEngine
 #include "macro.h"
 #include "enum.h"

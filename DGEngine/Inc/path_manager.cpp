@@ -15,6 +15,7 @@ void PathManager::Initialize()
 		path_map_.insert(make_pair("RootPath", move(path_buffer)));
 
 		_AddPath("ShaderPath", "Shader\\");
+		_AddPath("TexturePath", "Texture\\");
 	}
 	catch (exception const& _e)
 	{

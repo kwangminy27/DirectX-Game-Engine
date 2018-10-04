@@ -15,18 +15,35 @@ void ShaderManager::Initialize()
 {
 	try
 	{
-		vector<pair<SHADER_TYPE, wstring>> cso_info_vector{
-			make_pair(SHADER_TYPE::VERTEX, L"BasicVS.cso"),
-			make_pair(SHADER_TYPE::PIXEL, L"BasicPS.cso")
-		};
+		// BasicShader
+		vector<pair<SHADER_TYPE, wstring>> cso_info_vector{};
+		vector<D3D11_INPUT_ELEMENT_DESC> input_element_desc_vector{};
 
-		vector<D3D11_INPUT_ELEMENT_DESC> input_element_desc_vector{
-			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-		};
+		cso_info_vector.push_back(make_pair(SHADER_TYPE::VERTEX, L"BasicVS.cso"));
+		cso_info_vector.push_back(make_pair(SHADER_TYPE::PIXEL, L"BasicPS.cso"));
+
+		input_element_desc_vector.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+		input_element_desc_vector.push_back({ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
 
 		_LoadCompiledShader(
 			"BasicShader",
+			cso_info_vector,
+			input_element_desc_vector,
+			"ShaderPath"
+		);
+
+		// BasicTexShader
+		cso_info_vector.clear();
+		input_element_desc_vector.clear();
+
+		cso_info_vector.push_back(make_pair(SHADER_TYPE::VERTEX, L"BasicTexVS.cso"));
+		cso_info_vector.push_back(make_pair(SHADER_TYPE::PIXEL, L"BasicTexPS.cso"));
+
+		input_element_desc_vector.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+		input_element_desc_vector.push_back({ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+
+		_LoadCompiledShader(
+			"BasicTexShader",
 			cso_info_vector,
 			input_element_desc_vector,
 			"ShaderPath"

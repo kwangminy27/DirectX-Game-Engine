@@ -11,6 +11,12 @@ namespace DG
 		Math::Vector4 color;
 	};
 
+	struct VertexTex
+	{
+		Math::Vector3 position;
+		Math::Vector2 UV;
+	};
+
 	struct ConstantBuffer
 	{
 		Microsoft::WRL::ComPtr<ID3D11Buffer> buffer;

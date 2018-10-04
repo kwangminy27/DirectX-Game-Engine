@@ -2,10 +2,15 @@
 #include "resource_manager.h"
 
 #include "mesh.h"
+#include "texture.h"
+#include "sampler.h"
 
-using namespace std;
 using namespace DG;
 using namespace DG::Math;
+
+std::shared_ptr<Mesh> ResourceManager::mesh_nullptr_{};
+std::shared_ptr<Texture> ResourceManager::texture_nullptr_{};
+std::shared_ptr<Sampler> ResourceManager::sampler_nullptr_{};
 
 void ResourceManager::Initialize()
 {
@@ -35,12 +40,32 @@ void ResourceManager::Initialize()
 	}
 }
 
-shared_ptr<Mesh> const& ResourceManager::FindMesh(string const& _tag) const
+shared_ptr<Mesh> const& ResourceManager::FindMesh(std::string const& _tag) const
 {
 	auto iter = mesh_map_.find(_tag);
 
 	if (iter == mesh_map_.end())
 		return mesh_nullptr_;
+
+	return iter->second;
+}
+
+std::shared_ptr<Texture> const& ResourceManager::FindTexture(std::string const& _tag) const
+{
+	auto iter = texture_map_.find(_tag);
+
+	if (iter == texture_map_.end())
+		return texture_nullptr_;
+
+	return iter->second;
+}
+
+std::shared_ptr<Sampler> const& ResourceManager::FindSampler(std::string const& _tag) const
+{
+	auto iter = sampler_map_.find(_tag);
+
+	if (iter == sampler_map_.end())
+		return sampler_nullptr_;
 
 	return iter->second;
 }
@@ -69,4 +94,39 @@ void ResourceManager::_CreateMesh(
 	);
 
 	mesh_map_.insert(make_pair(_tag, move(mesh_buffer)));
+}
+
+void ResourceManager::_CreateTexture2D(std::string const& _tag, std::wstring const& _file_name, std::string const& _path_tag)
+{
+	if (FindTexture(_tag))
+		throw std::exception{ "ResourceManager::_CreateTexture2D" };
+
+	auto texture = std::shared_ptr<Texture>{ new Texture, [](Texture* _p) {
+		_p->_Release();
+		delete _p;
+	} };
+
+	texture->_LoadTexture2D(_tag, _file_name, _path_tag);
+
+	texture_map_.insert(make_pair(_tag, std::move(texture)));
+}
+
+void ResourceManager::_CreateSampler(
+	std::string const& _tag,
+	D3D11_FILTER _filter,
+	D3D11_TEXTURE_ADDRESS_MODE _address_u,
+	D3D11_TEXTURE_ADDRESS_MODE _address_v,
+	D3D11_TEXTURE_ADDRESS_MODE _address_w)
+{
+	if (FindSampler(_tag))
+		throw std::exception{ "ResourceManager::_CreateSampler" };
+
+	auto sampler = std::shared_ptr<Sampler>{ new Sampler, [](Sampler* _p) {
+		_p->_Release();
+		delete _p;
+	} };
+
+	sampler->_CreateSampler(_tag, _filter, _address_u, _address_v, _address_w);
+
+	sampler_map_.insert(make_pair(_tag, std::move(sampler)));
 }
