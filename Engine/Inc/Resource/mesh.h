@@ -40,6 +40,12 @@ namespace DG
 		size_t GetContainerSize() const;
 		size_t GetSubsetSize(int _container_idx) const;
 
+		Math::Vector3 const& center() const;
+		Math::Vector3 const& min() const;
+		Math::Vector3 const& max() const;
+		Math::Vector3 const& diagonal() const;
+		float radius() const;
+
 	private:
 		Mesh() = default;
 		Mesh(Mesh const& _other);
@@ -58,5 +64,10 @@ namespace DG
 		void _UpdateVertexBuffer(void* _data, int _mesh_container_idx);
 
 		std::vector<std::shared_ptr<MeshContainer>> mesh_container_vector_{};
+		Math::Vector3 center_{};
+		Math::Vector3 min_{};
+		Math::Vector3 max_{};
+		Math::Vector3 diagonal_{};
+		float radius_;
 	};
 }

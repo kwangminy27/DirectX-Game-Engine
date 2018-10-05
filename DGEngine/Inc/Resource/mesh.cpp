@@ -4,7 +4,6 @@
 
 #include "device.h"
 
-using namespace std;
 using namespace DG;
 
 void Mesh::Render()
@@ -64,14 +63,49 @@ size_t Mesh::GetSubsetSize(int _container_idx) const
 	return mesh_container_vector_.at(_container_idx)->IB_vector.size();
 }
 
+Math::Vector3 const& Mesh::center() const
+{
+	return center_;
+}
+
+Math::Vector3 const& Mesh::min() const
+{
+	return min_;
+}
+
+Math::Vector3 const& Mesh::max() const
+{
+	return max_;
+}
+
+Math::Vector3 const& Mesh::diagonal() const
+{
+	return diagonal_;
+}
+
+float Mesh::radius() const
+{
+	return radius_;
+}
+
 Mesh::Mesh(Mesh const& _other) : Tag(_other)
 {
 	mesh_container_vector_ = _other.mesh_container_vector_;
+	center_ = _other.center_;
+	radius_ = _other.radius_;
+	min_ = _other.min_;
+	max_ = _other.max_;
+	diagonal_ = _other.diagonal_;
 }
 
-Mesh::Mesh(Mesh&& _other) noexcept : Tag(move(_other))
+Mesh::Mesh(Mesh&& _other) noexcept : Tag(std::move(_other))
 {
-	mesh_container_vector_ = move(_other.mesh_container_vector_);
+	mesh_container_vector_ = std::move(_other.mesh_container_vector_);
+	center_ = std::move(_other.center_);
+	radius_ = std::move(_other.radius_);
+	min_ = std::move(_other.min_);
+	max_ = std::move(_other.max_);
+	diagonal_ = std::move(_other.diagonal_);
 }
 
 void Mesh::_Release()
@@ -79,13 +113,13 @@ void Mesh::_Release()
 }
 
 void Mesh::_CreateMesh(
-	string const& _tag, string const& _vertex_shader_tag, D3D11_PRIMITIVE_TOPOLOGY _topology,
+	std::string const& _tag, std::string const& _vertex_shader_tag, D3D11_PRIMITIVE_TOPOLOGY _topology,
 	void* _vtx_data, int _vtx_size, int _vtx_count, D3D11_USAGE _vtx_usage,
 	void* _idx_data, int _idx_size, int _idx_count, D3D11_USAGE _idx_usage, DXGI_FORMAT _idx_format)
 {
 	set_tag(_tag);
 
-	auto mesh_container_buffer = shared_ptr<MeshContainer>{ new MeshContainer, [](MeshContainer* _p) {
+	auto mesh_container_buffer = std::shared_ptr<MeshContainer>{ new MeshContainer, [](MeshContainer* _p) {
 		delete[] _p->VB.data;
 		for (auto& IB : _p->IB_vector)
 			delete[] IB.data;
@@ -122,6 +156,38 @@ void Mesh::_CreateVertexBuffer(void* _data, int _size, int _count, D3D11_USAGE _
 	subresource_data.pSysMem = mesh_container->VB.data;
 
 	ThrowIfFailed(Device::singleton()->device()->CreateBuffer(&buffer_desc, &subresource_data, &mesh_container->VB.buffer));
+
+	char* vertices = static_cast<char*>(_data);
+
+	Math::Vector3 position{};
+	int position_size = sizeof(Math::Vector3);
+
+	memcpy_s(&position, position_size, vertices, position_size);
+	min_ = position;
+	max_ = position;
+
+	for (int i = 0; i < _count; ++i)
+	{
+		memcpy_s(&position, position_size, vertices + _size * i, position_size);
+
+		if (min_.x > position.x)
+			min_.x = position.x;
+		if (min_.y > position.y)
+			min_.y = position.y;
+		if (min_.z > position.z)
+			min_.z = position.z;
+
+		if (max_.x < position.x)
+			max_.x = position.x;
+		if (max_.y < position.y)
+			max_.y = position.y;
+		if (max_.z < position.z)
+			max_.z = position.z;
+	}
+
+	center_ = (min_ + max_) / 2.f;
+	diagonal_ = max_ - min_;
+	radius_ = diagonal_.Length() / 2.f;
 }
 
 void Mesh::_CreateIndexBuffer(void* _data, int _size, int _count, D3D11_USAGE _usage, DXGI_FORMAT _format)

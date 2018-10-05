@@ -12,11 +12,16 @@ using namespace DG;
 
 void PlayerComponent::Initialize()
 {
-	auto transform = object()->AddComponent<Transform>("Transform");
+	auto transform = std::dynamic_pointer_cast<Transform>(object()->AddComponent<Transform>("Transform"));
+
+	transform->Scaling(Math::Vector3{ 100.f, 100.f, 1.f });
+	transform->set_pivot(Math::Vector3{ 0.5f, 0.f, 0.f });
+
 	auto renderer = std::dynamic_pointer_cast<Renderer>(object()->AddComponent<Renderer>("Renderer"));
 
 	renderer->set_shader("BasicTexShader");
 	renderer->set_mesh("TexRect");
+	renderer->set_render_state("AlphaBlend");
 
 	auto const& material = std::dynamic_pointer_cast<Material>(object()->FindComponent("Material"));
 
@@ -24,7 +29,7 @@ void PlayerComponent::Initialize()
 	material_constant_buffer.diffuse = DirectX::Colors::White.v;
 
 	material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
-	material->SetTexture("yso", 0, 0, 0);
+	material->SetTexture("Player", 0, 0, 0);
 	material->SetSampler("LinearSampler", 0, 0, 0);
 }
 
@@ -52,6 +57,20 @@ void PlayerComponent::_Input(float _time)
 		transform->Translation(transform->GetLocalUp() * -10.f * _time);
 	if (GetAsyncKeyState('W') & 0x8000)
 		transform->Translation(transform->GetLocalUp() * 10.f * _time);
+	if (GetAsyncKeyState('O') & 0x8000)
+	{
+		auto const& material = dynamic_pointer_cast<Material>(object()->FindComponent(COMPONENT_TYPE::MATERIAL));
+		MaterialConstantBuffer material_constant_buffer{};
+		material_constant_buffer.diffuse = DirectX::Colors::Yellow.v;
+		material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
+	}
+	else
+	{
+		auto const& material = dynamic_pointer_cast<Material>(object()->FindComponent(COMPONENT_TYPE::MATERIAL));
+		MaterialConstantBuffer material_constant_buffer{};
+		material_constant_buffer.diffuse = DirectX::Colors::White.v;
+		material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
+	}
 }
 
 std::unique_ptr<Component, std::function<void(Component*)>> PlayerComponent::_Clone() const

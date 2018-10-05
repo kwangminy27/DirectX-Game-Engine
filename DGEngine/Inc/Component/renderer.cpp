@@ -5,6 +5,7 @@
 #include "Resource/mesh.h"
 #include "Rendering/rendering_manager.h"
 #include "Rendering/shader.h"
+#include "Rendering/render_state.h"
 #include "Scene/scene.h"
 #include "object.h"
 #include "Component/transform.h"
@@ -47,6 +48,16 @@ void Renderer::set_shader(std::shared_ptr<Shader> const& _shader)
 	shader_ = _shader;
 }
 
+void Renderer::set_render_state(std::string const& _tag)
+{
+	auto const& state = RenderingManager::singleton()->FindRenderState(_tag);
+
+	if (!state)
+		throw std::exception{ "Renderer::set_render_state" };
+
+	render_state_array_.at(static_cast<int>(state->type())) = state;
+}
+
 Renderer::Renderer(Renderer const& _other) : Component(_other)
 {
 	mesh_ = _other.mesh_;
@@ -69,6 +80,12 @@ void Renderer::_Render(float _time)
 
 	shader_->SetShader();
 
+	for (auto const& _e : render_state_array_)
+	{
+		if(_e)
+			_e->_SetState();
+	}
+
 	for (auto i = 0; i < mesh_->GetContainerSize(); ++i)
 	{
 		for (auto j = 0; j < mesh_->GetSubsetSize(i); ++j)
@@ -77,6 +94,12 @@ void Renderer::_Render(float _time)
 
 			mesh_->Render(i, j);
 		}
+	}
+
+	for (auto const& _e : render_state_array_)
+	{
+		if (_e)
+			_e->_SetBackState();
 	}
 }
 
@@ -92,12 +115,15 @@ void Renderer::_UpdateTransform()
 {
 	auto const& camera = scene()->main_camera();
 	auto const& camera_component = dynamic_pointer_cast<Camera>(camera->FindComponent(camera->tag()));
+	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
 	TransformConstantBuffer transform_constant_buffer{};
-	transform_constant_buffer.world = dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM))->world();
+	transform_constant_buffer.world = transform->world();
 	transform_constant_buffer.view = camera_component->view();
 	transform_constant_buffer.projection = camera_component->projection();
 	transform_constant_buffer.WVP = transform_constant_buffer.world * transform_constant_buffer.view * transform_constant_buffer.projection;
+	transform_constant_buffer.pivot = transform->pivot();
+	transform_constant_buffer.diagonal = mesh_->diagonal();
 
 	transform_constant_buffer.world = transform_constant_buffer.world.Transpose();
 	transform_constant_buffer.view = transform_constant_buffer.view.Transpose();

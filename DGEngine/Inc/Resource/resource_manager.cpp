@@ -32,13 +32,13 @@ void ResourceManager::Initialize()
 
 		// TexRect
 		VertexTex tex_rect[4]{
-			VertexTex{ Math::Vector3{ -1.f, -1.f, 0.f }, Math::Vector2{ 0.f, 1.f } },
-			VertexTex{ Math::Vector3{ -1.f, 1.f, 0.f }, Math::Vector2{ 0.f, 0.f } },
-			VertexTex{ Math::Vector3{ 1.f, -1.f, 0.f }, Math::Vector2{ 1.f, 1.f } },
+			VertexTex{ Math::Vector3{ 0.f, 1.f, 0.f }, Math::Vector2{ 0.f, 0.f } },
+			VertexTex{ Math::Vector3{ 0.f, 0.f, 0.f }, Math::Vector2{ 0.f, 1.f } },
 			VertexTex{ Math::Vector3{ 1.f, 1.f, 0.f }, Math::Vector2{ 1.f, 0.f } },
+			VertexTex{ Math::Vector3{ 1.f, 0.f, 0.f }, Math::Vector2{ 1.f, 1.f } },
 		};
 
-		unsigned short tex_rect_indices[6]{ 0, 1, 2, 2, 1, 3 };
+		unsigned short tex_rect_indices[6]{ 0, 2, 1, 1, 2, 3 };
 
 		_CreateMesh(
 			"TexRect", "BasicTexShader", D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
@@ -46,7 +46,7 @@ void ResourceManager::Initialize()
 			tex_rect_indices, 2, 6, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R16_UINT
 		);
 
-		_CreateTexture2D("yso", L"yso.jpg", "TexturePath");
+		_CreateTexture2D("Player", L"Player.png", "TexturePath");
 		_CreateSampler(
 			"LinearSampler",
 			D3D11_FILTER_MIN_MAG_MIP_LINEAR,

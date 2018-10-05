@@ -7,6 +7,12 @@ namespace DG
 	class DG_ENGINE_DLL RenderState : public Tag
 	{
 		friend class RenderingManager;
+		friend class Renderer;
+	public:
+		virtual void Initialize() = 0;
+
+		RENDER_STATE_TYPE type() const;
+
 	protected:
 		RenderState() = default;
 		RenderState(RenderState const& _other);
@@ -17,6 +23,11 @@ namespace DG
 
 		virtual void _Release() override;
 
+		virtual void _SetState() = 0;
+		virtual void _SetBackState() = 0;
+
 		Microsoft::WRL::ComPtr<ID3D11DeviceChild> state_{};
+		Microsoft::WRL::ComPtr<ID3D11DeviceChild> old_state_{};
+		RENDER_STATE_TYPE type_{};
 	};
 }

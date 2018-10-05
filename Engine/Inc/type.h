@@ -31,6 +31,10 @@ namespace DG
 		Math::Matrix view;
 		Math::Matrix projection;
 		Math::Matrix WVP;
+		Math::Vector3 pivot;
+		float empty;
+		Math::Vector3 diagonal;
+		float empty1; // packed_offset 사용해서 마지막에만 패딩 해보자.
 	};
 
 	struct MaterialConstantBuffer

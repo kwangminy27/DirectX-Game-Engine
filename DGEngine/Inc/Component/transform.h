@@ -30,11 +30,13 @@ namespace DG
 		Math::Matrix const& local() const;
 		Math::Matrix const& parent() const;
 		Math::Matrix const& world() const;
+		Math::Vector3 const& pivot() const;
 
 		void set_update_flag(bool _flag);
 		void set_static_flag(bool _flag);
 		void set_local(Math::Matrix const& _local);
 		void set_parent(Math::Matrix const& _parent);
+		void set_pivot(Math::Vector3 const& _pivot);
 
 	private:
 		Transform() = default;
@@ -57,5 +59,6 @@ namespace DG
 		Math::Matrix local_{ Math::Matrix::Identity };
 		Math::Matrix parent_{ Math::Matrix::Identity };
 		Math::Matrix world_{ Math::Matrix::Identity };
+		Math::Vector3 pivot_{};
 	};
 }

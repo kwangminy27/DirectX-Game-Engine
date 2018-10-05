@@ -7,6 +7,7 @@ namespace DG
 	class Mesh;
 	class Shader;
 	class Material;
+	class RenderState;
 
 	class DG_ENGINE_DLL Renderer final : public Component
 	{
@@ -18,6 +19,7 @@ namespace DG
 		void set_mesh(std::shared_ptr<Mesh> const& _mesh);
 		void set_shader(std::string const& _tag);
 		void set_shader(std::shared_ptr<Shader> const& _shader);
+		void set_render_state(std::string const& _tag);
 
 	private:
 		Renderer() = default;
@@ -36,5 +38,6 @@ namespace DG
 		std::shared_ptr<Mesh> mesh_{};
 		std::shared_ptr<Shader> shader_{};
 		std::shared_ptr<Material> material_{};
+		std::array<std::shared_ptr<RenderState>, static_cast<int>(RENDER_STATE_TYPE::END)> render_state_array_{};
 	};
 }

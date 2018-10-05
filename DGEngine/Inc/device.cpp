@@ -43,7 +43,7 @@ void Device::Initialize(HWND _window)
 		swap_chain_desc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
 		swap_chain_desc.SampleDesc.Count = 1;
 		swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		swap_chain_desc.BufferCount = 1;
+		swap_chain_desc.BufferCount = 2;
 		swap_chain_desc.OutputWindow = _window;
 		swap_chain_desc.Windowed = true;
 		swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
@@ -131,4 +131,5 @@ void Device::_Release()
 #ifdef _DEBUG
 	FreeLibrary(DXGIDebug_);
 #endif
+	context_->ClearState();
 }

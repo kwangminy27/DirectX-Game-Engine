@@ -119,6 +119,11 @@ Math::Matrix const& Transform::world() const
 	return world_;
 }
 
+Math::Vector3 const& Transform::pivot() const
+{
+	return pivot_;
+}
+
 void Transform::set_update_flag(bool _flag)
 {
 	update_flag_ = _flag;
@@ -139,6 +144,11 @@ void Transform::set_parent(Math::Matrix const& _parent)
 	parent_ = _parent;
 }
 
+void Transform::set_pivot(Math::Vector3 const& _pivot)
+{
+	pivot_ = _pivot;
+}
+
 Transform::Transform(Transform const& _other) : Component(_other)
 {
 	update_flag_ = _other.update_flag_;
@@ -149,6 +159,7 @@ Transform::Transform(Transform const& _other) : Component(_other)
 	local_ = _other.local_;
 	parent_ = _other.parent_;
 	world_ = _other.world_;
+	pivot_ = _other.pivot_;
 }
 
 Transform::Transform(Transform&& _other) noexcept : Component(std::move(_other))
@@ -161,6 +172,7 @@ Transform::Transform(Transform&& _other) noexcept : Component(std::move(_other))
 	local_ = std::move(_other.local_);
 	parent_ = std::move(_other.parent_);
 	world_ = std::move(_other.world_);
+	pivot_ = std::move(_other.pivot_);
 }
 
 void Transform::_Release()
