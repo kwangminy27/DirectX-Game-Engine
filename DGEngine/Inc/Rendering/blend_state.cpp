@@ -59,7 +59,7 @@ void BlendState::_AddRenderTargetBlendDesc(
 	);
 }
 
-void BlendState::_CreateBlendState(bool _alpha_to_coverage_enable, bool _independent_blend_enable)
+void BlendState::_CreateState(bool _alpha_to_coverage_enable, bool _independent_blend_enable)
 {
 	auto const& device = Device::singleton()->device();
 

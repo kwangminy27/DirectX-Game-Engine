@@ -4,6 +4,7 @@
 #include "shader_manager.h"
 #include "render_state.h"
 #include "blend_state.h"
+#include "depth_stencil_state.h"
 
 using namespace DG;
 
@@ -16,7 +17,25 @@ void RenderingManager::Initialize()
 		ShaderManager::singleton()->Initialize();
 
 		AddRenderTargetBlendDesc(true);
-		CreateBlendState("AlphaBlend", false, false);
+		CreateBlendState(ALPHA_BLEND, false, false);
+
+		D3D11_DEPTH_STENCILOP_DESC depth_stencilop_desc{};
+		depth_stencilop_desc.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		depth_stencilop_desc.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+		depth_stencilop_desc.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+		depth_stencilop_desc.StencilFunc = D3D11_COMPARISON_NEVER;
+
+		CreateDepthStencilState(
+			DEPTH_DISABLE,
+			false,
+			D3D11_DEPTH_WRITE_MASK_ZERO,
+			D3D11_COMPARISON_NEVER,
+			false,
+			0x00000000,
+			0x00000000,
+			depth_stencilop_desc,
+			depth_stencilop_desc
+		);
 	}
 	catch (std::exception const& _e)
 	{
@@ -63,8 +82,43 @@ void RenderingManager::CreateBlendState(std::string const& _tag, bool _alpha_to_
 	if (!render_state_nullptr_)
 		throw std::exception{ "RenderingManager::CreateBlendState" };
 
-	std::dynamic_pointer_cast<BlendState>(render_state_nullptr_)->_CreateBlendState(_alpha_to_coverage_enable, _independent_blend_enable);
+	std::dynamic_pointer_cast<BlendState>(render_state_nullptr_)->_CreateState(_alpha_to_coverage_enable, _independent_blend_enable);
+
+	render_state_nullptr_->Initialize();
+
 	render_state_map_.insert(std::make_pair(_tag, move(render_state_nullptr_)));
+}
+
+void RenderingManager::CreateDepthStencilState(
+	std::string const& _tag,
+	BOOL _depth_enable,
+	D3D11_DEPTH_WRITE_MASK _depth_write_mask,
+	D3D11_COMPARISON_FUNC _depth_func,
+	BOOL _stencil_enable,
+	UINT8 _stencil_read_mask,
+	UINT8 _stencil_write_mask,
+	D3D11_DEPTH_STENCILOP_DESC const& _front_face,
+	D3D11_DEPTH_STENCILOP_DESC const& _back_face)
+{
+	render_state_nullptr_ = std::shared_ptr<RenderState>{ new DepthStencilState, [](DepthStencilState* _p) {
+		_p->_Release();
+		delete _p;
+	} };
+
+	std::dynamic_pointer_cast<DepthStencilState>(render_state_nullptr_)->_CreateState(
+		_depth_enable,
+		_depth_write_mask,
+		_depth_func,
+		_stencil_enable,
+		_stencil_read_mask,
+		_stencil_write_mask,
+		_front_face,
+		_back_face
+	);
+
+	render_state_nullptr_->Initialize();
+
+	render_state_map_.insert(make_pair(_tag, std::move(render_state_nullptr_)));
 }
 
 std::shared_ptr<Shader> const& RenderingManager::FindShader(std::string const& _tag) const

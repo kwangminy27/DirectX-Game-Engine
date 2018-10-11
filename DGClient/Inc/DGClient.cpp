@@ -15,7 +15,7 @@ int WINAPI wWinMain(HINSTANCE _instance, HINSTANCE _prev_instance, PWSTR _cmd_li
 
 	auto const& core = Core::singleton();
 
-	core->Initialize(L"DirectX Game Engine", L"DirectX Game Engine", _instance, IDI_ICON1);
+	core->Initialize(L"DirectX Game Engine", L"DirectX Game Engine", _instance, IDI_ICON1, GAME_MODE::_2D);
 
 	SceneManager::singleton()->AddSceneComponent<MainSceneComponent>("MainSceneComponent");
 

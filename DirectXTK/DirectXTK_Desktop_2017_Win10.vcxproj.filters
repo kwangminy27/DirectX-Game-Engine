@@ -1325,5 +1325,6 @@
     <None Include="Src\Shaders\PixelPacking_Velocity.hlsli">
       <Filter>Src\Shaders\Shared</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

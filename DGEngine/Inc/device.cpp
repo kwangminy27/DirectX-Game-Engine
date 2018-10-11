@@ -46,7 +46,7 @@ void Device::Initialize(HWND _window)
 		swap_chain_desc.BufferCount = 2;
 		swap_chain_desc.OutputWindow = _window;
 		swap_chain_desc.Windowed = true;
-		swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+		swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 		ThrowIfFailed((factory->CreateSwapChain(device_.Get(), &swap_chain_desc, &swap_chain_)));
 
 		ComPtr<ID3D11Texture2D> buffer{};
@@ -96,6 +96,10 @@ void Device::Clear()
 void Device::Present()
 {
 	swap_chain_->Present(0, NULL);
+
+	// SWAP_EFFECT_FLIP_DISCARD
+	context_->OMSetRenderTargets(0, nullptr, nullptr);
+	context_->OMSetRenderTargets(1, RTV_.GetAddressOf(), DSV_.Get());
 }
 
 void Device::ReportLiveObjects()

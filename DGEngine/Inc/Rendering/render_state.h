@@ -11,6 +11,7 @@ namespace DG
 	public:
 		virtual void Initialize() = 0;
 
+		Microsoft::WRL::ComPtr<ID3D11DeviceChild> state() const;
 		RENDER_STATE_TYPE type() const;
 
 	protected:

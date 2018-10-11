@@ -6,6 +6,8 @@
 #define NOMINMAX
 #include <Windows.h>
 
+#include <conio.h>
+
 // C++ Standard Library
 #include <array>
 #include <chrono>

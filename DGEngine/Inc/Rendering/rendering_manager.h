@@ -23,6 +23,16 @@ namespace DG
 			D3D11_BLEND_OP _blend_op_alpha = D3D11_BLEND_OP_ADD,
 			UINT8 render_target_write_mask = D3D11_COLOR_WRITE_ENABLE_ALL);
 		void CreateBlendState(std::string const& _tag, bool _alpha_to_coverage_enable, bool _independent_blend_enable);
+		void CreateDepthStencilState(
+			std::string const& _tag,
+			BOOL _depth_enable,
+			D3D11_DEPTH_WRITE_MASK _depth_write_mask,
+			D3D11_COMPARISON_FUNC _depth_func,
+			BOOL _stencil_enable,
+			UINT8 _stencil_read_mask,
+			UINT8 _stencil_write_mask,
+			D3D11_DEPTH_STENCILOP_DESC const& _front_face,
+			D3D11_DEPTH_STENCILOP_DESC const& _back_face);
 
 		std::shared_ptr<Shader> const& FindShader(std::string const& _tag) const;
 		std::shared_ptr<RenderState> const& FindRenderState(std::string const& _tag) const;

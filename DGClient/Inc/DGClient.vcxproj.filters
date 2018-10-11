@@ -27,6 +27,9 @@
     <ClInclude Include="SceneComponent\main_scene_component.h">
       <Filter>1. SceneComponent</Filter>
     </ClInclude>
+    <ClInclude Include="UserComponent\monster_component.h">
+      <Filter>2. UserComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGClient_stdafx.cpp">
@@ -38,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="SceneComponent\main_scene_component.cpp">
       <Filter>1. SceneComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="UserComponent\monster_component.cpp">
+      <Filter>2. UserComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

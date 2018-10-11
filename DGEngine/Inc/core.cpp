@@ -9,6 +9,7 @@
 #include "Rendering/rendering_manager.h"
 #include "Rendering/shader_manager.h"
 #include "Rendering/shader.h"
+#include "Rendering/render_state.h"
 #include "Scene/scene_manager.h"
 
 using namespace std;
@@ -16,7 +17,7 @@ using namespace DG;
 
 MESSAGE_LOOP Core::state_ = MESSAGE_LOOP::RUN;
 
-void Core::Initialize(wstring const& _class_name, wstring const& _window_name, HINSTANCE _instance, int _icon)
+void Core::Initialize(wstring const& _class_name, wstring const& _window_name, HINSTANCE _instance, int _icon, GAME_MODE _mode)
 {
 	try
 	{
@@ -32,6 +33,8 @@ void Core::Initialize(wstring const& _class_name, wstring const& _window_name, H
 		ResourceManager::singleton()->Initialize();
 		RenderingManager::singleton()->Initialize();
 		SceneManager::singleton()->Initialize();
+
+		SetDefaultState(_mode);
 
 		timer_->Initialize();
 	}
@@ -61,6 +64,20 @@ void Core::Run()
 
 			_Logic();
 		}
+	}
+}
+
+void Core::SetDefaultState(GAME_MODE _mode)
+{
+	auto const& context = Device::singleton()->context();
+	switch (_mode)
+	{
+	case GAME_MODE::_2D:
+		context->OMSetDepthStencilState(static_cast<ID3D11DepthStencilState*>(RenderingManager::singleton()->FindRenderState(DEPTH_DISABLE)->state().Get()), 0x00000000);
+		break;
+
+	case GAME_MODE::_3D:
+		break;
 	}
 }
 

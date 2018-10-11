@@ -17,38 +17,38 @@ void ResourceManager::Initialize()
 	{
 		// ColorTri
 		VertexColor color_triangle[3]{
-			VertexColor{ Math::Vector3{ 0.f, 0.5f, 0.f} , DirectX::Colors::Red.v },
-			VertexColor{ Math::Vector3{0.5f, -0.5f, 0.f}, DirectX::Colors::Green.v },
-			VertexColor{ Math::Vector3{-0.5f, -0.5f, 0.f}, DirectX::Colors::Blue.v }
+			VertexColor{ Math::Vector3{ 50.f, 100.f, 0.f } , DirectX::Colors::Red.v },
+			VertexColor{ Math::Vector3{ 100.f, 0.f, 0.f }, DirectX::Colors::Green.v },
+			VertexColor{ Math::Vector3{ 0.f, 0.f, 0.f }, DirectX::Colors::Blue.v }
 		};
 
 		unsigned short color_triagle_indices[3]{ 0, 1, 2 };
 
 		_CreateMesh(
-			"ColorTri", "BasicShader", D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
+			"ColorTri", BASIC_SHADER, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
 			color_triangle, sizeof(VertexColor), 3, D3D11_USAGE_DEFAULT,
 			color_triagle_indices, 2, 3, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R16_UINT
 		);
 
 		// TexRect
 		VertexTex tex_rect[4]{
-			VertexTex{ Math::Vector3{ 0.f, 1.f, 0.f }, Math::Vector2{ 0.f, 0.f } },
 			VertexTex{ Math::Vector3{ 0.f, 0.f, 0.f }, Math::Vector2{ 0.f, 1.f } },
-			VertexTex{ Math::Vector3{ 1.f, 1.f, 0.f }, Math::Vector2{ 1.f, 0.f } },
-			VertexTex{ Math::Vector3{ 1.f, 0.f, 0.f }, Math::Vector2{ 1.f, 1.f } },
+			VertexTex{ Math::Vector3{ 0.f, 100.f, 0.f }, Math::Vector2{ 0.f, 0.f } },
+			VertexTex{ Math::Vector3{ 100.f, 0.f, 0.f }, Math::Vector2{ 1.f, 1.f } },
+			VertexTex{ Math::Vector3{ 100.f, 100.f, 0.f }, Math::Vector2{ 1.f, 0.f } },
 		};
 
-		unsigned short tex_rect_indices[6]{ 0, 2, 1, 1, 2, 3 };
+		unsigned short tex_rect_indices[6]{ 0, 1, 2, 1, 3, 2 };
 
 		_CreateMesh(
-			"TexRect", "BasicTexShader", D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
+			"TexRect", BASIC_TEX_SHADER, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
 			tex_rect, sizeof(VertexTex), 4, D3D11_USAGE_DEFAULT,
 			tex_rect_indices, 2, 6, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R16_UINT
 		);
 
-		_CreateTexture2D("Player", L"Player.png", "TexturePath");
+		_CreateTexture2D("Illuminati", L"Illuminati.png", TEXTURE_PATH);
 		_CreateSampler(
-			"LinearSampler",
+			LINEAR_SAMPLER,
 			D3D11_FILTER_MIN_MAG_MIP_LINEAR,
 			D3D11_TEXTURE_ADDRESS_CLAMP,
 			D3D11_TEXTURE_ADDRESS_CLAMP,

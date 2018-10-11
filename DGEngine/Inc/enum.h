@@ -37,6 +37,7 @@ enum class COMPONENT_TYPE
 enum class USER_COMPONENT_TYPE
 {
 	PLAYER = static_cast<int>(COMPONENT_TYPE::END),
+	MONSTER,
 	END
 };
 
@@ -52,4 +53,10 @@ enum class RENDER_STATE_TYPE
 	DEPTH_STENCIL,
 	BLEND,
 	END
+};
+
+enum class GAME_MODE
+{
+	_2D,
+	_3D
 };

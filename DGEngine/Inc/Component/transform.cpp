@@ -79,6 +79,11 @@ Math::Vector3 Transform::GetLocalLook() const
 	return Math::Vector3{ local_._31, local_._32, local_._33 };
 }
 
+Math::Vector3 Transform::GetLocalPosition() const
+{
+	return Math::Vector3{ local_._41, local_._42, local_._43 };
+}
+
 Math::Vector3 Transform::GetWorldRight() const
 {
 	return Math::Vector3{ world_._11, world_._12, world_._13 };
@@ -92,6 +97,25 @@ Math::Vector3 Transform::GetWorldUp() const
 Math::Vector3 Transform::GetWorldLook() const
 {
 	return Math::Vector3{ world_._31, world_._32, world_._33 };
+}
+
+Math::Vector3 Transform::GetWorldPosition() const
+{
+	return Math::Vector3{ world_._41, world_._42, world_._43 };
+}
+
+void Transform::LookAt(Math::Vector3 const& _position)
+{
+	auto direction_vector = _position - GetLocalPosition();
+	direction_vector.Normalize();
+
+	auto angle = acosf(GetLocalUp().Dot(direction_vector));
+	Math::Vector3 axis = GetLocalUp().Cross(direction_vector);
+	axis.Normalize();
+
+	RotationAxis(axis, angle);
+
+	update_flag_ = true;
 }
 
 bool Transform::update_flag() const

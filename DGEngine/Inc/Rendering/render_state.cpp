@@ -3,6 +3,11 @@
 
 using namespace DG;
 
+Microsoft::WRL::ComPtr<ID3D11DeviceChild> RenderState::state() const
+{
+	return state_;
+}
+
 RENDER_STATE_TYPE RenderState::type() const
 {
 	return type_;

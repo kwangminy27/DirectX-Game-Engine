@@ -1,6 +1,7 @@
 #include "DGClient_stdafx.h"
 #include "SceneComponent/main_scene_component.h"
 #include "UserComponent/player_component.h"
+#include "UserComponent/monster_component.h"
 
 #include <Scene/scene.h>
 #include <Scene/layer.h>
@@ -15,8 +16,13 @@ void MainSceneComponent::Initialize()
 {
 	auto const& default_layer = scene()->FindLayer("Default");
 
+	auto monster = Object::CreateObject("Monster", default_layer);
+	auto monster_component = std::dynamic_pointer_cast<MonsterComponent>(monster->AddComponent<MonsterComponent>("Monster"));
+
 	auto player = Object::CreateObject("Player", default_layer);
 	auto player_component = player->AddComponent<PlayerComponent>("Player");
+
+	monster_component->set_target(player);
 }
 
 MainSceneComponent::MainSceneComponent(MainSceneComponent const& _other) : SceneComponent(_other)

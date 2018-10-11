@@ -182,6 +182,7 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="path_manager.h" />
     <ClInclude Include="Rendering\blend_state.h" />
+    <ClInclude Include="Rendering\depth_stencil_state.h" />
     <ClInclude Include="Rendering\rendering_manager.h" />
     <ClInclude Include="Rendering\render_state.h" />
     <ClInclude Include="Rendering\shader.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="object.cpp" />
     <ClCompile Include="path_manager.cpp" />
     <ClCompile Include="Rendering\blend_state.cpp" />
+    <ClCompile Include="Rendering\depth_stencil_state.cpp" />
     <ClCompile Include="Rendering\rendering_manager.cpp" />
     <ClCompile Include="Rendering\render_state.cpp" />
     <ClCompile Include="Rendering\shader.cpp" />

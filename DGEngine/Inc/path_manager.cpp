@@ -12,10 +12,10 @@ void PathManager::Initialize()
 		path path_buffer = current_path();
 		path_buffer.replace_filename("Bin\\");
 
-		path_map_.insert(make_pair("RootPath", move(path_buffer)));
+		path_map_.insert(make_pair(ROOT_PATH, move(path_buffer)));
 
-		_AddPath("ShaderPath", "Shader\\");
-		_AddPath("TexturePath", "Texture\\");
+		_AddPath(SHADER_PATH, "Shader\\");
+		_AddPath(TEXTURE_PATH, "Texture\\");
 	}
 	catch (exception const& _e)
 	{

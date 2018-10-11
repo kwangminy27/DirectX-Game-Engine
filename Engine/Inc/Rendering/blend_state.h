@@ -31,7 +31,7 @@ namespace DG
 			D3D11_BLEND _dest_blend_alpha = D3D11_BLEND_ZERO,
 			D3D11_BLEND_OP _blend_op_alpha = D3D11_BLEND_OP_ADD,
 			UINT8 render_target_write_mask = D3D11_COLOR_WRITE_ENABLE_ALL);
-		void _CreateBlendState(bool _alpha_to_coverage_enable, bool _independent_blend_enable);
+		void _CreateState(bool _alpha_to_coverage_enable, bool _independent_blend_enable);
 
 		std::vector<D3D11_RENDER_TARGET_BLEND_DESC> render_target_blend_desc_vector_buffer_{};
 	};

@@ -110,7 +110,7 @@ void Scene::_Initialize()
 
 	main_camera_ = _CreateCamera(
 		"BasicCamera",
-		Math::Vector3(0.f, 0.f, -10.f),
+		Math::Vector3(0.f, 0.f, -1.f),
 		CAMERA_TYPE::ORTHOGONAL,
 		DirectX::XM_PIDIV4,
 		static_cast<float>(RESOLUTION::WIDTH),

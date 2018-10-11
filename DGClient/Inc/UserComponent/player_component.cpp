@@ -12,25 +12,26 @@ using namespace DG;
 
 void PlayerComponent::Initialize()
 {
+	type_ = static_cast<COMPONENT_TYPE>(USER_COMPONENT_TYPE::PLAYER);
+
 	auto transform = std::dynamic_pointer_cast<Transform>(object()->AddComponent<Transform>("Transform"));
 
-	transform->Scaling(Math::Vector3{ 100.f, 100.f, 1.f });
 	transform->set_pivot(Math::Vector3{ 0.5f, 0.f, 0.f });
 
 	auto renderer = std::dynamic_pointer_cast<Renderer>(object()->AddComponent<Renderer>("Renderer"));
 
-	renderer->set_shader("BasicTexShader");
+	renderer->set_shader(BASIC_TEX_SHADER);
 	renderer->set_mesh("TexRect");
-	renderer->set_render_state("AlphaBlend");
+	renderer->set_render_state(ALPHA_BLEND);
 
-	auto const& material = std::dynamic_pointer_cast<Material>(object()->FindComponent("Material"));
+	auto const& material = std::dynamic_pointer_cast<Material>(object()->FindComponent(COMPONENT_TYPE::MATERIAL));
 
 	MaterialConstantBuffer material_constant_buffer{};
 	material_constant_buffer.diffuse = DirectX::Colors::White.v;
 
 	material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
-	material->SetTexture("Player", 0, 0, 0);
-	material->SetSampler("LinearSampler", 0, 0, 0);
+	material->SetTexture("Illuminati", 0, 0, 0);
+	material->SetSampler(LINEAR_SAMPLER, 0, 0, 0);
 }
 
 PlayerComponent::PlayerComponent(PlayerComponent const& _other) : UserComponent(_other)
@@ -54,23 +55,19 @@ void PlayerComponent::_Input(float _time)
 	if (GetAsyncKeyState('D') & 0x8000)
 		transform->RotationZ(DirectX::XMConvertToRadians(-180.f * _time));
 	if (GetAsyncKeyState('S') & 0x8000)
-		transform->Translation(transform->GetLocalUp() * -10.f * _time);
+		transform->Translation(transform->GetLocalUp() * -400.f * _time);
 	if (GetAsyncKeyState('W') & 0x8000)
-		transform->Translation(transform->GetLocalUp() * 10.f * _time);
+		transform->Translation(transform->GetLocalUp() * 400.f * _time);
+
+	auto const& material = dynamic_pointer_cast<Material>(object()->FindComponent(COMPONENT_TYPE::MATERIAL));
+	MaterialConstantBuffer material_constant_buffer{};
+
 	if (GetAsyncKeyState('O') & 0x8000)
-	{
-		auto const& material = dynamic_pointer_cast<Material>(object()->FindComponent(COMPONENT_TYPE::MATERIAL));
-		MaterialConstantBuffer material_constant_buffer{};
-		material_constant_buffer.diffuse = DirectX::Colors::Yellow.v;
-		material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
-	}
+		material_constant_buffer.diffuse = DirectX::Colors::Red.v;
 	else
-	{
-		auto const& material = dynamic_pointer_cast<Material>(object()->FindComponent(COMPONENT_TYPE::MATERIAL));
-		MaterialConstantBuffer material_constant_buffer{};
 		material_constant_buffer.diffuse = DirectX::Colors::White.v;
-		material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
-	}
+
+	material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
 }
 
 std::unique_ptr<Component, std::function<void(Component*)>> PlayerComponent::_Clone() const

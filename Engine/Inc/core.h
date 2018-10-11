@@ -10,8 +10,10 @@ namespace DG
 	{
 		friend class Singleton<Core>;
 	public:
-		void Initialize(std::wstring const& _class_name, std::wstring const& _window_name, HINSTANCE _instance, int _icon);
+		void Initialize(std::wstring const& _class_name, std::wstring const& _window_name, HINSTANCE _instance, int _icon, GAME_MODE _mode);
 		void Run();
+
+		void SetDefaultState(GAME_MODE _mode);
 
 	private:
 		Core() = default;

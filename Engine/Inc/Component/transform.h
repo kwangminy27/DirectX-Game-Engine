@@ -21,9 +21,13 @@ namespace DG
 		Math::Vector3 GetLocalRight() const;
 		Math::Vector3 GetLocalUp() const;
 		Math::Vector3 GetLocalLook() const;
+		Math::Vector3 GetLocalPosition() const;
 		Math::Vector3 GetWorldRight() const;
 		Math::Vector3 GetWorldUp() const;
 		Math::Vector3 GetWorldLook() const;
+		Math::Vector3 GetWorldPosition() const;
+
+		void LookAt(Math::Vector3 const& _position);
 
 		bool update_flag() const;
 		bool static_flag() const;
