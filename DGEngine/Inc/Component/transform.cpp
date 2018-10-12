@@ -113,7 +113,11 @@ void Transform::LookAt(Math::Vector3 const& _position)
 	Math::Vector3 axis = GetLocalUp().Cross(direction_vector);
 	axis.Normalize();
 
-	RotationAxis(axis, angle);
+	// 외적 연산시 문제 발생 가능 -> IsNan으로 예외처리 하거나 각도로 예외처리
+	if (DirectX::XMConvertToDegrees(angle) > 0.01f)
+		RotationAxis(axis, angle);
+	else
+		return;
 
 	update_flag_ = true;
 }

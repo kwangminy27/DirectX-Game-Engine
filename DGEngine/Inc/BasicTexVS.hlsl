@@ -22,6 +22,11 @@ cbuffer Transform : register(b0)
 	float empty1;
 }
 
+cbuffer Material : register(b1)
+{
+	float4 g_diffuse;
+}
+
 VS_OUTPUT_POSITION_TEX BasicTexVS(VS_INPUT_POSITION_TEX input)
 {
 	VS_OUTPUT_POSITION_TEX output = (VS_OUTPUT_POSITION_TEX)0;
@@ -29,7 +34,6 @@ VS_OUTPUT_POSITION_TEX BasicTexVS(VS_INPUT_POSITION_TEX input)
 	float3 position = input.position - g_diagonal * g_pivot;
 
 	output.position = mul(float4(position, 1.f), g_WVP);
-	output.uv = input.uv;
 
 	return output;
 }

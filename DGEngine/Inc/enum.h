@@ -31,6 +31,7 @@ enum class COMPONENT_TYPE
 	RENDERER,
 	CAMERA,
 	MATERIAL,
+	ANIMATION_2D,
 	END
 };
 
@@ -59,4 +60,21 @@ enum class GAME_MODE
 {
 	_2D,
 	_3D
+};
+
+enum class ANIMATION_2D_TYPE
+{
+	ATLAS,
+	FRAME
+};
+
+enum class ANIMATION_OPTION
+{
+	LOOP,
+	DESTROY
+};
+
+enum class COLLIDER_TYPE
+{
+	RECT
 };

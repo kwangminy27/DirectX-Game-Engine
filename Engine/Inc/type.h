@@ -41,4 +41,30 @@ namespace DG
 	{
 		Math::Vector4 diffuse;
 	};
+
+	struct Animation2DConstantBuffer
+	{
+		Math::Vector2 UVLT;
+		Math::Vector2 UVRB;
+		int frame_idx; // used only for texture array.
+		Math::Vector3 empty;
+	};
+
+	struct Animation2DFrameDesc
+	{
+		Math::Vector2 LT;
+		Math::Vector2 RB;
+	};
+
+	struct Animation2DClipDesc
+	{
+		ANIMATION_2D_TYPE type;
+		ANIMATION_OPTION option;
+		std::string animation_tag;
+		std::string texture_tag;
+		float width;
+		float height;
+		std::vector<Animation2DFrameDesc> frame_vector;
+		float completion_time;
+	};
 }

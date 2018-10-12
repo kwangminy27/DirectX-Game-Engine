@@ -16,6 +16,7 @@ void PathManager::Initialize()
 
 		_AddPath(SHADER_PATH, "Shader\\");
 		_AddPath(TEXTURE_PATH, "Texture\\");
+		_AddPath(DATA_PATH, "Data\\");
 	}
 	catch (exception const& _e)
 	{

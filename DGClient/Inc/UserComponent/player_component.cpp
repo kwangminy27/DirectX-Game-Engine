@@ -7,6 +7,7 @@
 #include <Component/transform.h>
 #include <Component/renderer.h>
 #include <Component/material.h>
+#include <Component/animation_2d.h>
 
 using namespace DG;
 
@@ -20,7 +21,7 @@ void PlayerComponent::Initialize()
 
 	auto renderer = std::dynamic_pointer_cast<Renderer>(object()->AddComponent<Renderer>("Renderer"));
 
-	renderer->set_shader(BASIC_TEX_SHADER);
+	renderer->set_shader(BASIC_ANIMATION_2D_SHADER);
 	renderer->set_mesh("TexRect");
 	renderer->set_render_state(ALPHA_BLEND);
 
@@ -30,8 +31,12 @@ void PlayerComponent::Initialize()
 	material_constant_buffer.diffuse = DirectX::Colors::White.v;
 
 	material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
-	material->SetTexture("Illuminati", 0, 0, 0);
+	material->SetTexture("Player", 0, 0, 0);
 	material->SetSampler(LINEAR_SAMPLER, 0, 0, 0);
+
+	auto animation_2d = std::dynamic_pointer_cast<Animation2D>(object()->AddComponent<Animation2D>("Animation2D"));
+
+	animation_2d->AddClip("Player");
 }
 
 PlayerComponent::PlayerComponent(PlayerComponent const& _other) : UserComponent(_other)
@@ -60,6 +65,7 @@ void PlayerComponent::_Input(float _time)
 		transform->Translation(transform->GetLocalUp() * 400.f * _time);
 
 	auto const& material = dynamic_pointer_cast<Material>(object()->FindComponent(COMPONENT_TYPE::MATERIAL));
+
 	MaterialConstantBuffer material_constant_buffer{};
 
 	if (GetAsyncKeyState('O') & 0x8000)

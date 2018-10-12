@@ -17,7 +17,7 @@ cbuffer Material : register(b1)
 Texture2D g_texture : register(t0);
 SamplerState g_sampler : register(s0);
 
-PS_OUTPUT_SINGLE_TARGET BasicTexPS(VS_OUTPUT_POSITION_TEX input)
+PS_OUTPUT_SINGLE_TARGET BasicAnimation2DPS(VS_OUTPUT_POSITION_TEX input)
 {
 	PS_OUTPUT_SINGLE_TARGET output = (PS_OUTPUT_SINGLE_TARGET)0;
 

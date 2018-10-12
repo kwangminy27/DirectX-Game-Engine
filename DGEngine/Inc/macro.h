@@ -10,10 +10,12 @@
 #define ROOT_PATH "RootPath"
 #define SHADER_PATH "ShaderPath"
 #define TEXTURE_PATH "TexturePath"
+#define DATA_PATH "DataPath"
 
 // ========== Shader Key ==========
 #define BASIC_SHADER "BasicShader"
 #define BASIC_TEX_SHADER "BasicTexShader"
+#define BASIC_ANIMATION_2D_SHADER "BasicAnimation2DShader"
 
 // ========== Sampler Key ==========
 #define LINEAR_SAMPLER "LinearSampler"
