@@ -4,6 +4,8 @@
 #include "Scene/scene_manager.h"
 #include "Scene/scene.h"
 #include "Scene/layer.h"
+#include "Component/component.h"
+#include "collision_manager.h"
 
 using namespace DG;
 
@@ -163,6 +165,30 @@ std::shared_ptr<Component> const& Object::FindComponent(COMPONENT_TYPE _type) co
 	return *iter;
 }
 
+std::list<std::shared_ptr<Component>> Object::FindComponents(COMPONENT_TYPE _type) const
+{
+	auto component_list = std::list<std::shared_ptr<Component>>{};
+
+	for (auto const& _component : component_list_)
+	{
+		if(_component->type() == _type)
+			component_list.push_back(_component);
+	}
+
+	return component_list;
+}
+
+bool Object::IsComponent(COMPONENT_TYPE _type) const
+{
+	for (auto iter = component_list_.begin(); iter != component_list_.end(); ++iter)
+	{
+		if ((*iter)->type() == _type)
+			return true;
+	}
+
+	return false;
+}
+
 std::shared_ptr<Scene> Object::scene() const
 {
 	return scene_.lock();
@@ -187,6 +213,8 @@ Object::Object(Object const& _other) : Tag(_other)
 {
 	scene_ = _other.scene_;
 	layer_ = _other.layer_;
+	
+	// 컴포넌트 복사 필요
 }
 
 Object::Object(Object&& _other) noexcept : Tag(move(_other))
@@ -261,7 +289,8 @@ void Object::_Collision(float _time)
 			++iter;
 		else
 		{
-			(*iter)->_Collision(_time);
+			//(*iter)->_Collision(_time);
+			CollisionManager::singleton()->AddColliders((*iter)->object());
 			++iter;
 		}
 	}

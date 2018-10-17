@@ -49,6 +49,22 @@ void ResourceManager::Initialize()
 			tex_rect_indices, 2, 6, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R16_UINT
 		);
 
+#ifdef _DEBUG
+		// ColliderRect
+		Math::Vector3 collider_rect[5]{
+			Math::Vector3{ 0.f, 100.f, 0.f },
+			Math::Vector3{ 100.f, 100.f, 0.f },
+			Math::Vector3{ 100.f, 0.f, 0.f },
+			Math::Vector3{ 0.f, 0.f, 0.f },
+			Math::Vector3{ 0.f, 100.f, 0.f }
+		};
+
+		_CreateMesh(
+			"ColliderRect", COLLIDER_SHADER, D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP,
+			collider_rect, sizeof(Math::Vector3), 5, D3D11_USAGE_DEFAULT
+		);
+#endif
+
 		_CreateTexture2D("Player", L"Player.png", TEXTURE_PATH);
 		_CreateSampler(
 			LINEAR_SAMPLER,
@@ -131,6 +147,26 @@ void ResourceManager::_CreateMesh(
 		_tag, _vertex_shader_tag, _topology,
 		_vtx_data, _vtx_size, _vtx_count, _vtx_usage,
 		_idx_data, _idx_size, _idx_count, _idx_usage, _idx_format
+	);
+
+	mesh_map_.insert(make_pair(_tag, move(mesh_buffer)));
+}
+
+void ResourceManager::_CreateMesh(
+	string const& _tag, string const& _vertex_shader_tag, D3D11_PRIMITIVE_TOPOLOGY _topology,
+	void* _vtx_data, int _vtx_size, int _vtx_count, D3D11_USAGE _vtx_usage)
+{
+	if (FindMesh(_tag))
+		throw exception{ "ResourceManager::_CreateMesh" };
+
+	auto mesh_buffer = shared_ptr<Mesh>{ new Mesh, [](Mesh* _p) {
+		_p->_Release();
+		delete _p;
+	} };
+
+	mesh_buffer->_CreateMesh(
+		_tag, _vertex_shader_tag, _topology,
+		_vtx_data, _vtx_size, _vtx_count, _vtx_usage
 	);
 
 	mesh_map_.insert(make_pair(_tag, move(mesh_buffer)));

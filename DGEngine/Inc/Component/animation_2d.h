@@ -12,6 +12,7 @@ namespace DG
 
 		void AddClip(std::string const& _tag);
 		std::shared_ptr<Animation2DClipDesc> const& FindAnimation2DClip(std::string const& _tag) const;
+		void UpdateAnimation2DConstantBuffer(float _time);
 		void SetDefaultClip(std::shared_ptr<Animation2DClipDesc> const& _animation_2d_clip);
 		void ChangeClip(std::string const& _tag);
 
@@ -24,7 +25,6 @@ namespace DG
 
 		virtual void _Release() override;
 
-		virtual void _LateUpdate(float _time) override;
 		virtual std::unique_ptr<Component, std::function<void(Component*)>> _Clone() const override;
 
 		static std::shared_ptr<Animation2DClipDesc> animation_2d_clip_nullptr_;

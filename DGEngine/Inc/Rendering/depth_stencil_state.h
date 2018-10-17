@@ -6,7 +6,7 @@ namespace DG
 {
 	class DG_ENGINE_DLL DepthStencilState final : public RenderState
 	{
-	friend class RenderingManager;
+		friend class RenderingManager;
 	public:
 		virtual void Initialize() override;
 

@@ -133,6 +133,25 @@ void Mesh::_CreateMesh(
 	_CreateIndexBuffer(_idx_data, _idx_size, _idx_count, _idx_usage, _idx_format);
 }
 
+void Mesh::_CreateMesh(
+	std::string const& _tag, std::string const& _vertex_shader_tag, D3D11_PRIMITIVE_TOPOLOGY _topology,
+	void* _vtx_data, int _vtx_size, int _vtx_count, D3D11_USAGE _vtx_usage)
+{
+	set_tag(_tag);
+
+	auto mesh_container_buffer = std::shared_ptr<MeshContainer>{ new MeshContainer, [](MeshContainer* _p) {
+		delete[] _p->VB.data;
+		for (auto& IB : _p->IB_vector)
+			delete[] IB.data;
+		delete _p;
+	} };
+	mesh_container_buffer->topology = _topology;
+
+	mesh_container_vector_.push_back(move(mesh_container_buffer));
+
+	_CreateVertexBuffer(_vtx_data, _vtx_size, _vtx_count, _vtx_usage);
+}
+
 void Mesh::_CreateVertexBuffer(void* _data, int _size, int _count, D3D11_USAGE _usage)
 {
 	auto& mesh_container = mesh_container_vector_.at(mesh_container_vector_.size() - 1);

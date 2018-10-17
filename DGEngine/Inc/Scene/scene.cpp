@@ -6,6 +6,7 @@
 #include "object.h"
 #include "Component/transform.h"
 #include "Component/camera.h"
+#include "collision_manager.h"
 
 std::shared_ptr<SceneComponent> Scene::scene_component_nullptr_{};
 std::shared_ptr<Layer> Scene::layer_nullptr_{};
@@ -236,6 +237,8 @@ void Scene::_Collision(float _time)
 			++iter;
 		}
 	}
+
+	CollisionManager::singleton()->Collision(_time);
 }
 
 void Scene::_Render(float _time)

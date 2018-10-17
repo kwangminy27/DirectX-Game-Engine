@@ -41,6 +41,49 @@ std::shared_ptr<Animation2DClipDesc> const& Animation2D::FindAnimation2DClip(std
 	return iter->second;
 }
 
+void Animation2D::UpdateAnimation2DConstantBuffer(float _time)
+{
+	elapsed_time_ += _time;
+
+	float interval = current_clip_->completion_time / current_clip_->frame_vector.size();
+
+	while (elapsed_time_ >= interval)
+	{
+		elapsed_time_ -= interval;
+
+		++frame_idx_;
+
+		if (frame_idx_ >= current_clip_->frame_vector.size())
+		{
+			frame_idx_ = 0;
+
+			switch (current_clip_->option)
+			{
+			case ANIMATION_OPTION::DESTROY:
+				object()->set_active_flag(false);
+				break;
+			}
+		}
+	}
+
+	Animation2DConstantBuffer animation_2d_constant_buffer{};
+
+	if (current_clip_->type == ANIMATION_2D_TYPE::ATLAS)
+	{
+		animation_2d_constant_buffer.UVLT.x = current_clip_->frame_vector.at(frame_idx_).LT.x / current_clip_->width;
+		animation_2d_constant_buffer.UVLT.y = current_clip_->frame_vector.at(frame_idx_).LT.y / current_clip_->height;
+		animation_2d_constant_buffer.UVRB.x = current_clip_->frame_vector.at(frame_idx_).RB.x / current_clip_->width;
+		animation_2d_constant_buffer.UVRB.y = current_clip_->frame_vector.at(frame_idx_).RB.y / current_clip_->height;
+	}
+	else
+	{
+		animation_2d_constant_buffer.UVLT = Math::Vector2{ 0.f, 0.f };
+		animation_2d_constant_buffer.UVRB = Math::Vector2{ 1.f, 1.f };
+	}
+
+	RenderingManager::singleton()->UpdateConstantBuffer("Animation2D", &animation_2d_constant_buffer);
+}
+
 void Animation2D::SetDefaultClip(std::shared_ptr<Animation2DClipDesc> const& _animation_2d_clip)
 {
 	current_clip_ = _animation_2d_clip;
@@ -86,49 +129,6 @@ Animation2D::Animation2D(Animation2D&& _other) noexcept : Component(std::move(_o
 
 void Animation2D::_Release()
 {
-}
-
-void Animation2D::_LateUpdate(float _time)
-{
-	elapsed_time_ += _time;
-
-	float interval = current_clip_->completion_time / current_clip_->frame_vector.size();
-
-	while (elapsed_time_ >= interval)
-	{
-		elapsed_time_ -= interval;
-
-		++frame_idx_;
-
-		if (frame_idx_ >= current_clip_->frame_vector.size())
-		{
-			frame_idx_ = 0;
-
-			switch (current_clip_->option)
-			{
-			case ANIMATION_OPTION::DESTROY:
-				object()->set_active_flag(false);
-				break;
-			}
-		}
-	}
-
-	Animation2DConstantBuffer animation_2d_constant_buffer{};
-
-	if (current_clip_->type == ANIMATION_2D_TYPE::ATLAS)
-	{
-		animation_2d_constant_buffer.UVLT.x = current_clip_->frame_vector.at(frame_idx_).LT.x / current_clip_->width;
-		animation_2d_constant_buffer.UVLT.y = current_clip_->frame_vector.at(frame_idx_).LT.y / current_clip_->height;
-		animation_2d_constant_buffer.UVRB.x = current_clip_->frame_vector.at(frame_idx_).RB.x / current_clip_->width;
-		animation_2d_constant_buffer.UVRB.y = current_clip_->frame_vector.at(frame_idx_).RB.y / current_clip_->height;
-	}
-	else
-	{
-		animation_2d_constant_buffer.UVLT = Math::Vector2{ 0.f, 0.f };
-		animation_2d_constant_buffer.UVRB = Math::Vector2{ 1.f, 1.f };
-	}
-
-	RenderingManager::singleton()->UpdateConstantBuffer("Animation2D", &animation_2d_constant_buffer);
 }
 
 std::unique_ptr<Component, std::function<void(Component*)>> Animation2D::_Clone() const

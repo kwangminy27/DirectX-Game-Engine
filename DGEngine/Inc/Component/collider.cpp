@@ -1,28 +1,273 @@
 #include "DGEngine_stdafx.h"
 #include "collider.h"
 
+#include "Resource/resource_manager.h"
+#include "Resource/mesh.h"
+#include "Rendering/rendering_manager.h"
+#include "Rendering/shader.h"
+
 using namespace DG;
 
 void Collider::Initialize()
 {
+	type_ = COMPONENT_TYPE::COLLIDER;
+
+	collision_group_tag_ = "Default";
+
+#ifdef _DEBUG
+	mesh_ = ResourceManager::singleton()->FindMesh("ColliderRect");
+	shader_ = RenderingManager::singleton()->FindShader(COLLIDER_SHADER);
+	color_ = DirectX::Colors::Green.v;
+#endif
 }
+
+COLLIDER_TYPE Collider::collider_type() const
+{
+	return collider_type_;
+}
+
+std::string const& Collider::collision_group_tag() const
+{
+	return collision_group_tag_;
+}
+
+bool Collider::update_flag() const
+{
+	return update_flag_;
+}
+
+Math::Vector3 const& Collider::collider_min() const
+{
+	return collider_min_;
+}
+
+Math::Vector3 const& Collider::collider_max() const
+{
+	return collider_max_;
+}
+
+std::list<int> const& Collider::section_idx_list() const
+{
+	return section_idx_list_;
+}
+
+void Collider::set_collision_group_tag(std::string const& _tag)
+{
+	collision_group_tag_ = _tag;
+}
+
+void Collider::set_pivot(Math::Vector3 const& _pivot)
+{
+	pivot_ = _pivot;
+}
+
+#ifdef _DEBUG
+void Collider::set_mesh(std::shared_ptr<Mesh> const& _mesh)
+{
+	mesh_ = _mesh;
+}
+
+void Collider::set_shader(std::shared_ptr<Shader> const& _shader)
+{
+	shader_ = _shader;
+}
+
+void Collider::set_color(Math::Vector4 const& _color)
+{
+	color_ = _color;
+}
+#endif
 
 Collider::Collider(Collider const& _other) : Component(_other)
 {
+	collider_type_ = _other.collider_type_;
+	collision_group_tag_ = _other.collision_group_tag_;
+	update_flag_ = _other.update_flag_;
+	pivot_ = _other.pivot_;
+
+	collider_min_ = _other.collider_min_;
+	collider_max_ = _other.collider_max_;
+	
+	section_idx_list_ = _other.section_idx_list_;
+	collided_collider_list_ = _other.collided_collider_list_;
+	collision_callback_list_array_ = _other.collision_callback_list_array_;
+
+#ifdef _DEBUG
+	mesh_ = _other.mesh_;
+	shader_ = _other.shader_;
+	color_ = _other.color_;
+#endif
 }
 
 Collider::Collider(Collider&& _other) noexcept : Component(std::move(_other))
 {
+	collider_type_ = std::move(_other.collider_type_);
+	collision_group_tag_ = std::move(_other.collision_group_tag_);
+	update_flag_ = std::move(_other.update_flag_);
+	pivot_ = std::move(_other.pivot_);
+
+	collider_min_ = std::move(_other.collider_min_);
+	collider_max_ = std::move(_other.collider_max_);
+
+	section_idx_list_ = std::move(_other.section_idx_list_);
+	collided_collider_list_ = std::move(_other.collided_collider_list_);
+	collision_callback_list_array_ = std::move(_other.collision_callback_list_array_);
+
+#ifdef _DEBUG
+	mesh_ = std::move(_other.mesh_);
+	shader_ = std::move(_other.shader_);
+	color_ = std::move(_other.color_);
+#endif
 }
 
 void Collider::_Release()
 {
+	for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end(); ++iter)
+	{
+		_OnCollisionLeave(*iter, 0.f);
+
+		(*iter)->_OnCollisionLeave(this, 0.f);
+		(*iter)->_EraseCollidedCollider(this);
+	}
 }
 
-std::unique_ptr<Component, std::function<void(Component*)>> Collider::_Clone() const
+void Collider::_Render(float _time)
 {
-	return std::unique_ptr<Component, std::function<void(Component*)>>{ new Collider{ *this }, [](Component* _p) {
-		dynamic_cast<Collider*>(_p)->_Release();
-		delete dynamic_cast<Collider*>(_p);
-	} };
+#ifdef _DEBUG
+	if (collided_collider_list_.empty())
+		color_ = DirectX::Colors::Green.v;
+	else
+		color_ = DirectX::Colors::Red.v;
+
+	RenderingManager::singleton()->UpdateConstantBuffer("Collider", &color_);
+
+	shader_->SetShader();
+	mesh_->Render();
+#endif
+}
+
+void Collider::_AddCallback(std::function<void(Collider*, Collider*, float)> const& _function, COLLISION_CALLBACK_TYPE _type)
+{
+	collision_callback_list_array_.at(static_cast<int>(_type)).push_back(_function);
+}
+
+void Collider::_ClearSection()
+{
+	section_idx_list_.clear();
+}
+
+void Collider::_AddSection(int _idx)
+{
+	section_idx_list_.push_back(_idx);
+}
+
+void Collider::_AddCollidedCollider(Collider* _dest)
+{
+	collided_collider_list_.push_back(_dest);
+}
+
+void Collider::_UpdateCollidedCollider(float _time)
+{
+	for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end();)
+	{
+		if (collision_group_tag_ != (*iter)->collision_group_tag_)
+		{
+			_OnCollisionLeave(*iter, _time);
+			(*iter)->_OnCollisionLeave(this, _time);
+
+			iter = collided_collider_list_.erase(iter);
+			(*iter)->_EraseCollidedCollider(this);
+
+			continue;
+		}
+
+		auto src_section_idx_list = (*iter)->section_idx_list();
+
+		bool is_overlapped = false;
+		for (auto src_iter = section_idx_list_.begin(); src_iter != section_idx_list_.end(); ++src_iter)
+		{
+			for (auto dest_iter = (*iter)->section_idx_list_.begin(); dest_iter != (*iter)->section_idx_list_.end(); ++dest_iter)
+			{
+				if ((*src_iter) == (*dest_iter))
+				{
+					is_overlapped = true;
+
+					break;
+				}
+			}
+
+			if (is_overlapped)
+				break;
+		}
+
+		if (!is_overlapped)
+		{
+			_OnCollisionLeave(*iter, _time);
+			(*iter)->_OnCollisionLeave(this, _time);
+
+			iter = collided_collider_list_.erase(iter);
+			(*iter)->_EraseCollidedCollider(this);
+
+			continue;
+		}
+
+		++iter;
+	}
+}
+
+bool Collider::_IsCollidedCollider(Collider* _dest)
+{
+	for (auto const& _collider : collided_collider_list_)
+	{
+		if (_collider == _dest)
+			return true;
+	}
+
+	return false;
+}
+
+void Collider::_EraseCollidedCollider(Collider* _dest)
+{
+	for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end();)
+	{
+		// iter pattern에서는 추가, 삭제 시 조심해야 함
+
+		if (*iter == _dest)
+			iter = collided_collider_list_.erase(iter);
+	}
+}
+
+void Collider::_OnCollisionEnter(Collider* _dest, float _time)
+{
+	for (auto const& _callback : collision_callback_list_array_.at(static_cast<int>(COLLISION_CALLBACK_TYPE::ENTER)))
+			_callback(this, _dest, _time);
+}
+
+void Collider::_OnCollision(Collider* _dest, float _time)
+{
+	for (auto const& _callback : collision_callback_list_array_.at(static_cast<int>(COLLISION_CALLBACK_TYPE::STAY)))
+		_callback(this, _dest, _time);
+}
+
+void Collider::_OnCollisionLeave(Collider* _dest, float _time)
+{
+	for (auto const& _callback : collision_callback_list_array_.at(static_cast<int>(COLLISION_CALLBACK_TYPE::LEAVE)))
+		_callback(this, _dest, _time);
+}
+
+bool Collider::_CollisionRectToRect(RectInfo const& _src, RectInfo const& _dest)
+{
+	if (_src.min.x > _dest.max.x)
+		return false;
+
+	if (_src.max.x < _dest.min.x)
+		return false;
+
+	if (_src.min.y > _dest.max.y)
+		return false;
+
+	if (_src.max.y < _dest.min.y)
+		return false;
+
+	return true;
 }

@@ -16,6 +16,7 @@
 #define BASIC_SHADER "BasicShader"
 #define BASIC_TEX_SHADER "BasicTexShader"
 #define BASIC_ANIMATION_2D_SHADER "BasicAnimation2DShader"
+#define COLLIDER_SHADER "ColliderShader"
 
 // ========== Sampler Key ==========
 #define LINEAR_SAMPLER "LinearSampler"

@@ -67,4 +67,11 @@ namespace DG
 		std::vector<Animation2DFrameDesc> frame_vector;
 		float completion_time;
 	};
+
+	struct RectInfo
+	{
+		Math::Vector3 min;
+		Math::Vector3 max;
+		Math::Vector3 diagonal;
+	};
 }

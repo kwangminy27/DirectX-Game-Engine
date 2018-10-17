@@ -180,6 +180,9 @@
     <ClInclude Include="Component\collider.h">
       <Filter>9. Component\7. Collider</Filter>
     </ClInclude>
+    <ClInclude Include="Component\collider_rect.h">
+      <Filter>9. Component\7. Collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -275,6 +278,9 @@
     <ClCompile Include="Component\collider.cpp">
       <Filter>9. Component\7. Collider</Filter>
     </ClCompile>
+    <ClCompile Include="Component\collider_rect.cpp">
+      <Filter>9. Component\7. Collider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="singleton.inl">
@@ -310,6 +316,12 @@
       <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="BasicAnimation2DPS.hlsl">
+      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="ColliderVS.hlsl">
+      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="ColliderPS.hlsl">
       <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
   </ItemGroup>

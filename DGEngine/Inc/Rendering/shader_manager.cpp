@@ -66,6 +66,24 @@ void ShaderManager::Initialize()
 			"ShaderPath"
 		);
 
+#ifdef _DEBUG
+		// ColliderShader
+		cso_info_vector.clear();
+		input_element_desc_vector.clear();
+
+		cso_info_vector.push_back(make_pair(SHADER_TYPE::VERTEX, L"ColliderVS.cso"));
+		cso_info_vector.push_back(make_pair(SHADER_TYPE::PIXEL, L"ColliderPS.cso"));
+
+		input_element_desc_vector.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+
+		_LoadCompiledShader(
+			COLLIDER_SHADER,
+			cso_info_vector,
+			input_element_desc_vector,
+			"ShaderPath"
+		);
+#endif
+
 		_CreateConstantBuffer(
 			"Transform",
 			sizeof(TransformConstantBuffer),
@@ -86,6 +104,15 @@ void ShaderManager::Initialize()
 			static_cast<int>(CONSTANT_BUFFER_SHADER_TYPE::VERTEX) | static_cast<int>(CONSTANT_BUFFER_SHADER_TYPE::PIXEL),
 			8
 		);
+
+#ifdef _DEBUG
+		_CreateConstantBuffer(
+			"Collider",
+			sizeof(Math::Vector4),
+			static_cast<int>(CONSTANT_BUFFER_SHADER_TYPE::VERTEX) | static_cast<int>(CONSTANT_BUFFER_SHADER_TYPE::PIXEL),
+			8
+		);
+#endif
 	}
 	catch (exception const& _e)
 	{

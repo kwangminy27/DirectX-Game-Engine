@@ -32,6 +32,7 @@ enum class COMPONENT_TYPE
 	CAMERA,
 	MATERIAL,
 	ANIMATION_2D,
+	COLLIDER,
 	END
 };
 
@@ -74,7 +75,21 @@ enum class ANIMATION_OPTION
 	DESTROY
 };
 
+enum class COLLISION_GROUP_TYPE
+{
+	_2D,
+	_3D
+};
+
 enum class COLLIDER_TYPE
 {
 	RECT
+};
+
+enum class COLLISION_CALLBACK_TYPE
+{
+	ENTER,
+	STAY,
+	LEAVE,
+	END
 };

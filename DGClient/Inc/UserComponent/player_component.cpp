@@ -8,6 +8,7 @@
 #include <Component/renderer.h>
 #include <Component/material.h>
 #include <Component/animation_2d.h>
+#include <Component/collider_rect.h>
 
 using namespace DG;
 
@@ -37,6 +38,10 @@ void PlayerComponent::Initialize()
 	auto animation_2d = std::dynamic_pointer_cast<Animation2D>(object()->AddComponent<Animation2D>("Animation2D"));
 
 	animation_2d->AddClip("Player");
+
+	auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("ColliderRect"));
+
+	collider_rect->set_relative_info(Math::Vector3{ 0.f, 0.f, 0.f }, Math::Vector3{ 100.f, 100.f, 0.f });
 }
 
 PlayerComponent::PlayerComponent(PlayerComponent const& _other) : UserComponent(_other)

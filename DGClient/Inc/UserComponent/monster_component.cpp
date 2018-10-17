@@ -5,6 +5,7 @@
 #include <Component/transform.h>
 #include <Component/renderer.h>
 #include <Component/material.h>
+#include <Component/collider_rect.h>
 
 using namespace DG;
 
@@ -28,6 +29,10 @@ void MonsterComponent::Initialize()
 	material_constant_buffer.diffuse = DirectX::Colors::White.v;
 
 	material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
+
+	auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("ColliderRect"));
+
+	collider_rect->set_relative_info(Math::Vector3{ 0.f, 0.f, 0.f }, Math::Vector3{ 100.f, 100.f, 0.f });
 }
 
 std::shared_ptr<Object> MonsterComponent::target()

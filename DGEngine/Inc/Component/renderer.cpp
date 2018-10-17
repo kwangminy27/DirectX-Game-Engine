@@ -11,6 +11,7 @@
 #include "Component/transform.h"
 #include "Component/camera.h"
 #include "Component/material.h"
+#include "Component/animation_2d.h"
 
 using namespace DG;
 
@@ -76,6 +77,11 @@ void Renderer::_Release()
 
 void Renderer::_Render(float _time)
 {
+	auto const& animation_2d = std::dynamic_pointer_cast<Animation2D>(object()->FindComponent(COMPONENT_TYPE::ANIMATION_2D));
+
+	if(animation_2d)
+		animation_2d->UpdateAnimation2DConstantBuffer(_time);
+
 	_UpdateTransform();
 
 	shader_->SetShader();
