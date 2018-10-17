@@ -15,10 +15,8 @@ namespace DG
 	public:
 		virtual void Initialize() override;
 
-		void set_mesh(std::string const& _tag);
-		void set_mesh(std::shared_ptr<Mesh> const& _mesh);
-		void set_shader(std::string const& _tag);
-		void set_shader(std::shared_ptr<Shader> const& _shader);
+		void set_mesh_tag(std::string const& _tag);
+		void set_shader_tag(std::string const& _tag);
 		void set_render_state(std::string const& _tag);
 
 	private:
@@ -35,9 +33,8 @@ namespace DG
 
 		void _UpdateTransform();
 
-		std::shared_ptr<Mesh> mesh_{};
-		std::shared_ptr<Shader> shader_{};
-		std::shared_ptr<Material> material_{};
+		std::string mesh_tag_{};
+		std::string shader_tag_{};
 		std::array<std::shared_ptr<RenderState>, static_cast<int>(RENDER_STATE_TYPE::END)> render_state_array_{};
 	};
 }

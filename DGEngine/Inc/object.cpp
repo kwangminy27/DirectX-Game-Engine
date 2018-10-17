@@ -60,7 +60,7 @@ std::shared_ptr<Object> Object::CreateClone(std::string const& _tag, std::string
 	else
 		scene = scene_manager->next_scene();
 
-	auto prototype = FindPrototype(_prototype_tag, scene->tag());
+	auto prototype = FindPrototype(scene->tag(), _prototype_tag);
 
 	auto object = std::shared_ptr<Object>{ prototype->Clone() };
 
@@ -71,6 +71,9 @@ std::shared_ptr<Object> Object::CreateClone(std::string const& _tag, std::string
 		throw std::exception{ "Object::CreateClone" };
 
 	_layer->AddObject(object);
+
+	// Test
+	object->Test(scene, _layer, object);
 
 	return object;
 }
@@ -189,6 +192,16 @@ bool Object::IsComponent(COMPONENT_TYPE _type) const
 	return false;
 }
 
+void Object::Test(std::shared_ptr<Scene> const& _scene, std::shared_ptr<Layer> const& _layer, std::shared_ptr<Object> const& _object)
+{
+	for (auto iter = component_list_.begin(); iter != component_list_.end(); ++iter)
+	{
+		(*iter)->set_scene(_scene);
+		(*iter)->set_layer(_layer);
+		(*iter)->set_object(_object);
+	}
+}
+
 std::shared_ptr<Scene> Object::scene() const
 {
 	return scene_.lock();
@@ -213,14 +226,19 @@ Object::Object(Object const& _other) : Tag(_other)
 {
 	scene_ = _other.scene_;
 	layer_ = _other.layer_;
-	
-	// 컴포넌트 복사 필요
+
+	component_list_.clear();
+
+	for (auto const& _component : _other.component_list_)
+		component_list_.push_back(_component->_Clone());
 }
 
 Object::Object(Object&& _other) noexcept : Tag(move(_other))
 {
 	scene_ = move(_other.scene_);
 	layer_ = move(_other.layer_);
+
+	component_list_ = std::move(_other.component_list_);
 }
 
 void Object::_Release()
@@ -289,8 +307,7 @@ void Object::_Collision(float _time)
 			++iter;
 		else
 		{
-			//(*iter)->_Collision(_time);
-			CollisionManager::singleton()->AddColliders((*iter)->object());
+			(*iter)->_Collision(_time);
 			++iter;
 		}
 	}
@@ -314,7 +331,7 @@ void Object::_Render(float _time)
 
 std::unique_ptr<Object, std::function<void(Object*)>> Object::Clone()
 {
-	return std::unique_ptr<Object, std::function<void(Object*)>>{ new Object(*this), [](Object* _p) {
+	return std::unique_ptr<Object, std::function<void(Object*)>>{ new Object{ *this }, [](Object* _p) {
 		_p->_Release();
 		delete _p;
 	} };

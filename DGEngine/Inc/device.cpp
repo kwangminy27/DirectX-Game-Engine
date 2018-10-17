@@ -132,8 +132,16 @@ ComPtr<ID3D11DeviceContext> const& Device::context() const
 
 void Device::_Release()
 {
+	context_->ClearState();
+
+	device_.Reset();
+	context_.Reset();
+	swap_chain_.Reset();
+	RTV_.Reset();
+	DSV_.Reset();
+	
 #ifdef _DEBUG
+	ReportLiveObjects();
 	FreeLibrary(DXGIDebug_);
 #endif
-	context_->ClearState();
 }

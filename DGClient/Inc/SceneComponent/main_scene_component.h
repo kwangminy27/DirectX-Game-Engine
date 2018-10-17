@@ -21,5 +21,7 @@ namespace DG
 		virtual void _Release() override;
 
 		virtual std::unique_ptr<SceneComponent, std::function<void(SceneComponent*)>> _Clone() const override;
+
+		void _CreatePrototypes();
 	};
 }

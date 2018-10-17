@@ -5,6 +5,7 @@
 #include <Component/transform.h>
 #include <Component/renderer.h>
 #include <Component/material.h>
+#include <Component/collider_rect.h>
 
 using namespace DG;
 
@@ -12,32 +13,39 @@ void MissileComponent::Initialize()
 {
 	type_ = static_cast<COMPONENT_TYPE>(USER_COMPONENT_TYPE::MISSILE);
 
+	speed_ = 1200.f;
+	range_ = 600.f;
+
 	auto transform = std::dynamic_pointer_cast<Transform>(object()->AddComponent<Transform>("Transform"));
 
 	transform->set_pivot(Math::Vector3{ 0.5f, 0.f, 0.f });
 
 	auto renderer = std::dynamic_pointer_cast<Renderer>(object()->AddComponent<Renderer>("Renderer"));
 
-	renderer->set_shader(BASIC_SHADER);
-	renderer->set_mesh("ColorTri");
+	renderer->set_shader_tag(BASIC_SHADER);
+	renderer->set_mesh_tag("ColorTri");
 
-	auto const& material = std::dynamic_pointer_cast<Material>(object()->FindComponent(COMPONENT_TYPE::MATERIAL));
+	auto material = std::dynamic_pointer_cast<Material>(object()->AddComponent<Material>("Material"));
 
 	MaterialConstantBuffer material_constant_buffer{};
 	material_constant_buffer.diffuse = DirectX::Colors::White.v;
 
 	material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
 
-	range_ = 1000.f;
+	auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("ColliderRect"));
+
+	collider_rect->set_relative_info(Math::Vector3{ 0.f, 0.f, 0.f }, Math::Vector3{ 100.f, 100.f, 0.f });
 }
 
 MissileComponent::MissileComponent(MissileComponent const& _other) : UserComponent(_other)
 {
+	speed_ = _other.speed_;
 	range_ = _other.range_;
 }
 
 MissileComponent::MissileComponent(MissileComponent&& _other) noexcept : UserComponent(std::move(_other))
 {
+	speed_ = std::move(_other.speed_);
 	range_ = std::move(_other.range_);
 }
 
@@ -47,13 +55,11 @@ void MissileComponent::_Release()
 
 void MissileComponent::_Update(float _time)
 {
+	range_ -= speed_ * _time;
+
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
-	auto displacement = 1000.f * _time;
-
-	transform->Translation(transform->GetLocalUp() * displacement);
-
-	range_ -= displacement;
+	transform->Translation(transform->GetLocalUp() * speed_ * _time);
 
 	if (range_ <= 0.f)
 		object()->set_active_flag(false);

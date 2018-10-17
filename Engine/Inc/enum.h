@@ -40,6 +40,7 @@ enum class USER_COMPONENT_TYPE
 {
 	PLAYER = static_cast<int>(COMPONENT_TYPE::END),
 	MONSTER,
+	MISSILE,
 	END
 };
 

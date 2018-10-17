@@ -44,32 +44,33 @@ void CollisionManager::Collision(float _time)
 		{
 			auto section = &(_collision_group.second->section_3d[i]);
 
-			if (section->size < 2)
+			if (section->collider_vector.size() < 2)
 			{
-				for (int j = 0; j < section->size; ++j)
-					section->collider_dynamic_array[j]->_UpdateCollidedCollider(_time);
-
-				section->size = 0;
+				for (auto const& _collider : section->collider_vector)
+					_collider.lock()->_UpdateCollidedCollider(_time);
 
 				continue;
 			}
 
-			for(int j = 0; j < section->size; ++j)
-				section->collider_dynamic_array[j]->_UpdateCollidedCollider(_time);
+			for (auto const& _collider : section->collider_vector)
+				_collider.lock()->_UpdateCollidedCollider(_time);
 
 			// bubble sort, 나중에 개선하자
-			for (int j = 0; j < section->size - 1; ++j)
+			for (int j = 0; j < section->collider_vector.size() - 1; ++j)
 			{
-				for (int k = j + 1; k < section->size; ++k)
+				for (int k = j + 1; k < section->collider_vector.size(); ++k)
 				{
-					std::shared_ptr<Object> src = section->collider_dynamic_array[j]->object();
-					std::shared_ptr<Object> dest = section->collider_dynamic_array[k]->object();
-
-					if (src == dest)
+					if (section->collider_vector.at(j).expired() || section->collider_vector.at(k).expired())
 						continue;
 
-					Collider* src_collider = section->collider_dynamic_array[j];
-					Collider* dest_collider = section->collider_dynamic_array[k];
+					auto src_object = section->collider_vector.at(j).lock()->object();
+					auto dest_object = section->collider_vector.at(k).lock()->object();
+
+					if (src_object == dest_object)
+						continue;
+
+					auto src_collider = section->collider_vector.at(j).lock();
+					auto dest_collider = section->collider_vector.at(k).lock();
 
 					// 충돌처리
 					if (src_collider->Collision(dest_collider, _time))
@@ -101,8 +102,6 @@ void CollisionManager::Collision(float _time)
 					}
 				}
 			}
-
-			section->size = 0;
 		}
 	}
 }
@@ -168,21 +167,7 @@ void CollisionManager::AddColliders(std::shared_ptr<Object> const& _object)
 
 					auto section = &(collision_group->section_3d[idx]);
 
-					if (section->capacity == section->size)
-					{
-						section->capacity = static_cast<int>(section->capacity * 1.5f);
-
-						auto temp = std::unique_ptr<Collider*[], std::function<void(Collider**)>>{ new Collider*[section->capacity], [](Collider** _p) {
-							delete[] _p;
-						} };
-
-						memcpy_s(temp.get(), sizeof(Collider*) * section->size, section->collider_dynamic_array.get(), sizeof(Collider*) * section->size);
-
-						section->collider_dynamic_array = std::move(temp);
-					}
-
-					section->collider_dynamic_array[section->size] = reinterpret_cast<Collider*>((*iter).get());
-					++section->size;
+					section->collider_vector.push_back(std::dynamic_pointer_cast<Collider>(*iter));
 				}
 			}
 		}
@@ -242,14 +227,7 @@ void CollisionManager::_CreateGroup(
 	} };
 
 	for (int i = 0; i < collision_group->total_count; ++i)
-	{
-		collision_group->section_3d[i].capacity = 5;
-		collision_group->section_3d[i].size = 0;
-
-		collision_group->section_3d[i].collider_dynamic_array = std::unique_ptr<Collider*[], std::function<void(Collider**)>>{
-			new Collider*[collision_group->section_3d[i].capacity], [](Collider** _p) { delete[] _p; }
-		};
-	}
+		collision_group->section_3d[i].collider_vector.reserve(5);
 
 	collision_group->length = _max - _min;
 	collision_group->section_length = collision_group->length / Math::Vector3(static_cast<float>(_x_count), static_cast<float>(_y_count), static_cast<float>(_z_count));

@@ -1,6 +1,7 @@
 #include "DGClient_stdafx.h"
 #include "player_component.h"
 
+#include <Scene/scene.h>
 #include <object.h>
 #include <Resource/resource_manager.h>
 #include <Resource/texture.h>
@@ -22,11 +23,11 @@ void PlayerComponent::Initialize()
 
 	auto renderer = std::dynamic_pointer_cast<Renderer>(object()->AddComponent<Renderer>("Renderer"));
 
-	renderer->set_shader(BASIC_ANIMATION_2D_SHADER);
-	renderer->set_mesh("TexRect");
+	renderer->set_shader_tag(BASIC_ANIMATION_2D_SHADER);
+	renderer->set_mesh_tag("TexRect");
 	renderer->set_render_state(ALPHA_BLEND);
 
-	auto const& material = std::dynamic_pointer_cast<Material>(object()->FindComponent(COMPONENT_TYPE::MATERIAL));
+	auto material = std::dynamic_pointer_cast<Material>(object()->AddComponent<Material>("Material"));
 
 	MaterialConstantBuffer material_constant_buffer{};
 	material_constant_buffer.diffuse = DirectX::Colors::White.v;
@@ -49,7 +50,7 @@ PlayerComponent::PlayerComponent(PlayerComponent const& _other) : UserComponent(
 }
 
 PlayerComponent::PlayerComponent(PlayerComponent&& _other) noexcept : UserComponent(std::move(_other))
-{
+{ 
 }
 
 void PlayerComponent::_Release()
@@ -69,16 +70,14 @@ void PlayerComponent::_Input(float _time)
 	if (GetAsyncKeyState('W') & 0x8000)
 		transform->Translation(transform->GetLocalUp() * 400.f * _time);
 
-	auto const& material = dynamic_pointer_cast<Material>(object()->FindComponent(COMPONENT_TYPE::MATERIAL));
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	{
+		auto const& default_layer = scene()->FindLayer("Default");
+		auto missile = Object::CreateClone("Missile", "Missile", default_layer, true);
+		auto const& missile_transform = std::dynamic_pointer_cast<Transform>(missile->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
-	MaterialConstantBuffer material_constant_buffer{};
-
-	if (GetAsyncKeyState('O') & 0x8000)
-		material_constant_buffer.diffuse = DirectX::Colors::Red.v;
-	else
-		material_constant_buffer.diffuse = DirectX::Colors::White.v;
-
-	material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
+		missile_transform->set_local(transform->local());
+	}
 }
 
 std::unique_ptr<Component, std::function<void(Component*)>> PlayerComponent::_Clone() const

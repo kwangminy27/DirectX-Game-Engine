@@ -1,6 +1,7 @@
 #include "DGEngine_stdafx.h"
 #include "collider_rect.h"
 
+#include "Resource/resource_manager.h"
 #include "Resource/mesh.h"
 #include "Rendering/rendering_manager.h"
 #include "Scene/scene.h"
@@ -51,7 +52,8 @@ void ColliderRect::_LateUpdate(float _time)
 {
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
-	Math::Vector3 object_position = transform->GetLocalPosition() - mesh_->diagonal() * transform->pivot();
+	auto const& mesh = ResourceManager::singleton()->FindMesh(mesh_tag_);
+	Math::Vector3 object_position = transform->GetLocalPosition() - mesh->diagonal() * transform->pivot();
 
 	final_info_.min = object_position + relative_info_.min - pivot_ * relative_info_.diagonal;
 	final_info_.max = object_position + relative_info_.max - pivot_ * relative_info_.diagonal;

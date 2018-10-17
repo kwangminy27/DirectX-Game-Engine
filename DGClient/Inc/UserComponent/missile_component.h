@@ -5,13 +5,15 @@
 
 namespace DG
 {
-	class MissileComponent : public UserComponent
+	class Object;
+
+	class MissileComponent final : public UserComponent
 	{
 		friend class Object;
 	public:
 		virtual void Initialize() override;
 
-	protected:
+	private:
 		MissileComponent() = default;
 		MissileComponent(MissileComponent const& _other);
 		MissileComponent(MissileComponent&& _other) noexcept;
@@ -20,9 +22,10 @@ namespace DG
 
 		virtual void _Release() override;
 
-		virtual void _Update(float _time) override;
+		virtual void _Update(float _time);
 		virtual std::unique_ptr<Component, std::function<void(Component*)>> _Clone() const override;
 
+		float speed_{};
 		float range_{};
 	};
 }

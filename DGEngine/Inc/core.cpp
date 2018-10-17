@@ -90,10 +90,6 @@ void Core::_Release()
 	RenderingManager::singleton().reset();
 	ResourceManager::singleton().reset();
 	PathManager::singleton().reset();
-
-#ifdef _DEBUG
-	Device::singleton()->ReportLiveObjects();
-#endif
 	Device::singleton().reset();
 }
 

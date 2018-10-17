@@ -28,6 +28,8 @@ namespace DG
 		std::list<std::shared_ptr<Component>> FindComponents(COMPONENT_TYPE _type) const;
 		bool IsComponent(COMPONENT_TYPE _type) const;
 
+		void Test(std::shared_ptr<Scene> const& _scene, std::shared_ptr<Layer> const& _layer, std::shared_ptr<Object> const& _object);
+
 		std::shared_ptr<Scene> scene() const;
 		std::shared_ptr<Layer> layer() const;
 

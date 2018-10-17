@@ -2,12 +2,13 @@
 #include "layer.h"
 
 #include "object.h"
+#include "collision_manager.h"
 
 using namespace DG;
 
 std::shared_ptr<Object> Layer::object_nullptr_{};
 
-void Layer::AddObject(std::shared_ptr<Object> const& _object)
+void Layer::AddObject(std::shared_ptr<Object>& _object)
 {
 	_object->set_scene(scene());
 	_object->set_layer(shared_from_this());
@@ -125,7 +126,8 @@ void Layer::_Collision(float _time)
 			++iter;
 		else
 		{
-			(*iter)->_Collision(_time);
+			//(*iter)->_Collision(_time);
+			CollisionManager::singleton()->AddColliders(*iter);
 			++iter;
 		}
 	}

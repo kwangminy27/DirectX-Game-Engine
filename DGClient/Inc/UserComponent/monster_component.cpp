@@ -20,10 +20,10 @@ void MonsterComponent::Initialize()
 
 	auto renderer = std::dynamic_pointer_cast<Renderer>(object()->AddComponent<Renderer>("Renderer"));
 
-	renderer->set_shader(BASIC_SHADER);
-	renderer->set_mesh("ColorTri");
+	renderer->set_shader_tag(BASIC_SHADER);
+	renderer->set_mesh_tag("ColorTri");
 
-	auto const& material = std::dynamic_pointer_cast<Material>(object()->FindComponent(COMPONENT_TYPE::MATERIAL));
+	auto material = std::dynamic_pointer_cast<Material>(object()->AddComponent<Material>("Material"));
 
 	MaterialConstantBuffer material_constant_buffer{};
 	material_constant_buffer.diffuse = DirectX::Colors::White.v;

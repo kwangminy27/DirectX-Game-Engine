@@ -15,8 +15,8 @@ void Collider::Initialize()
 	collision_group_tag_ = "Default";
 
 #ifdef _DEBUG
-	mesh_ = ResourceManager::singleton()->FindMesh("ColliderRect");
-	shader_ = RenderingManager::singleton()->FindShader(COLLIDER_SHADER);
+	mesh_tag_ = "ColliderRect";
+	shader_tag_ = COLLIDER_SHADER;
 	color_ = DirectX::Colors::Green.v;
 #endif
 }
@@ -62,14 +62,14 @@ void Collider::set_pivot(Math::Vector3 const& _pivot)
 }
 
 #ifdef _DEBUG
-void Collider::set_mesh(std::shared_ptr<Mesh> const& _mesh)
+void Collider::set_mesh_tag(std::string const& _tag)
 {
-	mesh_ = _mesh;
+	mesh_tag_ = _tag;
 }
 
-void Collider::set_shader(std::shared_ptr<Shader> const& _shader)
+void Collider::set_shader_tag(std::string const& _tag)
 {
-	shader_ = _shader;
+	shader_tag_ = _tag;
 }
 
 void Collider::set_color(Math::Vector4 const& _color)
@@ -93,8 +93,8 @@ Collider::Collider(Collider const& _other) : Component(_other)
 	collision_callback_list_array_ = _other.collision_callback_list_array_;
 
 #ifdef _DEBUG
-	mesh_ = _other.mesh_;
-	shader_ = _other.shader_;
+	mesh_tag_ = _other.mesh_tag_;
+	shader_tag_ = _other.shader_tag_;
 	color_ = _other.color_;
 #endif
 }
@@ -114,8 +114,8 @@ Collider::Collider(Collider&& _other) noexcept : Component(std::move(_other))
 	collision_callback_list_array_ = std::move(_other.collision_callback_list_array_);
 
 #ifdef _DEBUG
-	mesh_ = std::move(_other.mesh_);
-	shader_ = std::move(_other.shader_);
+	mesh_tag_ = std::move(_other.mesh_tag_);
+	shader_tag_ = std::move(_other.shader_tag_);
 	color_ = std::move(_other.color_);
 #endif
 }
@@ -141,8 +141,11 @@ void Collider::_Render(float _time)
 
 	RenderingManager::singleton()->UpdateConstantBuffer("Collider", &color_);
 
-	shader_->SetShader();
-	mesh_->Render();
+	auto const& shader = RenderingManager::singleton()->FindShader(shader_tag_);
+	auto const& mesh = ResourceManager::singleton()->FindMesh(mesh_tag_);
+
+	shader->SetShader();
+	mesh->Render();
 #endif
 }
 
@@ -168,6 +171,8 @@ void Collider::_AddCollidedCollider(Collider* _dest)
 
 void Collider::_UpdateCollidedCollider(float _time)
 {
+	// collided_collider가 raw pointer를 들고 있는데, 댕글링 포인터가 발생하고 있다. weak_ptr로 만기 여부를 검사하는 식으로 수정해보자.
+
 	for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end();)
 	{
 		if (collision_group_tag_ != (*iter)->collision_group_tag_)
@@ -175,8 +180,8 @@ void Collider::_UpdateCollidedCollider(float _time)
 			_OnCollisionLeave(*iter, _time);
 			(*iter)->_OnCollisionLeave(this, _time);
 
-			iter = collided_collider_list_.erase(iter);
 			(*iter)->_EraseCollidedCollider(this);
+			iter = collided_collider_list_.erase(iter);
 
 			continue;
 		}
@@ -205,9 +210,8 @@ void Collider::_UpdateCollidedCollider(float _time)
 			_OnCollisionLeave(*iter, _time);
 			(*iter)->_OnCollisionLeave(this, _time);
 
-			iter = collided_collider_list_.erase(iter);
 			(*iter)->_EraseCollidedCollider(this);
-
+			iter = collided_collider_list_.erase(iter);
 			continue;
 		}
 
@@ -226,21 +230,25 @@ bool Collider::_IsCollidedCollider(Collider* _dest)
 	return false;
 }
 
-void Collider::_EraseCollidedCollider(Collider* _dest)
+void Collider::_EraseCollidedCollider(std::shared_ptr<Collider> const& _dest)
 {
 	for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end();)
 	{
-		// iter pattern에서는 추가, 삭제 시 조심해야 함
 
 		if (*iter == _dest)
+		{
 			iter = collided_collider_list_.erase(iter);
+			continue;
+		}
+
+		++iter;
 	}
 }
 
 void Collider::_OnCollisionEnter(Collider* _dest, float _time)
 {
 	for (auto const& _callback : collision_callback_list_array_.at(static_cast<int>(COLLISION_CALLBACK_TYPE::ENTER)))
-			_callback(this, _dest, _time);
+		_callback(this, _dest, _time);
 }
 
 void Collider::_OnCollision(Collider* _dest, float _time)

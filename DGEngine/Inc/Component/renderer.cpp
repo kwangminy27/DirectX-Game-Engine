@@ -20,8 +20,6 @@ void Renderer::Initialize()
 	try
 	{
 		type_ = COMPONENT_TYPE::RENDERER;
-
-		material_ = dynamic_pointer_cast<Material>(object()->AddComponent<Material>("Material"));
 	}
 	catch (std::exception const& _e)
 	{
@@ -29,24 +27,14 @@ void Renderer::Initialize()
 	}
 }
 
-void Renderer::set_mesh(std::string const& _tag)
+void Renderer::set_mesh_tag(std::string const& _tag)
 {
-	mesh_ = ResourceManager::singleton()->FindMesh(_tag);
+	mesh_tag_ = _tag;
 }
 
-void Renderer::set_mesh(std::shared_ptr<Mesh> const& _mesh)
+void Renderer::set_shader_tag(std::string const & _tag)
 {
-	mesh_ = _mesh;
-}
-
-void Renderer::set_shader(std::string const& _tag)
-{
-	shader_ = RenderingManager::singleton()->FindShader(_tag);
-}
-
-void Renderer::set_shader(std::shared_ptr<Shader> const& _shader)
-{
-	shader_ = _shader;
+	shader_tag_ = _tag;
 }
 
 void Renderer::set_render_state(std::string const& _tag)
@@ -61,14 +49,16 @@ void Renderer::set_render_state(std::string const& _tag)
 
 Renderer::Renderer(Renderer const& _other) : Component(_other)
 {
-	mesh_ = _other.mesh_;
-	shader_ = _other.shader_;
+	mesh_tag_ = _other.mesh_tag_;
+	shader_tag_ = _other.shader_tag_;
+	render_state_array_ = _other.render_state_array_;
 }
 
 Renderer::Renderer(Renderer&& _other) noexcept : Component(std::move(_other))
 {
-	mesh_ = std::move(_other.mesh_);
-	shader_ = std::move(_other.shader_);
+	mesh_tag_ = std::move(_other.mesh_tag_);
+	shader_tag_ = std::move(_other.shader_tag_);
+	render_state_array_ = std::move(_other.render_state_array_);
 }
 
 void Renderer::_Release()
@@ -78,30 +68,36 @@ void Renderer::_Release()
 void Renderer::_Render(float _time)
 {
 	auto const& animation_2d = std::dynamic_pointer_cast<Animation2D>(object()->FindComponent(COMPONENT_TYPE::ANIMATION_2D));
+	auto const& material = std::dynamic_pointer_cast<Material>(object()->FindComponent(COMPONENT_TYPE::MATERIAL));
+	auto const& shader = RenderingManager::singleton()->FindShader(shader_tag_);
+	auto const& mesh = ResourceManager::singleton()->FindMesh(mesh_tag_);
 
-	if(animation_2d)
-		animation_2d->UpdateAnimation2DConstantBuffer(_time);
-
+	// UpdateConstantBuffer
 	_UpdateTransform();
 
-	shader_->SetShader();
+	if (animation_2d)
+		animation_2d->UpdateAnimation2DConstantBuffer(_time);
 
+	shader->SetShader();
+
+	// SetRenderState
 	for (auto const& _e : render_state_array_)
 	{
 		if(_e)
 			_e->_SetState();
 	}
 
-	for (auto i = 0; i < mesh_->GetContainerSize(); ++i)
+	for (auto i = 0; i < mesh->GetContainerSize(); ++i)
 	{
-		for (auto j = 0; j < mesh_->GetSubsetSize(i); ++j)
+		for (auto j = 0; j < mesh->GetSubsetSize(i); ++j)
 		{
-			material_->SetToShader(i, j);
+			material->SetToShader(i, j);
 
-			mesh_->Render(i, j);
+			mesh->Render(i, j);
 		}
 	}
 
+	// ResetRenderState
 	for (auto const& _e : render_state_array_)
 	{
 		if (_e)
@@ -122,6 +118,7 @@ void Renderer::_UpdateTransform()
 	auto const& camera = scene()->main_camera();
 	auto const& camera_component = dynamic_pointer_cast<Camera>(camera->FindComponent(camera->tag()));
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	auto const& mesh = ResourceManager::singleton()->FindMesh(mesh_tag_);
 
 	TransformConstantBuffer transform_constant_buffer{};
 	transform_constant_buffer.world = transform->world();
@@ -129,7 +126,7 @@ void Renderer::_UpdateTransform()
 	transform_constant_buffer.projection = camera_component->projection();
 	transform_constant_buffer.WVP = transform_constant_buffer.world * transform_constant_buffer.view * transform_constant_buffer.projection;
 	transform_constant_buffer.pivot = transform->pivot();
-	transform_constant_buffer.diagonal = mesh_->diagonal();
+	transform_constant_buffer.diagonal = mesh->diagonal();
 
 	transform_constant_buffer.world = transform_constant_buffer.world.Transpose();
 	transform_constant_buffer.view = transform_constant_buffer.view.Transpose();

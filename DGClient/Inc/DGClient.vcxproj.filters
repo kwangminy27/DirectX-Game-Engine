@@ -30,6 +30,9 @@
     <ClInclude Include="UserComponent\monster_component.h">
       <Filter>2. UserComponent</Filter>
     </ClInclude>
+    <ClInclude Include="UserComponent\missile_component.h">
+      <Filter>2. UserComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGClient_stdafx.cpp">
@@ -43,6 +46,9 @@
       <Filter>1. SceneComponent</Filter>
     </ClCompile>
     <ClCompile Include="UserComponent\monster_component.cpp">
+      <Filter>2. UserComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="UserComponent\missile_component.cpp">
       <Filter>2. UserComponent</Filter>
     </ClCompile>
   </ItemGroup>
