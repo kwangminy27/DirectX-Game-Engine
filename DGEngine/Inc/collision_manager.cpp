@@ -49,7 +49,7 @@ void CollisionManager::Collision(float _time)
 				for (int j = 0; j < section->size; ++j)
 					section->collider_dynamic_array[j]->_UpdateCollidedCollider(_time);
 
-				section->size = 0;
+				section->size = 0; // 여기서 0으로 만들기 때문에 AddCollider에서는 따로 0으로 안 만들어줘도 됨
 
 				continue;
 			}

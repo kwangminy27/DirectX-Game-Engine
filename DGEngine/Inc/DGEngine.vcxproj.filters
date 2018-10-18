@@ -4,76 +4,79 @@
     <Filter Include="Base">
       <UniqueIdentifier>{64585878-6139-466a-bc2e-dc253397c1a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1. Core">
+    <Filter Include="10. Input">
+      <UniqueIdentifier>{05f97f54-3eea-4265-b08a-98a644eda791}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Core">
       <UniqueIdentifier>{2299c5b5-b8c5-4e32-8ce0-c5f98f91faa0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2. Device">
-      <UniqueIdentifier>{d7de3496-b391-4fa2-b335-16d0e7f910ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1. Core\1. Timer">
+    <Filter Include="01. Core\1. Timer">
       <UniqueIdentifier>{9e3e70d2-b75c-44f2-81da-9cefef0ec47a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3. Path">
+    <Filter Include="02. Device">
+      <UniqueIdentifier>{d7de3496-b391-4fa2-b335-16d0e7f910ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Path">
       <UniqueIdentifier>{5877b8d3-78e0-4b43-80a7-5bf2c64ae20b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="4. Resource">
+    <Filter Include="04. Resource">
       <UniqueIdentifier>{418e7dae-c1fa-47d2-bab8-1932d1236c8f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="4. Resource\1. Mesh">
+    <Filter Include="04. Resource\1. Mesh">
       <UniqueIdentifier>{227884fc-0fc6-43f2-a35b-789fa508f855}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5. Rendering">
-      <UniqueIdentifier>{d8bbfdcd-3fe9-4c46-9f52-3aa3f7380e5f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5. Rendering\1. Shader">
-      <UniqueIdentifier>{47a12bf4-3ffa-4461-950d-b9dcec82c1cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="5. Rendering\1. Shader\1. HLSL">
-      <UniqueIdentifier>{19033698-0dea-4c07-9720-372467aa9258}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6. Scene">
-      <UniqueIdentifier>{bb934f6a-97c8-4299-a30a-975f3e4d6ede}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6. Scene\1. SceneComponent">
-      <UniqueIdentifier>{3e9950d9-c8e8-4049-9915-b8554f1c65c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="6. Scene\2. Layer">
-      <UniqueIdentifier>{97b8d869-c234-483b-9b3a-4c2a88d49203}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="7. Object">
-      <UniqueIdentifier>{b373d263-e019-4148-b321-5bc8bf8b703b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="4. Resource\2. Texture">
+    <Filter Include="04. Resource\2. Texture">
       <UniqueIdentifier>{6fcf5dca-bb3a-4fd6-a526-1d6048605666}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5. Rendering\2. RenderState">
+    <Filter Include="05. Rendering">
+      <UniqueIdentifier>{d8bbfdcd-3fe9-4c46-9f52-3aa3f7380e5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Rendering\1. Shader">
+      <UniqueIdentifier>{47a12bf4-3ffa-4461-950d-b9dcec82c1cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Rendering\1. Shader\1. HLSL">
+      <UniqueIdentifier>{19033698-0dea-4c07-9720-372467aa9258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Rendering\2. RenderState">
       <UniqueIdentifier>{ff939dba-8b02-4a2f-bdd1-2fe8f980ca6a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="8. Collision">
+    <Filter Include="06. Scene">
+      <UniqueIdentifier>{bb934f6a-97c8-4299-a30a-975f3e4d6ede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Scene\1. SceneComponent">
+      <UniqueIdentifier>{3e9950d9-c8e8-4049-9915-b8554f1c65c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Scene\2. Layer">
+      <UniqueIdentifier>{97b8d869-c234-483b-9b3a-4c2a88d49203}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Object">
+      <UniqueIdentifier>{b373d263-e019-4148-b321-5bc8bf8b703b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08. Collision">
       <UniqueIdentifier>{5cca25f3-3099-418d-aaa6-ebc3deb065d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9. Component">
+    <Filter Include="09. Component">
       <UniqueIdentifier>{652daa3b-266d-40a5-a787-31d71e3dc9da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9. Component\1. Transform">
+    <Filter Include="09. Component\1. Transform">
       <UniqueIdentifier>{32efe619-0a65-4861-8faf-320a4b58e69d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9. Component\2. Renderer">
+    <Filter Include="09. Component\2. Renderer">
       <UniqueIdentifier>{7fed039d-124a-4b31-919c-e95f3bcd1f25}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9. Component\3. Camera">
+    <Filter Include="09. Component\3. Camera">
       <UniqueIdentifier>{34d070c4-1aa7-476d-8fb6-7c07deceba06}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9. Component\4. UserComponent">
+    <Filter Include="09. Component\4. UserComponent">
       <UniqueIdentifier>{7506a7ee-d85d-40e6-9476-52af98b3d816}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9. Component\5. Material">
+    <Filter Include="09. Component\5. Material">
       <UniqueIdentifier>{a6b5d8c9-a02a-487f-8b33-b7b6c292f923}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9. Component\6. Animation2D">
+    <Filter Include="09. Component\6. Animation2D">
       <UniqueIdentifier>{47873b5b-ec20-4579-a919-393003b64087}</UniqueIdentifier>
     </Filter>
-    <Filter Include="9. Component\7. Collider">
+    <Filter Include="09. Component\7. Collider">
       <UniqueIdentifier>{f318ab7c-f944-4da4-b15d-80835dd8c51c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -91,97 +94,100 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="core.h">
-      <Filter>1. Core</Filter>
+      <Filter>01. Core</Filter>
     </ClInclude>
     <ClInclude Include="device.h">
-      <Filter>2. Device</Filter>
+      <Filter>02. Device</Filter>
     </ClInclude>
     <ClInclude Include="timer.h">
-      <Filter>1. Core\1. Timer</Filter>
+      <Filter>01. Core\1. Timer</Filter>
     </ClInclude>
     <ClInclude Include="tag.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="path_manager.h">
-      <Filter>3. Path</Filter>
+      <Filter>03. Path</Filter>
     </ClInclude>
     <ClInclude Include="type.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="Resource\resource_manager.h">
-      <Filter>4. Resource</Filter>
+      <Filter>04. Resource</Filter>
     </ClInclude>
     <ClInclude Include="Resource\mesh.h">
-      <Filter>4. Resource\1. Mesh</Filter>
+      <Filter>04. Resource\1. Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\rendering_manager.h">
-      <Filter>5. Rendering</Filter>
+      <Filter>05. Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shader.h">
-      <Filter>5. Rendering\1. Shader</Filter>
+      <Filter>05. Rendering\1. Shader</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\shader_manager.h">
-      <Filter>5. Rendering\1. Shader</Filter>
+      <Filter>05. Rendering\1. Shader</Filter>
     </ClInclude>
     <ClInclude Include="Scene\scene_manager.h">
-      <Filter>6. Scene</Filter>
+      <Filter>06. Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\scene.h">
-      <Filter>6. Scene</Filter>
+      <Filter>06. Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\scene_component.h">
-      <Filter>6. Scene\1. SceneComponent</Filter>
+      <Filter>06. Scene\1. SceneComponent</Filter>
     </ClInclude>
     <ClInclude Include="Scene\layer.h">
-      <Filter>6. Scene\2. Layer</Filter>
+      <Filter>06. Scene\2. Layer</Filter>
     </ClInclude>
     <ClInclude Include="object.h">
-      <Filter>7. Object</Filter>
+      <Filter>07. Object</Filter>
     </ClInclude>
     <ClInclude Include="Component\component.h">
-      <Filter>9. Component</Filter>
+      <Filter>09. Component</Filter>
     </ClInclude>
     <ClInclude Include="Component\transform.h">
-      <Filter>9. Component\1. Transform</Filter>
+      <Filter>09. Component\1. Transform</Filter>
     </ClInclude>
     <ClInclude Include="Component\renderer.h">
-      <Filter>9. Component\2. Renderer</Filter>
+      <Filter>09. Component\2. Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Component\user_component.h">
-      <Filter>9. Component\4. UserComponent</Filter>
+      <Filter>09. Component\4. UserComponent</Filter>
     </ClInclude>
     <ClInclude Include="Component\camera.h">
-      <Filter>9. Component\3. Camera</Filter>
+      <Filter>09. Component\3. Camera</Filter>
     </ClInclude>
     <ClInclude Include="Resource\texture.h">
-      <Filter>4. Resource\2. Texture</Filter>
+      <Filter>04. Resource\2. Texture</Filter>
     </ClInclude>
     <ClInclude Include="Resource\sampler.h">
-      <Filter>4. Resource\2. Texture</Filter>
+      <Filter>04. Resource\2. Texture</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\render_state.h">
-      <Filter>5. Rendering\2. RenderState</Filter>
+      <Filter>05. Rendering\2. RenderState</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\blend_state.h">
-      <Filter>5. Rendering\2. RenderState</Filter>
+      <Filter>05. Rendering\2. RenderState</Filter>
     </ClInclude>
     <ClInclude Include="Component\material.h">
-      <Filter>9. Component\5. Material</Filter>
+      <Filter>09. Component\5. Material</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\depth_stencil_state.h">
-      <Filter>5. Rendering\2. RenderState</Filter>
+      <Filter>05. Rendering\2. RenderState</Filter>
     </ClInclude>
     <ClInclude Include="Component\animation_2d.h">
-      <Filter>9. Component\6. Animation2D</Filter>
+      <Filter>09. Component\6. Animation2D</Filter>
     </ClInclude>
     <ClInclude Include="collision_manager.h">
-      <Filter>8. Collision</Filter>
+      <Filter>08. Collision</Filter>
     </ClInclude>
     <ClInclude Include="Component\collider.h">
-      <Filter>9. Component\7. Collider</Filter>
+      <Filter>09. Component\7. Collider</Filter>
     </ClInclude>
     <ClInclude Include="Component\collider_rect.h">
-      <Filter>9. Component\7. Collider</Filter>
+      <Filter>09. Component\7. Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="input_manager.h">
+      <Filter>10. Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -192,94 +198,97 @@
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="core.cpp">
-      <Filter>1. Core</Filter>
+      <Filter>01. Core</Filter>
     </ClCompile>
     <ClCompile Include="device.cpp">
-      <Filter>2. Device</Filter>
+      <Filter>02. Device</Filter>
     </ClCompile>
     <ClCompile Include="timer.cpp">
-      <Filter>1. Core\1. Timer</Filter>
+      <Filter>01. Core\1. Timer</Filter>
     </ClCompile>
     <ClCompile Include="tag.cpp">
       <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="path_manager.cpp">
-      <Filter>3. Path</Filter>
+      <Filter>03. Path</Filter>
     </ClCompile>
     <ClCompile Include="Resource\resource_manager.cpp">
-      <Filter>4. Resource</Filter>
+      <Filter>04. Resource</Filter>
     </ClCompile>
     <ClCompile Include="Resource\mesh.cpp">
-      <Filter>4. Resource\1. Mesh</Filter>
+      <Filter>04. Resource\1. Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\rendering_manager.cpp">
-      <Filter>5. Rendering</Filter>
+      <Filter>05. Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\shader.cpp">
-      <Filter>5. Rendering\1. Shader</Filter>
+      <Filter>05. Rendering\1. Shader</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\shader_manager.cpp">
-      <Filter>5. Rendering\1. Shader</Filter>
+      <Filter>05. Rendering\1. Shader</Filter>
     </ClCompile>
     <ClCompile Include="Scene\scene_manager.cpp">
-      <Filter>6. Scene</Filter>
+      <Filter>06. Scene</Filter>
     </ClCompile>
     <ClCompile Include="Scene\scene.cpp">
-      <Filter>6. Scene</Filter>
+      <Filter>06. Scene</Filter>
     </ClCompile>
     <ClCompile Include="Scene\scene_component.cpp">
-      <Filter>6. Scene\1. SceneComponent</Filter>
+      <Filter>06. Scene\1. SceneComponent</Filter>
     </ClCompile>
     <ClCompile Include="Scene\layer.cpp">
-      <Filter>6. Scene\2. Layer</Filter>
+      <Filter>06. Scene\2. Layer</Filter>
     </ClCompile>
     <ClCompile Include="object.cpp">
-      <Filter>7. Object</Filter>
+      <Filter>07. Object</Filter>
     </ClCompile>
     <ClCompile Include="Component\component.cpp">
-      <Filter>9. Component</Filter>
+      <Filter>09. Component</Filter>
     </ClCompile>
     <ClCompile Include="Component\transform.cpp">
-      <Filter>9. Component\1. Transform</Filter>
+      <Filter>09. Component\1. Transform</Filter>
     </ClCompile>
     <ClCompile Include="Component\renderer.cpp">
-      <Filter>9. Component\2. Renderer</Filter>
+      <Filter>09. Component\2. Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Component\user_component.cpp">
-      <Filter>9. Component\4. UserComponent</Filter>
+      <Filter>09. Component\4. UserComponent</Filter>
     </ClCompile>
     <ClCompile Include="Component\camera.cpp">
-      <Filter>9. Component\3. Camera</Filter>
+      <Filter>09. Component\3. Camera</Filter>
     </ClCompile>
     <ClCompile Include="Resource\texture.cpp">
-      <Filter>4. Resource\2. Texture</Filter>
+      <Filter>04. Resource\2. Texture</Filter>
     </ClCompile>
     <ClCompile Include="Resource\sampler.cpp">
-      <Filter>4. Resource\2. Texture</Filter>
+      <Filter>04. Resource\2. Texture</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\render_state.cpp">
-      <Filter>5. Rendering\2. RenderState</Filter>
+      <Filter>05. Rendering\2. RenderState</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\blend_state.cpp">
-      <Filter>5. Rendering\2. RenderState</Filter>
+      <Filter>05. Rendering\2. RenderState</Filter>
     </ClCompile>
     <ClCompile Include="Component\material.cpp">
-      <Filter>9. Component\5. Material</Filter>
+      <Filter>09. Component\5. Material</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\depth_stencil_state.cpp">
-      <Filter>5. Rendering\2. RenderState</Filter>
+      <Filter>05. Rendering\2. RenderState</Filter>
     </ClCompile>
     <ClCompile Include="Component\animation_2d.cpp">
-      <Filter>9. Component\6. Animation2D</Filter>
+      <Filter>09. Component\6. Animation2D</Filter>
     </ClCompile>
     <ClCompile Include="collision_manager.cpp">
-      <Filter>8. Collision</Filter>
+      <Filter>08. Collision</Filter>
     </ClCompile>
     <ClCompile Include="Component\collider.cpp">
-      <Filter>9. Component\7. Collider</Filter>
+      <Filter>09. Component\7. Collider</Filter>
     </ClCompile>
     <ClCompile Include="Component\collider_rect.cpp">
-      <Filter>9. Component\7. Collider</Filter>
+      <Filter>09. Component\7. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="input_manager.cpp">
+      <Filter>10. Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,42 +296,45 @@
       <Filter>Base</Filter>
     </None>
     <None Include="object.inl">
-      <Filter>7. Object</Filter>
+      <Filter>07. Object</Filter>
     </None>
     <None Include="Scene\scene_manager.inl">
-      <Filter>6. Scene</Filter>
+      <Filter>06. Scene</Filter>
     </None>
     <None Include="Scene\scene.inl">
-      <Filter>6. Scene</Filter>
+      <Filter>06. Scene</Filter>
+    </None>
+    <None Include="input_manager.inl">
+      <Filter>10. Input</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicVS.hlsl">
-      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="type.hlsl">
-      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="BasicPS.hlsl">
-      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="BasicTexVS.hlsl">
-      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="BasicTexPS.hlsl">
-      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="BasicAnimation2DVS.hlsl">
-      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="BasicAnimation2DPS.hlsl">
-      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="ColliderVS.hlsl">
-      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="ColliderPS.hlsl">
-      <Filter>5. Rendering\1. Shader\1. HLSL</Filter>
+      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

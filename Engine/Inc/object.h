@@ -12,6 +12,7 @@ namespace DG
 	{
 		friend class Scene;
 		friend class Layer;
+		friend class InputManager;
 	public:
 		static std::shared_ptr<Object> CreatePrototype(std::string const& _tag, bool _current_flag);
 		static std::shared_ptr<Object> CreateClone(std::string const& _tag, std::string const& _prototype_tag, std::shared_ptr<Layer> const& _layer, bool _current_flag);

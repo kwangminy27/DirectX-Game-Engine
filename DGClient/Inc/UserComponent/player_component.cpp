@@ -10,6 +10,7 @@
 #include <Component/material.h>
 #include <Component/animation_2d.h>
 #include <Component/collider_rect.h>
+#include <input_manager.h>
 
 using namespace DG;
 
@@ -59,18 +60,19 @@ void PlayerComponent::_Release()
 
 void PlayerComponent::_Input(float _time)
 {
+	auto const& input_manager = InputManager::singleton();
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
-	if (GetAsyncKeyState('A') & 0x8000)
+	if (input_manager->KeyPressed("MoveLeft"))
 		transform->RotationZ(DirectX::XMConvertToRadians(180.f * _time));
-	if (GetAsyncKeyState('D') & 0x8000)
+	if (input_manager->KeyPressed("MoveRight"))
 		transform->RotationZ(DirectX::XMConvertToRadians(-180.f * _time));
-	if (GetAsyncKeyState('S') & 0x8000)
-		transform->Translation(transform->GetLocalUp() * -400.f * _time);
-	if (GetAsyncKeyState('W') & 0x8000)
+	if (input_manager->KeyPressed("MoveUp"))
 		transform->Translation(transform->GetLocalUp() * 400.f * _time);
+	if (input_manager->KeyPressed("MoveDown"))
+		transform->Translation(transform->GetLocalUp() * -400.f * _time);
 
-	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	if (input_manager->KeyPush("Space"))
 	{
 		auto const& default_layer = scene()->FindLayer("Default");
 		auto missile = Object::CreateClone("Missile", "Missile", default_layer, true);

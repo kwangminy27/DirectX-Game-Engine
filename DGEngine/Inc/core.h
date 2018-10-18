@@ -15,6 +15,9 @@ namespace DG
 
 		void SetDefaultState(GAME_MODE _mode);
 
+		HINSTANCE instance() const;
+		HWND window() const;
+
 	private:
 		Core() = default;
 		Core(Core const&) = delete;

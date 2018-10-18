@@ -12,6 +12,7 @@
 #include "Rendering/render_state.h"
 #include "Scene/scene_manager.h"
 #include "collision_manager.h"
+#include "input_manager.h"
 
 using namespace std;
 using namespace DG;
@@ -35,6 +36,7 @@ void Core::Initialize(wstring const& _class_name, wstring const& _window_name, H
 		RenderingManager::singleton()->Initialize();
 		CollisionManager::singleton()->Initialize();
 		SceneManager::singleton()->Initialize();
+		InputManager::singleton()->Initialize();
 
 		SetDefaultState(_mode);
 
@@ -63,6 +65,7 @@ void Core::Run()
 		else
 		{
 			timer_->Update();
+			InputManager::singleton()->Update();
 
 			_Logic();
 		}
@@ -83,8 +86,19 @@ void Core::SetDefaultState(GAME_MODE _mode)
 	}
 }
 
+HINSTANCE Core::instance() const
+{
+	return instance_;
+}
+
+HWND Core::window() const
+{
+	return window_;
+}
+
 void Core::_Release()
 {
+	InputManager::singleton().reset();
 	SceneManager::singleton().reset();
 	CollisionManager::singleton().reset();
 	RenderingManager::singleton().reset();
