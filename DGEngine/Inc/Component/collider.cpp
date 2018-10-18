@@ -5,6 +5,7 @@
 #include "Resource/mesh.h"
 #include "Rendering/rendering_manager.h"
 #include "Rendering/shader.h"
+#include "collision_manager.h"
 
 using namespace DG;
 
@@ -122,6 +123,8 @@ Collider::Collider(Collider&& _other) noexcept : Component(std::move(_other))
 
 void Collider::_Release()
 {
+	// collider는 총 3곳에서 들고있음, collided_collider, collision_manager
+
 	for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end(); ++iter)
 	{
 		_OnCollisionLeave(*iter, 0.f);
@@ -129,6 +132,8 @@ void Collider::_Release()
 		(*iter)->_OnCollisionLeave(this, 0.f);
 		(*iter)->_EraseCollidedCollider(this);
 	}
+
+	CollisionManager::singleton()->EraseExpiredCollider(this);
 }
 
 void Collider::_Render(float _time)
@@ -171,55 +176,51 @@ void Collider::_AddCollidedCollider(Collider* _dest)
 
 void Collider::_UpdateCollidedCollider(float _time)
 {
-	// collided_collider가 raw pointer를 들고 있는데, 댕글링 포인터가 발생하고 있다.
+	for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end();)
+	{
+		if (collision_group_tag_ != (*iter)->collision_group_tag_)
+		{
+			_OnCollisionLeave(*iter, _time);
+			(*iter)->_OnCollisionLeave(this, _time);
 
-	// 일단 clear
-	collided_collider_list_.clear();
+			(*iter)->_EraseCollidedCollider(this);
+			iter = collided_collider_list_.erase(iter);
 
-	//for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end();)
-	//{
-	//	if (collision_group_tag_ != (*iter)->collision_group_tag_)
-	//	{
-	//		_OnCollisionLeave(*iter, _time);
-	//		(*iter)->_OnCollisionLeave(this, _time);
+			continue;
+		}
 
-	//		(*iter)->_EraseCollidedCollider(this);
-	//		iter = collided_collider_list_.erase(iter);
+		//auto src_section_idx_list = (*iter)->section_idx_list();
 
-	//		continue;
-	//	}
+		bool is_overlapped = false;
+		for (auto src_iter = section_idx_list_.begin(); src_iter != section_idx_list_.end(); ++src_iter)
+		{
+			for (auto dest_iter = (*iter)->section_idx_list_.begin(); dest_iter != (*iter)->section_idx_list_.end(); ++dest_iter)
+			{
+				if ((*src_iter) == (*dest_iter))
+				{
+					is_overlapped = true;
 
-	//	auto src_section_idx_list = (*iter)->section_idx_list();
+					break;
+				}
+			}
 
-	//	bool is_overlapped = false;
-	//	for (auto src_iter = section_idx_list_.begin(); src_iter != section_idx_list_.end(); ++src_iter)
-	//	{
-	//		for (auto dest_iter = (*iter)->section_idx_list_.begin(); dest_iter != (*iter)->section_idx_list_.end(); ++dest_iter)
-	//		{
-	//			if ((*src_iter) == (*dest_iter))
-	//			{
-	//				is_overlapped = true;
+			if (is_overlapped)
+				break;
+		}
 
-	//				break;
-	//			}
-	//		}
+		if (!is_overlapped)
+		{
+			_OnCollisionLeave(*iter, _time);
+			(*iter)->_OnCollisionLeave(this, _time);
 
-	//		if (is_overlapped)
-	//			break;
-	//	}
+			(*iter)->_EraseCollidedCollider(this);
+			iter = collided_collider_list_.erase(iter);
 
-	//	if (!is_overlapped)
-	//	{
-	//		_OnCollisionLeave(*iter, _time);
-	//		(*iter)->_OnCollisionLeave(this, _time);
+			continue;
+		}
 
-	//		(*iter)->_EraseCollidedCollider(this);
-	//		iter = collided_collider_list_.erase(iter);
-	//		continue;
-	//	}
-
-	//	++iter;
-	//}
+		++iter;
+	}
 }
 
 bool Collider::_IsCollidedCollider(Collider* _dest)

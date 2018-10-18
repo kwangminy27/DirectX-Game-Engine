@@ -299,7 +299,7 @@ void Object::_LateUpdate(float _time)
 
 void Object::_Collision(float _time)
 {
-	for (auto iter = component_list_.begin(); iter != component_list_.end();)
+	/*for (auto iter = component_list_.begin(); iter != component_list_.end();)
 	{
 		if (!(*iter)->active_flag())
 			iter = component_list_.erase(iter);
@@ -310,7 +310,7 @@ void Object::_Collision(float _time)
 			(*iter)->_Collision(_time);
 			++iter;
 		}
-	}
+	}*/
 }
 
 void Object::_Render(float _time)

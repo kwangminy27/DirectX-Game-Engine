@@ -46,10 +46,12 @@ ColliderRect::ColliderRect(ColliderRect&& _other) noexcept : Collider(std::move(
 
 void ColliderRect::_Release()
 {
+	Collider::_Release();
 }
 
 void ColliderRect::_LateUpdate(float _time)
 {
+#ifdef _DEBUG
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
 	auto const& mesh = ResourceManager::singleton()->FindMesh(mesh_tag_);
@@ -62,6 +64,7 @@ void ColliderRect::_LateUpdate(float _time)
 	// 이 정보 자체가 사각형의 영역을 판단할 데이터로 사용된다.
 	collider_min_ = final_info_.min;
 	collider_max_ = final_info_.max;
+#endif
 }
 
 bool ColliderRect::Collision(Collider* _dest, float _time)

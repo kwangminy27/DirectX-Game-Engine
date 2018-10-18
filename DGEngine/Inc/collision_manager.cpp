@@ -61,6 +61,9 @@ void CollisionManager::Collision(float _time)
 			{
 				for (int k = j + 1; k < section->size; ++k)
 				{
+					//if (!section->collider_dynamic_array[j] || !section->collider_dynamic_array[k])
+					//	continue;
+
 					std::shared_ptr<Object> src = section->collider_dynamic_array[j]->object();
 					std::shared_ptr<Object> dest = section->collider_dynamic_array[k]->object();
 
@@ -180,7 +183,7 @@ void CollisionManager::AddColliders(std::shared_ptr<Object> const& _object)
 						section->collider_dynamic_array = std::move(temp);
 					}
 
-					section->collider_dynamic_array[section->size] = reinterpret_cast<Collider*>((*iter).get());
+					section->collider_dynamic_array[section->size] = reinterpret_cast<Collider*>((*iter).get()); // 모든 section이 들고 있는 collider는 의미가 있다는 것이 보장 됨, 왜냐면 충돌 매니저에서 충돌이 발생해서 active를 false로 해도 렌더링함수에서 지워지기 때문
 					++section->size;
 				}
 			}
@@ -206,6 +209,19 @@ void CollisionManager::SetGroupType(std::string const& _tag, COLLISION_GROUP_TYP
 		return;
 
 	iter->second->type = _type;
+}
+
+void CollisionManager::EraseExpiredCollider(Collider* _collider)
+{
+	auto section_idx_list = _collider->section_idx_list();
+
+	for (auto const& _section_idx : section_idx_list)
+	{
+		for (int i = 0; i < collision_group_map_[_collider->collision_group_tag()]->section_3d[_section_idx].size; ++i)
+		{
+			if (collision_group_map_[_collider->collision_group_tag()]->section_3d[_section_idx].collider_dynamic_array[i] == _collider)
+				collision_group_map_[_collider->collision_group_tag()]->section_3d[_section_idx].collider_dynamic_array[i] = nullptr;		}
+	}
 }
 
 void CollisionManager::_Release()

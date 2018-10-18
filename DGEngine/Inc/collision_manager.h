@@ -39,6 +39,7 @@ namespace DG
 		void AddColliders(std::shared_ptr<Object> const& _object);
 		std::shared_ptr<CollisionGroup> const& FindCollisionGroup(std::string const& _tag) const;
 		void SetGroupType(std::string const& _tag, COLLISION_GROUP_TYPE _type);
+		void EraseExpiredCollider(Collider* _collider);
 
 	private:
 		CollisionManager() = default;
