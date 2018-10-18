@@ -9,10 +9,9 @@ namespace DG
 
 	struct DG_ENGINE_DLL CollisionSection
 	{
-		std::vector<std::weak_ptr<Collider>> collider_vector;
-		//std::unique_ptr<std::weak_ptr<Collider>[], std::function<void(std::weak_ptr<Collider>*)>> collider_dynamic_array; // 그냥 std::list 써도 될 듯
-		//int size;
-		//int capacity;
+		std::unique_ptr<Collider*[], std::function<void(Collider**)>> collider_dynamic_array;
+		int size;
+		int capacity;
 	};
 
 	struct DG_ENGINE_DLL CollisionGroup

@@ -24,7 +24,7 @@ namespace DG
 		virtual void _Release() override;
 
 		virtual void _LateUpdate(float _time) override;
-		virtual bool Collision(std::shared_ptr<Collider> const& _dest, float _time) override;
+		virtual bool Collision(Collider* _dest, float _time) override;
 		virtual void _Render(float _time) override;
 		virtual std::unique_ptr<Component, std::function<void(Component*)>> _Clone() const override;
 

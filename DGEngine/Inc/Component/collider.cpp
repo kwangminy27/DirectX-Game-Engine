@@ -171,52 +171,55 @@ void Collider::_AddCollidedCollider(Collider* _dest)
 
 void Collider::_UpdateCollidedCollider(float _time)
 {
-	// collided_collider가 raw pointer를 들고 있는데, 댕글링 포인터가 발생하고 있다. weak_ptr로 만기 여부를 검사하는 식으로 수정해보자.
+	// collided_collider가 raw pointer를 들고 있는데, 댕글링 포인터가 발생하고 있다.
 
-	for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end();)
-	{
-		if (collision_group_tag_ != (*iter)->collision_group_tag_)
-		{
-			_OnCollisionLeave(*iter, _time);
-			(*iter)->_OnCollisionLeave(this, _time);
+	// 일단 clear
+	collided_collider_list_.clear();
 
-			(*iter)->_EraseCollidedCollider(this);
-			iter = collided_collider_list_.erase(iter);
+	//for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end();)
+	//{
+	//	if (collision_group_tag_ != (*iter)->collision_group_tag_)
+	//	{
+	//		_OnCollisionLeave(*iter, _time);
+	//		(*iter)->_OnCollisionLeave(this, _time);
 
-			continue;
-		}
+	//		(*iter)->_EraseCollidedCollider(this);
+	//		iter = collided_collider_list_.erase(iter);
 
-		auto src_section_idx_list = (*iter)->section_idx_list();
+	//		continue;
+	//	}
 
-		bool is_overlapped = false;
-		for (auto src_iter = section_idx_list_.begin(); src_iter != section_idx_list_.end(); ++src_iter)
-		{
-			for (auto dest_iter = (*iter)->section_idx_list_.begin(); dest_iter != (*iter)->section_idx_list_.end(); ++dest_iter)
-			{
-				if ((*src_iter) == (*dest_iter))
-				{
-					is_overlapped = true;
+	//	auto src_section_idx_list = (*iter)->section_idx_list();
 
-					break;
-				}
-			}
+	//	bool is_overlapped = false;
+	//	for (auto src_iter = section_idx_list_.begin(); src_iter != section_idx_list_.end(); ++src_iter)
+	//	{
+	//		for (auto dest_iter = (*iter)->section_idx_list_.begin(); dest_iter != (*iter)->section_idx_list_.end(); ++dest_iter)
+	//		{
+	//			if ((*src_iter) == (*dest_iter))
+	//			{
+	//				is_overlapped = true;
 
-			if (is_overlapped)
-				break;
-		}
+	//				break;
+	//			}
+	//		}
 
-		if (!is_overlapped)
-		{
-			_OnCollisionLeave(*iter, _time);
-			(*iter)->_OnCollisionLeave(this, _time);
+	//		if (is_overlapped)
+	//			break;
+	//	}
 
-			(*iter)->_EraseCollidedCollider(this);
-			iter = collided_collider_list_.erase(iter);
-			continue;
-		}
+	//	if (!is_overlapped)
+	//	{
+	//		_OnCollisionLeave(*iter, _time);
+	//		(*iter)->_OnCollisionLeave(this, _time);
 
-		++iter;
-	}
+	//		(*iter)->_EraseCollidedCollider(this);
+	//		iter = collided_collider_list_.erase(iter);
+	//		continue;
+	//	}
+
+	//	++iter;
+	//}
 }
 
 bool Collider::_IsCollidedCollider(Collider* _dest)
@@ -230,7 +233,7 @@ bool Collider::_IsCollidedCollider(Collider* _dest)
 	return false;
 }
 
-void Collider::_EraseCollidedCollider(std::shared_ptr<Collider> const& _dest)
+void Collider::_EraseCollidedCollider(Collider* _dest)
 {
 	for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end();)
 	{
