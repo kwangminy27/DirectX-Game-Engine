@@ -1,6 +1,8 @@
 #include "DGClient_stdafx.h"
 #include "monster_component.h"
 
+#include <Resource/resource_manager.h>
+#include <Resource/mesh.h>
 #include <object.h>
 #include <Component/transform.h>
 #include <Component/renderer.h>
@@ -30,9 +32,11 @@ void MonsterComponent::Initialize()
 
 	material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
 
-	auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("ColliderRect"));
+	auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("MonsterBody"));
 
-	collider_rect->set_relative_info(Math::Vector3{ 0.f, 0.f, 0.f }, Math::Vector3{ 100.f, 100.f, 0.f });
+	collider_rect->set_relative_info(Math::Vector3::Zero, Math::Vector3{ 100.f, 100.f, 0.f });
+	/*auto const& mesh = ResourceManager::singleton()->FindMesh("ColorTri");
+	collider_rect->set_relative_info(Math::Vector3::Zero, mesh->max() - mesh->min());*/
 }
 
 std::shared_ptr<Object> MonsterComponent::target()

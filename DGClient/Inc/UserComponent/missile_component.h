@@ -6,6 +6,7 @@
 namespace DG
 {
 	class Object;
+	class Collider;
 
 	class MissileComponent final : public UserComponent
 	{
@@ -24,6 +25,8 @@ namespace DG
 
 		virtual void _Update(float _time);
 		virtual std::unique_ptr<Component, std::function<void(Component*)>> _Clone() const override;
+
+		void _MissileHit(Collider* _target);
 
 		float speed_{};
 		float range_{};

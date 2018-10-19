@@ -191,6 +191,14 @@ void Core::_Logic()
 
 void Core::_Input(float _time)
 {
+	if (InputManager::singleton()->KeyPush("Pause"))
+	{
+		if(time_scale_ = 0.f)
+			time_scale_ = 1.f;
+		else
+			time_scale_ = 0.f;
+	}
+
 	SceneManager::singleton()->Input(_time);
 }
 
@@ -216,6 +224,7 @@ void Core::_Render(float _time)
 	device->Clear();
 
 	SceneManager::singleton()->Render(_time);
+	InputManager::singleton()->Render(_time);
 
 	device->Present();
 }

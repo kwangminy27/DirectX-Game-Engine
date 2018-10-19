@@ -5,6 +5,8 @@
 #include "Scene/scene_manager.h"
 #include "object.h"
 #include "Component/transform.h"
+#include "Component/renderer.h"
+#include "Component/material.h"
 
 using namespace DG;
 
@@ -21,8 +23,35 @@ void InputManager::Initialize()
 
 		_AddKey("Space"s, VK_SPACE);
 
+		_AddKey("Pause"s, VK_F1);
+
 		mouse_ = Object::CreateObject("Mouse", nullptr);
-		mouse_->AddComponent<Transform>("Transform");
+
+		auto transform = std::dynamic_pointer_cast<Transform>(mouse_->AddComponent<Transform>("Transform"));
+
+		transform->Scaling(Math::Vector3{ 1.f, 1.f, 1.f });
+		transform->set_pivot(Math::Vector3{ 0.f, 1.f, 0.f });
+
+		auto renderer = std::dynamic_pointer_cast<Renderer>(mouse_->AddComponent<Renderer>("Renderer"));
+
+		renderer->set_shader_tag(BASIC_TEX_SHADER);
+		renderer->set_mesh_tag("TexRect");
+		renderer->set_render_state(ALPHA_BLEND);
+
+		auto material = std::dynamic_pointer_cast<Material>(mouse_->AddComponent<Material>("Material"));
+
+		MaterialConstantBuffer material_constant_buffer{};
+		material_constant_buffer.diffuse = DirectX::Colors::White.v;
+
+		material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
+		material->SetTexture("Mouse", 0, 0, 0);
+		material->SetSampler(LINEAR_SAMPLER, 0, 0, 0);
+
+		auto scene = SceneManager::singleton()->scene();
+
+		mouse_->set_scene(scene);
+		for (auto const& _component : mouse_->component_list_)
+			_component->set_scene(scene);
 	}
 	catch (std::exception const& _e)
 	{
@@ -71,6 +100,8 @@ void InputManager::Update()
 	GetCursorPos(&position);
 	ScreenToClient(Core::singleton()->window(), &position);
 
+	position.y = static_cast<LONG>(RESOLUTION::HEIGHT) - position.y; // 원점을 좌상단에서 좌하단으로
+
 	mouse_displacement_.x = static_cast<float>(position.x) - mouse_client_position_.x;
 	mouse_displacement_.y = static_cast<float>(position.y) - mouse_client_position_.y;
 
@@ -80,7 +111,9 @@ void InputManager::Update()
 	mouse_world_position_ = mouse_client_position_ + std::dynamic_pointer_cast<Transform>(camera->FindComponent(COMPONENT_TYPE::TRANSFORM))->GetWorldPosition();
 
 	auto const& mouse_transform = std::dynamic_pointer_cast<Transform>(mouse_->FindComponent(COMPONENT_TYPE::TRANSFORM));
-	mouse_transform->Translation(mouse_client_position_);
+	mouse_transform->SetLocalPosition(mouse_client_position_);
+
+	//std::cout << mouse_transform->GetLocalPosition().x << ", " << mouse_transform->GetLocalPosition().y << ", " << mouse_transform->GetLocalPosition().z << std::endl;
 
 	if (!mouse_cursor_show_state_ && mouse_client_position_.x <= 0.f && mouse_client_position_.x >= static_cast<float>(RESOLUTION::WIDTH) && mouse_client_position_.y <= 0.f && mouse_client_position_.y >= static_cast<float>(RESOLUTION::HEIGHT))
 	{
@@ -96,6 +129,9 @@ void InputManager::Update()
 
 void InputManager::Render(float _time)
 {
+	auto mouse_transform = std::dynamic_pointer_cast<Transform>(mouse_->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	mouse_transform->_Update(_time);
+
 	mouse_->_Render(_time);
 }
 

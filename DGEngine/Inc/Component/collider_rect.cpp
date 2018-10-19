@@ -83,9 +83,10 @@ void ColliderRect::_Render(float _time)
 #ifdef _DEBUG
 	auto const& main_camera = scene()->main_camera();
 	auto const& camera_component = std::dynamic_pointer_cast<Camera>(main_camera->FindComponent(COMPONENT_TYPE::CAMERA));
+	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
 	TransformConstantBuffer transform_constant_buffer{};
-	transform_constant_buffer.world = Math::Matrix::CreateTranslation(final_info_.min);
+	transform_constant_buffer.world = /*Math::Matrix::CreateScale(transform->scale_vector()) * */Math::Matrix::CreateTranslation(final_info_.min);
 	transform_constant_buffer.view = camera_component->view();
 	transform_constant_buffer.projection = camera_component->projection();
 	transform_constant_buffer.WVP = transform_constant_buffer.world * transform_constant_buffer.view * transform_constant_buffer.projection;

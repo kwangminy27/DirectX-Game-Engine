@@ -17,6 +17,9 @@ void Transform::Initialize()
 
 void Transform::Scaling(Math::Vector3 const& _v)
 {
+	scale_vector_ = _v;
+	local_ *= Math::Matrix::CreateScale(_v);
+
 	update_flag_ = true;
 }
 
@@ -92,19 +95,36 @@ void Transform::Translation(Math::Vector3 const& _v)
 	update_flag_ = true;
 }
 
+Math::Vector3 Transform::scale_vector() const
+{
+	return scale_vector_;
+}
+
 Math::Vector3 Transform::GetLocalRight() const
 {
-	return Math::Vector3{ local_._11, local_._12, local_._13 };
+	auto R = Math::Vector3{ local_._11, local_._12, local_._13 };
+
+	R.Normalize();
+
+	return R;
 }
 
 Math::Vector3 Transform::GetLocalUp() const
 {
-	return Math::Vector3{ local_._21, local_._22, local_._23 };
+	auto R = Math::Vector3{ local_._21, local_._22, local_._23 };
+
+	R.Normalize();
+
+	return R;
 }
 
 Math::Vector3 Transform::GetLocalLook() const
 {
-	return Math::Vector3{ local_._31, local_._32, local_._33 };
+	auto R = Math::Vector3{ local_._31, local_._32, local_._33 };
+
+	R.Normalize();
+
+	return R;
 }
 
 Math::Vector3 Transform::GetLocalPosition() const
@@ -114,22 +134,65 @@ Math::Vector3 Transform::GetLocalPosition() const
 
 Math::Vector3 Transform::GetWorldRight() const
 {
-	return Math::Vector3{ world_._11, world_._12, world_._13 };
+	auto R = Math::Vector3{ world_._11, world_._12, world_._13 };
+
+	R.Normalize();
+
+	return R;
 }
 
 Math::Vector3 Transform::GetWorldUp() const
 {
-	return Math::Vector3{ world_._21, world_._22, world_._23 };
+	auto R = Math::Vector3{ world_._21, world_._22, world_._23 };
+
+	R.Normalize();
+
+	return R;
 }
 
 Math::Vector3 Transform::GetWorldLook() const
 {
-	return Math::Vector3{ world_._31, world_._32, world_._33 };
+	auto R = Math::Vector3{ world_._31, world_._32, world_._33 };
+
+	R.Normalize();
+
+	return R;
 }
 
 Math::Vector3 Transform::GetWorldPosition() const
 {
 	return Math::Vector3{ world_._41, world_._42, world_._43 };
+}
+
+void Transform::SetLocalRight(Math::Vector3 const& _right)
+{
+	auto right = _right * scale_vector_;
+	memcpy_s(&local_._11, sizeof(Math::Vector3), &right, sizeof(Math::Vector3));
+
+	update_flag_ = true;
+}
+
+void Transform::SetLocalUp(Math::Vector3 const& _up)
+{
+	auto up = _up * scale_vector_;
+	memcpy_s(&local_._21, sizeof(Math::Vector3), &up, sizeof(Math::Vector3));
+
+	update_flag_ = true;
+}
+
+void Transform::SetLocalLook(Math::Vector3 const& _look)
+{
+	auto look = _look * scale_vector_;
+	memcpy_s(&local_._31, sizeof(Math::Vector3), &look, sizeof(Math::Vector3));
+
+	update_flag_ = true;
+}
+
+void Transform::SetLocalPosition(Math::Vector3 const& _position)
+{
+	memcpy_s(&local_._41, sizeof(Math::Vector3), &_position, sizeof(Math::Vector3));
+
+	update_flag_ = true;
 }
 
 void Transform::LookAt(Math::Vector3 const& _position)
@@ -209,6 +272,7 @@ Transform::Transform(Transform const& _other) : Component(_other)
 {
 	update_flag_ = _other.update_flag_;
 	static_flag_ = _other.static_flag_;
+	scale_vector_ = _other.scale_vector_;
 	local_ = _other.local_;
 	parent_ = _other.parent_;
 	world_ = _other.world_;
@@ -219,6 +283,7 @@ Transform::Transform(Transform&& _other) noexcept : Component(std::move(_other))
 {
 	update_flag_ = std::move(_other.update_flag_);
 	static_flag_ = std::move(_other.static_flag_);
+	scale_vector_ = std::move(_other.scale_vector_);
 	local_ = std::move(_other.local_);
 	parent_ = std::move(_other.parent_);
 	world_ = std::move(_other.world_);

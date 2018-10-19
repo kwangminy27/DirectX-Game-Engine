@@ -66,6 +66,9 @@ void ResourceManager::Initialize()
 #endif
 
 		_CreateTexture2D("Player", L"Player.png", TEXTURE_PATH);
+		_CreateTexture2D("Illuminati", L"Illuminati.png", TEXTURE_PATH);
+		_CreateTexture2D("Mouse", L"Mouse/Default/0.png", TEXTURE_PATH);
+
 		_CreateSampler(
 			LINEAR_SAMPLER,
 			D3D11_FILTER_MIN_MAG_MIP_LINEAR,

@@ -4,6 +4,7 @@
 #include <Scene/scene.h>
 #include <object.h>
 #include <Resource/resource_manager.h>
+#include <Resource/mesh.h>
 #include <Resource/texture.h>
 #include <Component/transform.h>
 #include <Component/renderer.h>
@@ -20,6 +21,7 @@ void PlayerComponent::Initialize()
 
 	auto transform = std::dynamic_pointer_cast<Transform>(object()->AddComponent<Transform>("Transform"));
 
+	transform->Scaling(Math::Vector3{ 0.5f, 0.5f, 1.f });
 	transform->set_pivot(Math::Vector3{ 0.5f, 0.f, 0.f });
 
 	auto renderer = std::dynamic_pointer_cast<Renderer>(object()->AddComponent<Renderer>("Renderer"));
@@ -41,9 +43,11 @@ void PlayerComponent::Initialize()
 
 	animation_2d->AddClip("Player");
 
-	auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("ColliderRect"));
+	auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("PlayerBody"));
 
-	collider_rect->set_relative_info(Math::Vector3{ 0.f, 0.f, 0.f }, Math::Vector3{ 100.f, 100.f, 0.f });
+	collider_rect->set_relative_info(Math::Vector3::Zero, Math::Vector3{ 100.f, 100.f, 0.f });
+	//auto const& mesh = ResourceManager::singleton()->FindMesh("TexRect");
+	//collider_rect->set_relative_info(Math::Vector3::Zero, mesh->max() - mesh->min());
 }
 
 PlayerComponent::PlayerComponent(PlayerComponent const& _other) : UserComponent(_other)
@@ -78,7 +82,10 @@ void PlayerComponent::_Input(float _time)
 		auto missile = Object::CreateClone("Missile", "Missile", default_layer, true);
 		auto const& missile_transform = std::dynamic_pointer_cast<Transform>(missile->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
-		missile_transform->set_local(transform->local());
+		missile_transform->SetLocalRight(transform->GetLocalRight());
+		missile_transform->SetLocalUp(transform->GetLocalUp());
+		missile_transform->SetLocalLook(transform->GetLocalLook());
+		missile_transform->SetLocalPosition(transform->GetLocalPosition());
 	}
 }
 

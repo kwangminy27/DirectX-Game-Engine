@@ -7,6 +7,7 @@ namespace DG
 	class DG_ENGINE_DLL Transform final : public Component
 	{
 		friend class Object;
+		friend class InputManager;
 	public:
 		virtual void Initialize() override;
 
@@ -18,6 +19,7 @@ namespace DG
 		void RotationAxis(Math::Vector3 const& _axis, float _radians);
 		void Translation(Math::Vector3 const& _v);
 
+		Math::Vector3 scale_vector() const;
 		Math::Vector3 GetLocalRight() const;
 		Math::Vector3 GetLocalUp() const;
 		Math::Vector3 GetLocalLook() const;
@@ -26,6 +28,11 @@ namespace DG
 		Math::Vector3 GetWorldUp() const;
 		Math::Vector3 GetWorldLook() const;
 		Math::Vector3 GetWorldPosition() const;
+
+		void SetLocalRight(Math::Vector3 const& _right);
+		void SetLocalUp(Math::Vector3 const& _up);
+		void SetLocalLook(Math::Vector3 const& _look);
+		void SetLocalPosition(Math::Vector3 const& _position);
 
 		void LookAt(Math::Vector3 const& _position);
 
@@ -57,6 +64,7 @@ namespace DG
 
 		bool update_flag_{ true };
 		bool static_flag_{};
+		Math::Vector3 scale_vector_{ Math::Vector3::One };
 		Math::Matrix local_{ Math::Matrix::Identity };
 		Math::Matrix parent_{ Math::Matrix::Identity };
 		Math::Matrix world_{ Math::Matrix::Identity };

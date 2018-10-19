@@ -1,6 +1,7 @@
 #include "DGEngine_stdafx.h"
 #include "collider.h"
 
+#include "device.h"
 #include "Resource/resource_manager.h"
 #include "Resource/mesh.h"
 #include "Rendering/rendering_manager.h"
@@ -20,6 +21,11 @@ void Collider::Initialize()
 	shader_tag_ = COLLIDER_SHADER;
 	color_ = DirectX::Colors::Green.v;
 #endif
+}
+
+void Collider::AddCallback(std::function<void(Collider*, Collider*, float)> const& _function, COLLISION_CALLBACK_TYPE _type)
+{
+	collision_callback_list_array_.at(static_cast<int>(_type)).push_back(_function);
 }
 
 COLLIDER_TYPE Collider::collider_type() const
@@ -123,8 +129,6 @@ Collider::Collider(Collider&& _other) noexcept : Component(std::move(_other))
 
 void Collider::_Release()
 {
-	// collider는 총 3곳에서 들고있음, collided_collider, collision_manager
-
 	for (auto iter = collided_collider_list_.begin(); iter != collided_collider_list_.end(); ++iter)
 	{
 		_OnCollisionLeave(*iter, 0.f);
@@ -132,8 +136,6 @@ void Collider::_Release()
 		(*iter)->_OnCollisionLeave(this, 0.f);
 		(*iter)->_EraseCollidedCollider(this);
 	}
-
-	CollisionManager::singleton()->EraseExpiredCollider(this);
 }
 
 void Collider::_Render(float _time)
@@ -152,11 +154,6 @@ void Collider::_Render(float _time)
 	shader->SetShader();
 	mesh->Render();
 #endif
-}
-
-void Collider::_AddCallback(std::function<void(Collider*, Collider*, float)> const& _function, COLLISION_CALLBACK_TYPE _type)
-{
-	collision_callback_list_array_.at(static_cast<int>(_type)).push_back(_function);
 }
 
 void Collider::_ClearSection()
@@ -188,8 +185,6 @@ void Collider::_UpdateCollidedCollider(float _time)
 
 			continue;
 		}
-
-		//auto src_section_idx_list = (*iter)->section_idx_list();
 
 		bool is_overlapped = false;
 		for (auto src_iter = section_idx_list_.begin(); src_iter != section_idx_list_.end(); ++src_iter)

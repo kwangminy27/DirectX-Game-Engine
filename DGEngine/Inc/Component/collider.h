@@ -18,6 +18,8 @@ namespace DG
 
 		virtual bool Collision(Collider* _dest, float _time) = 0;
 
+		void AddCallback(std::function<void(Collider*, Collider*, float)> const& _function, COLLISION_CALLBACK_TYPE _type);
+
 		COLLIDER_TYPE collider_type() const;
 		std::string const& collision_group_tag() const;
 		bool update_flag() const;
@@ -45,8 +47,6 @@ namespace DG
 
 		virtual void _Render(float _time) override;
 		virtual std::unique_ptr<Component, std::function<void(Component*)>> _Clone() const = 0;
-
-		void _AddCallback(std::function<void(Collider*, Collider*, float)> const& _function, COLLISION_CALLBACK_TYPE _type);
 
 		void _AddSection(int _idx);
 		void _ClearSection();

@@ -52,7 +52,7 @@ Component::Component(Component const& _other) : Tag(_other)
 	type_ = _other.type_;
 	scene_ = _other.scene_;
 	layer_ = _other.layer_;
-	//object_ = _other.object_;
+	object_ = _other.object_;
 }
 
 Component::Component(Component&& _other) noexcept : Tag(std::move(_other))
