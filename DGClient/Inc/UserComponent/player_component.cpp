@@ -21,7 +21,7 @@ void PlayerComponent::Initialize()
 
 	auto transform = std::dynamic_pointer_cast<Transform>(object()->AddComponent<Transform>("Transform"));
 
-	transform->Scaling(Math::Vector3{ 0.5f, 0.5f, 1.f });
+	transform->Scaling(Math::Vector3{ 100.f, 100.f, 1.f });
 	transform->set_pivot(Math::Vector3{ 0.5f, 0.f, 0.f });
 
 	auto renderer = std::dynamic_pointer_cast<Renderer>(object()->AddComponent<Renderer>("Renderer"));
@@ -45,9 +45,8 @@ void PlayerComponent::Initialize()
 
 	auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("PlayerBody"));
 
-	collider_rect->set_relative_info(Math::Vector3::Zero, Math::Vector3{ 100.f, 100.f, 0.f });
-	//auto const& mesh = ResourceManager::singleton()->FindMesh("TexRect");
-	//collider_rect->set_relative_info(Math::Vector3::Zero, mesh->max() - mesh->min());
+	auto const& mesh = ResourceManager::singleton()->FindMesh("TexRect");
+	collider_rect->set_relative_info(Math::Vector3::Zero, (mesh->max() - mesh->min()) * transform->scale_vector());
 }
 
 PlayerComponent::PlayerComponent(PlayerComponent const& _other) : UserComponent(_other)

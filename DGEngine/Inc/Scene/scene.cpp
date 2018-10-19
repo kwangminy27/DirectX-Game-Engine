@@ -7,6 +7,7 @@
 #include "Component/transform.h"
 #include "Component/camera.h"
 #include "collision_manager.h"
+#include "input_manager.h"
 
 std::shared_ptr<SceneComponent> Scene::scene_component_nullptr_{};
 std::shared_ptr<Layer> Scene::layer_nullptr_{};
@@ -179,6 +180,7 @@ void Scene::_Update(float _time)
 	}
 
 	main_camera_->_Update(_time);
+	InputManager::singleton()->UpdateMousePosition();
 }
 
 void Scene::_LateUpdate(float _time)
@@ -208,6 +210,8 @@ void Scene::_LateUpdate(float _time)
 			++iter;
 		}
 	}
+
+	InputManager::singleton()->LateUpdate(_time);
 }
 
 void Scene::_Collision(float _time)

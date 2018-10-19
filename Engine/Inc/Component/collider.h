@@ -61,11 +61,13 @@ namespace DG
 		void _OnCollisionLeave(Collider* _dest, float _time);
 
 		bool _CollisionRectToRect(RectInfo const& _src, RectInfo const& _dest);
+		bool _CollisionRectToPoint(RectInfo const& _src, Math::Vector3 const& _dest);
 
 		COLLIDER_TYPE collider_type_{};
 		std::string collision_group_tag_{};
 		bool update_flag_{};
 		Math::Vector3 pivot_{};
+		// collider min, max는 section은 충돌체가 속할 section의 idx를 구할 때 사용된다.
 		Math::Vector3 collider_min_{};
 		Math::Vector3 collider_max_{};
 		std::list<int> section_idx_list_{};

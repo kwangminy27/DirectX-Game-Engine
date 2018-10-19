@@ -4,9 +4,11 @@
 #include "core.h"
 #include "Scene/scene_manager.h"
 #include "object.h"
+#include "collision_manager.h"
 #include "Component/transform.h"
 #include "Component/renderer.h"
 #include "Component/material.h"
+#include "Component/collider_point.h"
 
 using namespace DG;
 
@@ -29,7 +31,7 @@ void InputManager::Initialize()
 
 		auto transform = std::dynamic_pointer_cast<Transform>(mouse_->AddComponent<Transform>("Transform"));
 
-		transform->Scaling(Math::Vector3{ 1.f, 1.f, 1.f });
+		transform->Scaling(Math::Vector3{ 32.f, 31.f, 1.f });
 		transform->set_pivot(Math::Vector3{ 0.f, 1.f, 0.f });
 
 		auto renderer = std::dynamic_pointer_cast<Renderer>(mouse_->AddComponent<Renderer>("Renderer"));
@@ -47,11 +49,18 @@ void InputManager::Initialize()
 		material->SetTexture("Mouse", 0, 0, 0);
 		material->SetSampler(LINEAR_SAMPLER, 0, 0, 0);
 
+		auto mouse_ui_collider = std::dynamic_pointer_cast<ColliderPoint>(mouse_->AddComponent<ColliderPoint>("MouseUICollider"));
+		mouse_ui_collider->set_collision_group_tag("UI");
+
+		auto mouse_world_collider = mouse_->AddComponent<ColliderPoint>("MouseWorldCollider");
+
 		auto scene = SceneManager::singleton()->scene();
 
 		mouse_->set_scene(scene);
 		for (auto const& _component : mouse_->component_list_)
 			_component->set_scene(scene);
+
+		ShowCursor(false);
 	}
 	catch (std::exception const& _e)
 	{
@@ -100,20 +109,23 @@ void InputManager::Update()
 	GetCursorPos(&position);
 	ScreenToClient(Core::singleton()->window(), &position);
 
-	position.y = static_cast<LONG>(RESOLUTION::HEIGHT) - position.y; // 원점을 좌상단에서 좌하단으로
+	RECT rc{};
+	GetClientRect(Core::singleton()->window(), &rc);
+
+	position.y = rc.bottom - position.y; // 원점을 좌상단에서 좌하단으로
 
 	mouse_displacement_.x = static_cast<float>(position.x) - mouse_client_position_.x;
 	mouse_displacement_.y = static_cast<float>(position.y) - mouse_client_position_.y;
 
-	mouse_client_position_ = { static_cast<float>(position.x), static_cast<float>(position.y), 0.f };
+	Math::Vector3 client_to_game_resolution_ratio{ static_cast<float>(RESOLUTION::WIDTH) / rc.right, static_cast<float>(RESOLUTION::HEIGHT) / rc.bottom, 1.f };
+
+	mouse_client_position_ = Math::Vector3{ static_cast<float>(position.x), static_cast<float>(position.y), 1.f } * client_to_game_resolution_ratio;
 	
 	auto const& camera = SceneManager::singleton()->scene()->main_camera();
 	mouse_world_position_ = mouse_client_position_ + std::dynamic_pointer_cast<Transform>(camera->FindComponent(COMPONENT_TYPE::TRANSFORM))->GetWorldPosition();
 
 	auto const& mouse_transform = std::dynamic_pointer_cast<Transform>(mouse_->FindComponent(COMPONENT_TYPE::TRANSFORM));
 	mouse_transform->SetLocalPosition(mouse_client_position_);
-
-	//std::cout << mouse_transform->GetLocalPosition().x << ", " << mouse_transform->GetLocalPosition().y << ", " << mouse_transform->GetLocalPosition().z << std::endl;
 
 	if (!mouse_cursor_show_state_ && mouse_client_position_.x <= 0.f && mouse_client_position_.x >= static_cast<float>(RESOLUTION::WIDTH) && mouse_client_position_.y <= 0.f && mouse_client_position_.y >= static_cast<float>(RESOLUTION::HEIGHT))
 	{
@@ -127,12 +139,29 @@ void InputManager::Update()
 	}
 }
 
+void InputManager::LateUpdate(float _time)
+{
+	auto const& mouse_ui_collider = std::dynamic_pointer_cast<ColliderPoint>(mouse_->FindComponent("MouseUICollider"));
+	auto const& mouse_world_collider = std::dynamic_pointer_cast<ColliderPoint>(mouse_->FindComponent("MouseWorldCollider"));
+
+	mouse_ui_collider->_LateUpdate(_time);
+	mouse_world_collider->_LateUpdate(_time);
+}
+
 void InputManager::Render(float _time)
 {
 	auto mouse_transform = std::dynamic_pointer_cast<Transform>(mouse_->FindComponent(COMPONENT_TYPE::TRANSFORM));
 	mouse_transform->_Update(_time);
 
 	mouse_->_Render(_time);
+}
+
+void InputManager::UpdateMousePosition()
+{
+	auto const& camera_transform = std::dynamic_pointer_cast<Transform>(SceneManager::singleton()->scene()->main_camera()->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	auto const& mouse_world_collider = std::dynamic_pointer_cast<ColliderPoint>(mouse_->FindComponent("MouseWorldCollider"));
+
+	mouse_world_collider->set_relative_info(camera_transform->GetLocalPosition());
 }
 
 bool InputManager::KeyPush(std::string const& _tag) const

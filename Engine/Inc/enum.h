@@ -84,7 +84,8 @@ enum class COLLISION_GROUP_TYPE
 
 enum class COLLIDER_TYPE
 {
-	RECT
+	RECT,
+	POINT
 };
 
 enum class COLLISION_CALLBACK_TYPE

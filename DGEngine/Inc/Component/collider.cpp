@@ -267,13 +267,30 @@ bool Collider::_CollisionRectToRect(RectInfo const& _src, RectInfo const& _dest)
 	if (_src.min.x > _dest.max.x)
 		return false;
 
-	if (_src.max.x < _dest.min.x)
+	else if (_src.max.x < _dest.min.x)
 		return false;
 
-	if (_src.min.y > _dest.max.y)
+	else if (_src.min.y > _dest.max.y)
 		return false;
 
-	if (_src.max.y < _dest.min.y)
+	else if (_src.max.y < _dest.min.y)
+		return false;
+
+	return true;
+}
+
+bool Collider::_CollisionRectToPoint(RectInfo const& _src, Math::Vector3 const& _dest)
+{
+	if (_dest.x < _src.min.x)
+		return false;
+
+	else if (_dest.x > _src.max.x)
+		return false;
+
+	else if (_dest.y < _src.min.y)
+		return false;
+
+	else if (_dest.y > _src.max.y)
 		return false;
 
 	return true;

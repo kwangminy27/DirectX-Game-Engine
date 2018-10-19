@@ -8,6 +8,7 @@
 #include "object.h"
 #include "Component/transform.h"
 #include "Component/camera.h"
+#include "Component/collider_point.h"
 
 using namespace DG;
 
@@ -16,6 +17,20 @@ void ColliderRect::Initialize()
 	collider_type_ = COLLIDER_TYPE::RECT;
 
 	Collider::Initialize();
+}
+
+bool ColliderRect::Collision(Collider* _dest, float _time)
+{
+	switch (_dest->collider_type())
+	{
+	case COLLIDER_TYPE::RECT:
+		return _CollisionRectToRect(final_info_, dynamic_cast<ColliderRect*>(_dest)->final_info_);
+
+	case COLLIDER_TYPE::POINT:
+		return _CollisionRectToPoint(final_info_, dynamic_cast<ColliderPoint*>(_dest)->final_info());
+	}
+
+	return false;
 }
 
 RectInfo const& ColliderRect::final_info() const
@@ -28,10 +43,6 @@ void ColliderRect::set_relative_info(Math::Vector3 const& _min, Math::Vector3 co
 	relative_info_.min = _min;
 	relative_info_.max = _max;
 	relative_info_.diagonal = _max - _min;
-
-	relative_info_.min.z = 0.f;
-	relative_info_.max.z = 0.f;
-	relative_info_.diagonal.z = 1.f; // 왜 1.f 이어야하지?
 }
 
 ColliderRect::ColliderRect(ColliderRect const& _other) : Collider(_other)
@@ -55,27 +66,15 @@ void ColliderRect::_LateUpdate(float _time)
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
 	auto const& mesh = ResourceManager::singleton()->FindMesh(mesh_tag_);
-	Math::Vector3 object_position = transform->GetLocalPosition() - mesh->diagonal() * transform->pivot();
+	Math::Vector3 object_position = transform->GetLocalPosition() - mesh->diagonal() * transform->scale_vector() * transform->pivot();
 
-	final_info_.min = object_position + relative_info_.min - pivot_ * relative_info_.diagonal;
-	final_info_.max = object_position + relative_info_.max - pivot_ * relative_info_.diagonal;
+	final_info_.min = object_position + relative_info_.min;
+	final_info_.max = object_position + relative_info_.max;
 	final_info_.diagonal = relative_info_.diagonal;
 
-	// 이 정보 자체가 사각형의 영역을 판단할 데이터로 사용된다.
 	collider_min_ = final_info_.min;
 	collider_max_ = final_info_.max;
 #endif
-}
-
-bool ColliderRect::Collision(Collider* _dest, float _time)
-{
-	switch (_dest->collider_type())
-	{
-	case COLLIDER_TYPE::RECT:
-		return _CollisionRectToRect(final_info_, dynamic_cast<ColliderRect*>(_dest)->final_info_);
-	}
-
-	return false;
 }
 
 void ColliderRect::_Render(float _time)
@@ -85,9 +84,14 @@ void ColliderRect::_Render(float _time)
 	auto const& camera_component = std::dynamic_pointer_cast<Camera>(main_camera->FindComponent(COMPONENT_TYPE::CAMERA));
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
+	Math::Matrix view = Math::Matrix::Identity;
+
+	if (collision_group_tag_ != "UI")
+		view = camera_component->view();
+
 	TransformConstantBuffer transform_constant_buffer{};
-	transform_constant_buffer.world = /*Math::Matrix::CreateScale(transform->scale_vector()) * */Math::Matrix::CreateTranslation(final_info_.min);
-	transform_constant_buffer.view = camera_component->view();
+	transform_constant_buffer.world = Math::Matrix::CreateScale(transform->scale_vector()) * Math::Matrix::CreateTranslation(final_info_.min);
+	transform_constant_buffer.view = view;
 	transform_constant_buffer.projection = camera_component->projection();
 	transform_constant_buffer.WVP = transform_constant_buffer.world * transform_constant_buffer.view * transform_constant_buffer.projection;
 

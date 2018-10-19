@@ -21,7 +21,7 @@ void MissileComponent::Initialize()
 
 	auto transform = std::dynamic_pointer_cast<Transform>(object()->AddComponent<Transform>("Transform"));
 
-	transform->Scaling(Math::Vector3{ 0.5f, 0.5f, 1.f });
+	transform->Scaling(Math::Vector3{ 20.f, 20.f, 1.f });
 	transform->set_pivot(Math::Vector3{ 0.5f, 0.f, 0.f });
 
 	auto renderer = std::dynamic_pointer_cast<Renderer>(object()->AddComponent<Renderer>("Renderer"));
@@ -38,9 +38,8 @@ void MissileComponent::Initialize()
 
 	auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("ColliderRect"));
 
-//	auto const& mesh = ResourceManager::singleton()->FindMesh("ColorTri");
-//	collider_rect->set_relative_info(Math::Vector3::Zero, (mesh->max() - mesh->min()) * transform->scale_vector());
-	collider_rect->set_relative_info(Math::Vector3::Zero, Math::Vector3{ 100.f, 100.f, 0.f });
+	auto const& mesh = ResourceManager::singleton()->FindMesh("ColorTri");
+	collider_rect->set_relative_info(Math::Vector3::Zero, (mesh->max() - mesh->min()) * transform->scale_vector());
 	collider_rect->AddCallback([this](Collider* _src, Collider* _dest, float _time) {
 		_MissileHit(_dest);
 	}, COLLISION_CALLBACK_TYPE::ENTER);

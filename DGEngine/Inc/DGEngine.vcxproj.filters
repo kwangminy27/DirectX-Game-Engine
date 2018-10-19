@@ -189,6 +189,9 @@
     <ClInclude Include="input_manager.h">
       <Filter>10. Input</Filter>
     </ClInclude>
+    <ClInclude Include="Component\collider_point.h">
+      <Filter>09. Component\7. Collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -289,6 +292,9 @@
     </ClCompile>
     <ClCompile Include="input_manager.cpp">
       <Filter>10. Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\collider_point.cpp">
+      <Filter>09. Component\7. Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

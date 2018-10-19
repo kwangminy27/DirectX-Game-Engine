@@ -20,8 +20,8 @@ void ResourceManager::Initialize()
 	{
 		// ColorTri
 		VertexColor color_triangle[3]{
-			VertexColor{ Math::Vector3{ 50.f, 100.f, 0.f } , DirectX::Colors::Red.v },
-			VertexColor{ Math::Vector3{ 100.f, 0.f, 0.f }, DirectX::Colors::Green.v },
+			VertexColor{ Math::Vector3{ 0.5f, 1.f, 0.f } , DirectX::Colors::Red.v },
+			VertexColor{ Math::Vector3{ 1.f, 0.f, 0.f }, DirectX::Colors::Green.v },
 			VertexColor{ Math::Vector3{ 0.f, 0.f, 0.f }, DirectX::Colors::Blue.v }
 		};
 
@@ -36,9 +36,9 @@ void ResourceManager::Initialize()
 		// TexRect
 		VertexTex tex_rect[4]{
 			VertexTex{ Math::Vector3{ 0.f, 0.f, 0.f }, Math::Vector2{ 0.f, 1.f } },
-			VertexTex{ Math::Vector3{ 0.f, 100.f, 0.f }, Math::Vector2{ 0.f, 0.f } },
-			VertexTex{ Math::Vector3{ 100.f, 0.f, 0.f }, Math::Vector2{ 1.f, 1.f } },
-			VertexTex{ Math::Vector3{ 100.f, 100.f, 0.f }, Math::Vector2{ 1.f, 0.f } },
+			VertexTex{ Math::Vector3{ 0.f, 1.f, 0.f }, Math::Vector2{ 0.f, 0.f } },
+			VertexTex{ Math::Vector3{ 1.f, 0.f, 0.f }, Math::Vector2{ 1.f, 1.f } },
+			VertexTex{ Math::Vector3{ 1.f, 1.f, 0.f }, Math::Vector2{ 1.f, 0.f } },
 		};
 
 		unsigned short tex_rect_indices[6]{ 0, 1, 2, 1, 3, 2 };
@@ -52,11 +52,11 @@ void ResourceManager::Initialize()
 #ifdef _DEBUG
 		// ColliderRect
 		Math::Vector3 collider_rect[5]{
-			Math::Vector3{ 0.f, 100.f, 0.f },
-			Math::Vector3{ 100.f, 100.f, 0.f },
-			Math::Vector3{ 100.f, 0.f, 0.f },
+			Math::Vector3{ 0.f, 1.f, 0.f },
+			Math::Vector3{ 1.f, 1.f, 0.f },
+			Math::Vector3{ 1.f, 0.f, 0.f },
 			Math::Vector3{ 0.f, 0.f, 0.f },
-			Math::Vector3{ 0.f, 100.f, 0.f }
+			Math::Vector3{ 0.f, 1.f, 0.f }
 		};
 
 		_CreateMesh(

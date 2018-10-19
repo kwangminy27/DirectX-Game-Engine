@@ -172,6 +172,7 @@
     <ClInclude Include="Component\animation_2d.h" />
     <ClInclude Include="Component\camera.h" />
     <ClInclude Include="Component\collider.h" />
+    <ClInclude Include="Component\collider_point.h" />
     <ClInclude Include="Component\collider_rect.h" />
     <ClInclude Include="Component\component.h" />
     <ClInclude Include="Component\material.h" />
@@ -210,6 +211,7 @@
     <ClCompile Include="Component\animation_2d.cpp" />
     <ClCompile Include="Component\camera.cpp" />
     <ClCompile Include="Component\collider.cpp" />
+    <ClCompile Include="Component\collider_point.cpp" />
     <ClCompile Include="Component\collider_rect.cpp" />
     <ClCompile Include="Component\component.cpp" />
     <ClCompile Include="Component\material.cpp" />

@@ -3,6 +3,8 @@
 
 #include "object.h"
 #include "Component/collider.h"
+#include "Component/collider_point.h"
+#include "input_manager.h"
 
 using namespace DG;
 
@@ -38,6 +40,151 @@ void CollisionManager::Initialize()
 
 void CollisionManager::Collision(float _time)
 {
+	// 마우스와 오브젝트간 충돌처리
+	auto const& mouse_object = InputManager::singleton()->mouse();
+	Collider* mouse_ui_collider = std::dynamic_pointer_cast<ColliderPoint>(mouse_object->FindComponent("MouseUICollider")).get();
+
+	mouse_ui_collider->_ClearSection();
+
+	auto const& ui_collision_group = FindCollisionGroup("UI");
+	auto const& mouse_position = dynamic_cast<ColliderPoint*>(mouse_ui_collider)->final_info();
+
+	int mouse_ui_section_x_idx = static_cast<int>(mouse_position.x / ui_collision_group->section_length.x);
+	int mouse_ui_section_y_idx = static_cast<int>(mouse_position.y / ui_collision_group->section_length.y);
+	// 2D 게임이라 z는 아직 보류
+
+	bool is_ui_collided = false;
+	if (mouse_ui_section_x_idx >= 0 && mouse_ui_section_x_idx < ui_collision_group->x_count &&
+		mouse_ui_section_y_idx >= 0 && mouse_ui_section_y_idx < ui_collision_group->y_count)
+	{ // 인덱스가 유효하다면
+		int mouse_section_idx = ui_collision_group->x_count * mouse_ui_section_y_idx + mouse_ui_section_x_idx;
+
+		mouse_ui_collider->_AddSection(mouse_section_idx);
+
+		auto const& section = ui_collision_group->section_3d[mouse_section_idx];
+
+		if (section.size > 0)
+		{ // 해당 섹션에 검사할 충돌체가 있다면
+
+			// UI 오픈 순서에 따라 정렬, 일단 보류하고 나중에 구현
+
+			for (int i = 0; i < section.size; ++i)
+			{
+				Collider* dest = section.collider_dynamic_array[i];
+
+				if (mouse_ui_collider->Collision(dest, _time))
+				{
+					if (!mouse_ui_collider->_IsCollidedCollider(dest))
+					{
+						mouse_ui_collider->_AddCollidedCollider(dest);
+						dest->_AddCollidedCollider(mouse_ui_collider);
+
+						mouse_ui_collider->_OnCollisionEnter(dest, _time);
+						dest->_OnCollisionEnter(mouse_ui_collider, _time);
+
+						is_ui_collided = true;
+
+						break;
+					}
+					else
+					{
+						mouse_ui_collider->_OnCollision(dest, _time);
+						dest->_OnCollision(mouse_ui_collider, _time);
+
+						is_ui_collided = true;
+
+						break;
+					}
+				}
+				else
+				{
+					if (mouse_ui_collider->_IsCollidedCollider(dest))
+					{
+						mouse_ui_collider->_EraseCollidedCollider(dest);
+						dest->_EraseCollidedCollider(mouse_ui_collider);
+
+						mouse_ui_collider->_OnCollisionLeave(dest, _time);
+						dest->_OnCollisionLeave(mouse_ui_collider, _time);
+					}
+				}
+			}
+		}
+	}
+
+	if (!is_ui_collided)
+	{
+		Collider* mouse_world_collider = std::dynamic_pointer_cast<ColliderPoint>(mouse_object->FindComponent("MouseWorldCollider")).get();
+
+		mouse_world_collider->_ClearSection();
+
+		for (auto iter = collision_group_map_.begin(); iter != collision_group_map_.end(); ++iter)
+		{
+			if (iter->first == "UI")
+				continue;
+
+			for (int i = 0; i < iter->second->total_count; ++i)
+			{
+				auto const& mouse_position = dynamic_cast<ColliderPoint*>(mouse_world_collider)->final_info();
+
+				int mouse_world_section_x_idx = static_cast<int>(mouse_position.x / iter->second->section_length.x);
+				int mouse_world_section_y_idx = static_cast<int>(mouse_position.y / iter->second->section_length.y);
+
+				if (mouse_world_section_x_idx >= 0 && mouse_world_section_x_idx < iter->second->x_count &&
+					mouse_world_section_y_idx >= 0 && mouse_world_section_y_idx < iter->second->y_count)
+				{
+					int mouse_world_section_idx = iter->second->x_count * mouse_world_section_y_idx + mouse_world_section_x_idx;
+
+					mouse_world_collider->_AddSection(mouse_world_section_idx);
+
+					auto const& section = iter->second->section_3d[mouse_world_section_idx];
+
+					if (section.size > 0)
+					{
+						// World의 오브젝트도 일단 정렬 시키는건가??, 일단 보류
+
+						for (int i = 0; i < section.size; ++i)
+						{
+							Collider* dest = section.collider_dynamic_array[i];
+
+							if (mouse_world_collider->Collision(dest, _time))
+							{
+								if (!mouse_world_collider->_IsCollidedCollider(dest))
+								{
+									mouse_world_collider->_AddCollidedCollider(dest);
+									dest->_AddCollidedCollider(mouse_world_collider);
+
+									mouse_world_collider->_OnCollisionEnter(dest, _time);
+									dest->_OnCollisionEnter(mouse_world_collider, _time);
+
+									break;
+								}
+								else
+								{
+									mouse_world_collider->_OnCollision(dest, _time);
+									dest->_OnCollision(mouse_world_collider, _time);
+
+									break;
+								}
+							}
+							else
+							{
+								if (mouse_world_collider->_IsCollidedCollider(dest))
+								{
+									mouse_world_collider->_EraseCollidedCollider(dest);
+									dest->_EraseCollidedCollider(mouse_world_collider);
+
+									mouse_world_collider->_OnCollisionLeave(dest, _time);
+									dest->_OnCollisionLeave(mouse_world_collider, _time);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	///
 	for (auto const& _collision_group : collision_group_map_)
 	{
 		for (int i = 0; i < _collision_group.second->total_count; ++i)

@@ -20,7 +20,11 @@ namespace DG
 	public:
 		void Initialize();
 		void Update();
+		void LateUpdate(float _time);
 		void Render(float _time);
+
+		// AddMouseCollision <- 이거 왜 사용하는거지???
+		void UpdateMousePosition();
 
 		bool KeyPush(std::string const& _tag) const;
 		bool KeyPressed(std::string const& _tag) const;
