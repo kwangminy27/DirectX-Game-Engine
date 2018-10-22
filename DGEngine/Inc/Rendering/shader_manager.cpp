@@ -66,7 +66,6 @@ void ShaderManager::Initialize()
 			"ShaderPath"
 		);
 
-#ifdef _DEBUG
 		// ColliderShader
 		cso_info_vector.clear();
 		input_element_desc_vector.clear();
@@ -82,7 +81,6 @@ void ShaderManager::Initialize()
 			input_element_desc_vector,
 			"ShaderPath"
 		);
-#endif
 
 		_CreateConstantBuffer(
 			"Transform",
@@ -105,14 +103,12 @@ void ShaderManager::Initialize()
 			8
 		);
 
-#ifdef _DEBUG
 		_CreateConstantBuffer(
 			"Collider",
 			sizeof(Math::Vector4),
 			static_cast<int>(CONSTANT_BUFFER_SHADER_TYPE::VERTEX) | static_cast<int>(CONSTANT_BUFFER_SHADER_TYPE::PIXEL),
 			8
 		);
-#endif
 	}
 	catch (exception const& _e)
 	{

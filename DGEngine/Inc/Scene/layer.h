@@ -11,7 +11,8 @@ namespace DG
 	{
 		friend class Scene;
 	public:
-		void AddObject(std::shared_ptr<Object>& _object);
+		void AddObject(std::shared_ptr<Object> const& _object);
+		void AddCloneObject(std::shared_ptr<Object> const& _object);
 		std::shared_ptr<Object> const& FindObject(std::string const& _tag) const;
 
 		int z_order() const;

@@ -16,11 +16,9 @@ void Collider::Initialize()
 
 	collision_group_tag_ = "Default";
 
-#ifdef _DEBUG
 	mesh_tag_ = "ColliderRect";
 	shader_tag_ = COLLIDER_SHADER;
 	color_ = DirectX::Colors::Green.v;
-#endif
 }
 
 void Collider::AddCallback(std::function<void(Collider*, Collider*, float)> const& _function, COLLISION_CALLBACK_TYPE _type)
@@ -68,7 +66,6 @@ void Collider::set_pivot(Math::Vector3 const& _pivot)
 	pivot_ = _pivot;
 }
 
-#ifdef _DEBUG
 void Collider::set_mesh_tag(std::string const& _tag)
 {
 	mesh_tag_ = _tag;
@@ -83,7 +80,6 @@ void Collider::set_color(Math::Vector4 const& _color)
 {
 	color_ = _color;
 }
-#endif
 
 Collider::Collider(Collider const& _other) : Component(_other)
 {
@@ -99,11 +95,9 @@ Collider::Collider(Collider const& _other) : Component(_other)
 	collided_collider_list_ = _other.collided_collider_list_;
 	collision_callback_list_array_ = _other.collision_callback_list_array_;
 
-#ifdef _DEBUG
 	mesh_tag_ = _other.mesh_tag_;
 	shader_tag_ = _other.shader_tag_;
 	color_ = _other.color_;
-#endif
 }
 
 Collider::Collider(Collider&& _other) noexcept : Component(std::move(_other))
@@ -120,11 +114,9 @@ Collider::Collider(Collider&& _other) noexcept : Component(std::move(_other))
 	collided_collider_list_ = std::move(_other.collided_collider_list_);
 	collision_callback_list_array_ = std::move(_other.collision_callback_list_array_);
 
-#ifdef _DEBUG
 	mesh_tag_ = std::move(_other.mesh_tag_);
 	shader_tag_ = std::move(_other.shader_tag_);
 	color_ = std::move(_other.color_);
-#endif
 }
 
 void Collider::_Release()

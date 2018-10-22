@@ -42,6 +42,8 @@ std::shared_ptr<Object> Object::CreatePrototype(std::string const& _tag, bool _c
 	} };
 
 	prototype->tag_ = _tag;
+	prototype->scene_ = scene;
+
 	prototype->_Initialize();
 
 	iter->second.insert(make_pair(_tag, prototype));
@@ -64,16 +66,10 @@ std::shared_ptr<Object> Object::CreateClone(std::string const& _tag, std::string
 
 	auto object = std::shared_ptr<Object>{ prototype->Clone() };
 
-	object->tag_ = _tag;
-	object->_Initialize();
-
 	if (!_layer)
 		throw std::exception{ "Object::CreateClone" };
 
-	_layer->AddObject(object);
-
-	// Test
-	object->Test(scene, _layer, object);
+	_layer->AddCloneObject(object);
 
 	return object;
 }

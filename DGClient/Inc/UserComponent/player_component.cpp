@@ -67,20 +67,21 @@ void PlayerComponent::_Input(float _time)
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
 	if (input_manager->KeyPressed("MoveLeft"))
-		transform->RotationZ(DirectX::XMConvertToRadians(180.f * _time));
+		transform->RotationZ(DirectX::XMConvertToRadians(360.f * _time));
 	if (input_manager->KeyPressed("MoveRight"))
-		transform->RotationZ(DirectX::XMConvertToRadians(-180.f * _time));
+		transform->RotationZ(DirectX::XMConvertToRadians(-360.f * _time));
 	if (input_manager->KeyPressed("MoveUp"))
 		transform->Translation(transform->GetLocalUp() * 400.f * _time);
 	if (input_manager->KeyPressed("MoveDown"))
 		transform->Translation(transform->GetLocalUp() * -400.f * _time);
 
-	if (input_manager->KeyPush("Space"))
+	if (input_manager->KeyPressed("Space"))
 	{
 		auto const& default_layer = scene()->FindLayer("Default");
 		auto missile = Object::CreateClone("Missile", "Missile", default_layer, true);
 		auto const& missile_transform = std::dynamic_pointer_cast<Transform>(missile->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
+		// scale을 사용하고 있어서 각각 따로따로 세팅해 줌. GetRight, Up, Look은 normalize된 vector를 리턴해주도록 했음
 		missile_transform->SetLocalRight(transform->GetLocalRight());
 		missile_transform->SetLocalUp(transform->GetLocalUp());
 		missile_transform->SetLocalLook(transform->GetLocalLook());

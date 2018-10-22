@@ -62,7 +62,6 @@ void ColliderRect::_Release()
 
 void ColliderRect::_LateUpdate(float _time)
 {
-#ifdef _DEBUG
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
 	auto const& mesh = ResourceManager::singleton()->FindMesh(mesh_tag_);
@@ -74,7 +73,6 @@ void ColliderRect::_LateUpdate(float _time)
 
 	collider_min_ = final_info_.min;
 	collider_max_ = final_info_.max;
-#endif
 }
 
 void ColliderRect::_Render(float _time)

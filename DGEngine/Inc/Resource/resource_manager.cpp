@@ -49,7 +49,6 @@ void ResourceManager::Initialize()
 			tex_rect_indices, 2, 6, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R16_UINT
 		);
 
-#ifdef _DEBUG
 		// ColliderRect
 		Math::Vector3 collider_rect[5]{
 			Math::Vector3{ 0.f, 1.f, 0.f },
@@ -63,7 +62,6 @@ void ResourceManager::Initialize()
 			"ColliderRect", COLLIDER_SHADER, D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP,
 			collider_rect, sizeof(Math::Vector3), 5, D3D11_USAGE_DEFAULT
 		);
-#endif
 
 		_CreateTexture2D("Player", L"Player.png", TEXTURE_PATH);
 		_CreateTexture2D("Illuminati", L"Illuminati.png", TEXTURE_PATH);

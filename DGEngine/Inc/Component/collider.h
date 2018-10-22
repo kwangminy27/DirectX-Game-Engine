@@ -4,10 +4,8 @@
 
 namespace DG
 {
-#ifdef _DEBUG
 	class Mesh;
 	class Shader;
-#endif
 
 	class DG_ENGINE_DLL Collider : public Component
 	{
@@ -30,11 +28,9 @@ namespace DG
 		void set_collision_group_tag(std::string const& _tag);
 		void set_pivot(Math::Vector3 const& _pivot);
 
-#ifdef _DEBUG
 		void set_mesh_tag(std::string const& _tag);
 		void set_shader_tag(std::string const& _tag);
 		void set_color(Math::Vector4 const& _color);
-#endif
 
 	protected:
 		Collider() = default;
@@ -74,10 +70,8 @@ namespace DG
 		std::list<Collider*> collided_collider_list_{};
 		std::array<std::list<std::function<void(Collider*, Collider*, float)>>, static_cast<int>(COLLISION_CALLBACK_TYPE::END)> collision_callback_list_array_{};
 
-#ifdef _DEBUG
 		std::string mesh_tag_{};
 		std::string shader_tag_{};
 		Math::Vector4 color_{};
-#endif
 	};
 }

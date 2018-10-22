@@ -87,5 +87,6 @@ void MissileComponent::_MissileHit(Collider* _target)
 	{
 		std::cout << "Monster Hit!" << std::endl;
 		_target->object()->set_active_flag(false);
+		_target->set_active_flag(false);
 	}
 }

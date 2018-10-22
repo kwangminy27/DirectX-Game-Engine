@@ -72,6 +72,9 @@ void CollisionManager::Collision(float _time)
 			{
 				Collider* dest = section.collider_dynamic_array[i];
 
+				if (!dest->active_flag() || !dest->enable_flag())
+					continue;
+
 				if (mouse_ui_collider->Collision(dest, _time))
 				{
 					if (!mouse_ui_collider->_IsCollidedCollider(dest))
@@ -146,6 +149,9 @@ void CollisionManager::Collision(float _time)
 						{
 							Collider* dest = section.collider_dynamic_array[i];
 
+							if (!dest->active_flag() || !dest->enable_flag())
+								continue;
+
 							if (mouse_world_collider->Collision(dest, _time))
 							{
 								if (!mouse_world_collider->_IsCollidedCollider(dest))
@@ -155,15 +161,11 @@ void CollisionManager::Collision(float _time)
 
 									mouse_world_collider->_OnCollisionEnter(dest, _time);
 									dest->_OnCollisionEnter(mouse_world_collider, _time);
-
-									break;
 								}
 								else
 								{
 									mouse_world_collider->_OnCollision(dest, _time);
 									dest->_OnCollision(mouse_world_collider, _time);
-
-									break;
 								}
 							}
 							else
@@ -189,36 +191,36 @@ void CollisionManager::Collision(float _time)
 	{
 		for (int i = 0; i < _collision_group.second->total_count; ++i)
 		{
-			auto section = &(_collision_group.second->section_3d[i]);
+			auto& section = _collision_group.second->section_3d[i];
 
-			if (section->size < 2)
+			if (section.size < 2)
 			{
-				for (int j = 0; j < section->size; ++j)
-					section->collider_dynamic_array[j]->_UpdateCollidedCollider(_time);
+				for (int j = 0; j < section.size; ++j)
+					section.collider_dynamic_array[j]->_UpdateCollidedCollider(_time);
 
-				section->size = 0; // 여기서 0으로 만들기 때문에 AddCollider에서는 따로 0으로 안 만들어줘도 됨
+				section.size = 0; // 여기서 0으로 만들기 때문에 AddCollider에서는 따로 0으로 안 만들어줘도 됨
 
 				continue;
 			}
 
-			for (int j = 0; j < section->size; ++j)
-				section->collider_dynamic_array[j]->_UpdateCollidedCollider(_time);
+			for (int j = 0; j < section.size; ++j)
+				section.collider_dynamic_array[j]->_UpdateCollidedCollider(_time);
 
-			for (int j = 0; j < section->size - 1; ++j)
+			for (int j = 0; j < section.size - 1; ++j)
 			{
-				for (int k = j + 1; k < section->size; ++k)
+				for (int k = j + 1; k < section.size; ++k)
 				{
-					//if (!section->collider_dynamic_array[j] || !section->collider_dynamic_array[k])
-					//	continue;
+					Collider* src_collider = section.collider_dynamic_array[j];
+					Collider* dest_collider = section.collider_dynamic_array[k];
 
-					std::shared_ptr<Object> src = section->collider_dynamic_array[j]->object();
-					std::shared_ptr<Object> dest = section->collider_dynamic_array[k]->object();
-
-					if (src == dest)
+					if (src_collider->object_tag() == dest_collider->object_tag())
 						continue;
 
-					Collider* src_collider = section->collider_dynamic_array[j];
-					Collider* dest_collider = section->collider_dynamic_array[k];
+					if (!src_collider->active_flag() || !src_collider->enable_flag())
+						continue;
+
+					if (!dest_collider->active_flag() || !dest_collider->enable_flag())
+						continue;
 
 					// 충돌처리
 					if (src_collider->Collision(dest_collider, _time))
@@ -251,7 +253,7 @@ void CollisionManager::Collision(float _time)
 				}
 			}
 
-			section->size = 0;
+			section.size = 0;
 		}
 	}
 }
