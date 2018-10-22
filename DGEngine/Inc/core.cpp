@@ -149,7 +149,7 @@ void Core::_CreateWindow(wstring const& _class_name, wstring const& _window_name
 		NULL,
 		_class_name.c_str(),
 		_window_name.c_str(),
-		WS_OVERLAPPEDWINDOW,//WS_CAPTION | WS_SYSMENU,
+		WS_CAPTION | WS_SYSMENU,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -164,7 +164,7 @@ void Core::_CreateWindow(wstring const& _class_name, wstring const& _window_name
 		throw exception{ "CreateWindowEx" };
 
 	RECT rc{ 0, 0, static_cast<int>(RESOLUTION::WIDTH), static_cast<int>(RESOLUTION::HEIGHT) };
-	AdjustWindowRectEx(&rc, WS_OVERLAPPEDWINDOW/*WS_CAPTION | WS_SYSMENU*/, false, NULL);
+	AdjustWindowRectEx(&rc, WS_CAPTION | WS_SYSMENU, false, NULL);
 	MoveWindow(window_, 160, 90, rc.right - rc.left, rc.bottom - rc.top, true);
 
 	ShowWindow(window_, SW_SHOW);

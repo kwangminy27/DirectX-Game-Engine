@@ -97,7 +97,7 @@ void Device::Present()
 {
 	swap_chain_->Present(0, NULL);
 
-	// SWAP_EFFECT_FLIP_DISCARD
+	// SWAP_EFFECT_FLIP_DISCARD를 사용하는 경우에는 매 프레임마다 RenderTarget을 떼줘야 한다고 함. COM Ref랑 관련 있어보임.
 	context_->OMSetRenderTargets(0, nullptr, nullptr);
 	context_->OMSetRenderTargets(1, RTV_.GetAddressOf(), DSV_.Get());
 }

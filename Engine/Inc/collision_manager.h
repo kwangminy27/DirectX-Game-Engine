@@ -34,6 +34,8 @@ namespace DG
 	public:
 		void Initialize();
 		void Collision(float _time);
+		bool CollisionBetweenMouseWithUI(float _time);
+		void CollisionBetweenMouseWithObjects(float _time);
 		void ClearCollisionGroup();
 
 		void AddColliders(std::shared_ptr<Object> const& _object);

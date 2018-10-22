@@ -22,7 +22,7 @@ void PlayerComponent::Initialize()
 	auto transform = std::dynamic_pointer_cast<Transform>(object()->AddComponent<Transform>("Transform"));
 
 	transform->Scaling(Math::Vector3{ 100.f, 100.f, 1.f });
-	transform->set_pivot(Math::Vector3{ 0.5f, 0.f, 0.f });
+	transform->set_pivot(Math::Vector3{ 0.5f, 0.5f, 0.f });
 
 	auto renderer = std::dynamic_pointer_cast<Renderer>(object()->AddComponent<Renderer>("Renderer"));
 
@@ -81,7 +81,7 @@ void PlayerComponent::_Input(float _time)
 		auto missile = Object::CreateClone("Missile", "Missile", default_layer, true);
 		auto const& missile_transform = std::dynamic_pointer_cast<Transform>(missile->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
-		// scale을 사용하고 있어서 각각 따로따로 세팅해 줌. GetRight, Up, Look은 normalize된 vector를 리턴해주도록 했음
+		// scaling을 사용하고 있어서 각각 따로따로 세팅해 줌. GetRight·Up·Look은 normalize된 vector를 리턴해주도록 했음
 		missile_transform->SetLocalRight(transform->GetLocalRight());
 		missile_transform->SetLocalUp(transform->GetLocalUp());
 		missile_transform->SetLocalLook(transform->GetLocalLook());

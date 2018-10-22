@@ -22,7 +22,7 @@ void MissileComponent::Initialize()
 	auto transform = std::dynamic_pointer_cast<Transform>(object()->AddComponent<Transform>("Transform"));
 
 	transform->Scaling(Math::Vector3{ 20.f, 20.f, 1.f });
-	transform->set_pivot(Math::Vector3{ 0.5f, 0.f, 0.f });
+	transform->set_pivot(Math::Vector3{ 0.5f, 0.5f, 0.f });
 
 	auto renderer = std::dynamic_pointer_cast<Renderer>(object()->AddComponent<Renderer>("Renderer"));
 

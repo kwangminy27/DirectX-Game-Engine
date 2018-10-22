@@ -81,10 +81,10 @@ void Renderer::_Render(float _time)
 	shader->SetShader();
 
 	// SetRenderState
-	for (auto const& _e : render_state_array_)
+	for (auto const& _state : render_state_array_)
 	{
-		if(_e)
-			_e->_SetState();
+		if(_state)
+			_state->_SetState();
 	}
 
 	for (auto i = 0; i < mesh->GetContainerSize(); ++i)
@@ -98,10 +98,10 @@ void Renderer::_Render(float _time)
 	}
 
 	// ResetRenderState
-	for (auto const& _e : render_state_array_)
+	for (auto const& _state : render_state_array_)
 	{
-		if (_e)
-			_e->_SetBackState();
+		if (_state)
+			_state->_SetBackState();
 	}
 }
 

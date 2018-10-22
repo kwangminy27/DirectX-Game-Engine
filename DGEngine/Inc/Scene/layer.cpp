@@ -21,6 +21,7 @@ void Layer::AddCloneObject(std::shared_ptr<Object> const& _object)
 	// prototype으로부터 생성된 object와 component는 scene만 세팅되어 있음. 때문에, 각각 layer 추가해줘야 한다.
 	// 또한, component는 object를 추가해줘야 한다. 그 이유는 component는 공유의 개념을 적용시키지 않을 것이기 때문에, object가 달라야 한다.
 	// 따라서, 복사생성자에서 object를 복사하지 않기 때문에 여기서 컴포넌트마다 직접 추가해줘야 한다.
+	// 다른 방법으로는 unique_ptr로 만드는 방법이 있다.
 
 	_object->set_layer(shared_from_this());
 

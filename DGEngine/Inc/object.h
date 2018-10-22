@@ -26,7 +26,7 @@ namespace DG
 		template <typename T> std::shared_ptr<Component> AddComponent(std::string const& _tag);
 		std::shared_ptr<Component> const& FindComponent(std::string const& _tag) const;
 		std::shared_ptr<Component> const& FindComponent(COMPONENT_TYPE _type) const;
-		std::list<std::shared_ptr<Component>> FindComponents(COMPONENT_TYPE _type) const;
+		std::list<std::shared_ptr<Component>> const& FindComponents(COMPONENT_TYPE _type) const;
 		bool IsComponent(COMPONENT_TYPE _type) const;
 
 		void Test(std::shared_ptr<Scene> const& _scene, std::shared_ptr<Layer> const& _layer, std::shared_ptr<Object> const& _object);

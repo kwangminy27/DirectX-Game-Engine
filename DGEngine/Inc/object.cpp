@@ -164,17 +164,19 @@ std::shared_ptr<Component> const& Object::FindComponent(COMPONENT_TYPE _type) co
 	return *iter;
 }
 
-std::list<std::shared_ptr<Component>> Object::FindComponents(COMPONENT_TYPE _type) const
+std::list<std::shared_ptr<Component>> const& Object::FindComponents(COMPONENT_TYPE _type) const
 {
-	auto component_list = std::list<std::shared_ptr<Component>>{};
+	static std::list<std::shared_ptr<Component>> component_list_buffer{};
+
+	component_list_buffer.clear();
 
 	for (auto const& _component : component_list_)
 	{
-		if(_component->type() == _type)
-			component_list.push_back(_component);
+		if (_component->type() == _type)
+			component_list_buffer.push_back(_component);
 	}
 
-	return component_list;
+	return component_list_buffer;
 }
 
 bool Object::IsComponent(COMPONENT_TYPE _type) const
@@ -295,6 +297,8 @@ void Object::_LateUpdate(float _time)
 
 void Object::_Collision(float _time)
 {
+	// CollisionManager가 대체함
+
 	/*for (auto iter = component_list_.begin(); iter != component_list_.end();)
 	{
 		if (!(*iter)->active_flag())

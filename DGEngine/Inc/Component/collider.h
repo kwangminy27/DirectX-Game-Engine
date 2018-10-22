@@ -63,7 +63,7 @@ namespace DG
 		std::string collision_group_tag_{};
 		bool update_flag_{};
 		Math::Vector3 pivot_{};
-		// collider min, max는 section은 충돌체가 속할 section의 idx를 구할 때 사용된다.
+		// collider min·max는 충돌체가 속할 section의 idx를 구할 때 사용된다.
 		Math::Vector3 collider_min_{};
 		Math::Vector3 collider_max_{};
 		std::list<int> section_idx_list_{};

@@ -15,7 +15,7 @@ void Material::Initialize()
 
 void Material::SetToShader(int _container_idx, int _subset_idx)
 {
-	auto const& subset_material = material_container_vector_.at(_container_idx).at(_subset_idx); // Player aniamtion_enable 1로 되야하는데 계속 0임
+	auto const& subset_material = material_container_vector_.at(_container_idx).at(_subset_idx);
 	auto const& texture = subset_material->texture;
 	auto const& sampler = subset_material->sampler;
 

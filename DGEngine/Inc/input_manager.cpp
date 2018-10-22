@@ -156,7 +156,7 @@ void InputManager::Render(float _time)
 	mouse_->_Render(_time);
 }
 
-void InputManager::UpdateMousePosition()
+void InputManager::UpdateMouseColliderPosition()
 {
 	auto const& camera_transform = std::dynamic_pointer_cast<Transform>(SceneManager::singleton()->scene()->main_camera()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 	auto const& mouse_world_collider = std::dynamic_pointer_cast<ColliderPoint>(mouse_->FindComponent("MouseWorldCollider"));
