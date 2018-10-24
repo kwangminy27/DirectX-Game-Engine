@@ -56,11 +56,19 @@ namespace DG
 		void _OnCollision(Collider* _dest, float _time);
 		void _OnCollisionLeave(Collider* _dest, float _time);
 
-		bool _CollisionRectToRect(RectInfo const& _src, RectInfo const& _dest);
-		bool _CollisionRectToPoint(RectInfo const& _src, Math::Vector3 const& _dest);
 		bool _CollisionOOBBToOOBB(OOBBInfo const& _src, OOBBInfo const& _dest);
+		bool _CollisionOOBBToCircle(OOBBInfo const& _src, CircleInfo const& _dest);
 		bool _CollisionOOBBToRect(OOBBInfo const& _src, RectInfo const& _dest);
 		bool _CollisionOOBBToPoint(OOBBInfo const& _src, Math::Vector3 const& _dest);
+
+		bool _CollisionCircleToCircle(CircleInfo const& _src, CircleInfo const& _dest);
+		bool _CollisionCircleToRect(CircleInfo const& _src, RectInfo const& _dest);
+		bool _CollisionCircleToPoint(CircleInfo const& _src, Math::Vector3 const& _dest);
+
+		bool _CollisionRectToRect(RectInfo const& _src, RectInfo const& _dest);
+		bool _CollisionRectToPoint(RectInfo const& _src, Math::Vector3 const& _dest);
+
+		bool _CollisionPointToPoint(Math::Vector3 const& _src, Math::Vector3 const& _dest);
 
 		COLLIDER_TYPE collider_type_{};
 		std::string collision_group_tag_{};

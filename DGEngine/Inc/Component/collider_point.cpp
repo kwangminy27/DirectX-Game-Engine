@@ -7,15 +7,16 @@
 #include "Component/transform.h"
 #include "Component/camera.h"
 #include "Component/collider_rect.h"
+#include "Component/collider_circle.h"
 #include "Component/collider_OOBB.h"
 
 using namespace DG;
 
 void ColliderPoint::Initialize()
 {
-	collider_type_ = COLLIDER_TYPE::POINT;
-
 	Collider::Initialize();
+
+	collider_type_ = COLLIDER_TYPE::POINT;
 }
 
 bool ColliderPoint::Collision(Collider* _dest, float _time)
@@ -23,10 +24,13 @@ bool ColliderPoint::Collision(Collider* _dest, float _time)
 	switch (_dest->collider_type())
 	{
 	case COLLIDER_TYPE::POINT:
-		return final_info_ == dynamic_cast<ColliderPoint*>(_dest)->final_info_;
+		return _CollisionPointToPoint(final_info_, dynamic_cast<ColliderPoint*>(_dest)->final_info_);
 
 	case COLLIDER_TYPE::RECT:
 		return _CollisionRectToPoint(dynamic_cast<ColliderRect*>(_dest)->final_info(), final_info_);
+
+	case COLLIDER_TYPE::CIRCLE:
+		return _CollisionCircleToPoint(dynamic_cast<ColliderCircle*>(_dest)->final_info(), final_info_);
 
 	case COLLIDER_TYPE::OOBB:
 		return _CollisionOOBBToPoint(dynamic_cast<ColliderOOBB*>(_dest)->final_info(), final_info_);

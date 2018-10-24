@@ -288,6 +288,11 @@ bool Collider::_CollisionRectToPoint(RectInfo const& _src, Math::Vector3 const& 
 	return true;
 }
 
+bool Collider::_CollisionPointToPoint(Math::Vector3 const& _src, Math::Vector3 const& _dest)
+{
+	return _src == _dest;
+}
+
 bool Collider::_CollisionOOBBToOOBB(OOBBInfo const& _src, OOBBInfo const& _dest)
 {
 	auto src_right = Math::Vector3{ _src.rotation._11, _src.rotation._12, _src.rotation._13 };
@@ -341,12 +346,90 @@ bool Collider::_CollisionOOBBToOOBB(OOBBInfo const& _src, OOBBInfo const& _dest)
 	return true;
 }
 
+bool Collider::_CollisionOOBBToCircle(OOBBInfo const& _src, CircleInfo const& _dest)
+{
+	auto src_right = Math::Vector3{ _src.rotation._11, _src.rotation._12, _src.rotation._13 };
+	auto src_up = Math::Vector3{ _src.rotation._21, _src.rotation._22, _src.rotation._23 };
+
+	auto src_to_dest = _dest.center - _src.center;
+
+	float src_length{};
+	float dest_length{};
+	float src_to_dest_length{};
+
+	// case 1: src_right
+	src_length = _src.extent.x;
+	src_to_dest_length = std::fabs(src_to_dest.Dot(src_right));
+
+	if (src_to_dest_length > src_length + _dest.radius)
+		return false;
+
+	// case 2: src_up
+	src_length = _src.extent.y;
+	src_to_dest_length = std::fabs(src_to_dest.Dot(src_up));
+
+	if (src_to_dest_length > src_length + _dest.radius)
+		return false;
+
+	return true;
+}
+
 bool Collider::_CollisionOOBBToRect(OOBBInfo const& _src, RectInfo const& _dest)
 {
-	return false;
+	OOBBInfo oobb_info{};
+	oobb_info.center = (_dest.min + _dest.max) * 0.5f;
+	oobb_info.extent = _dest.diagonal * 0.5f;
+	oobb_info.rotation = Math::Matrix::Identity;
+
+	return _CollisionOOBBToOOBB(_src, oobb_info);
 }
 
 bool Collider::_CollisionOOBBToPoint(OOBBInfo const& _src, Math::Vector3 const& _dest)
 {
-	return false;
+	// 2D: 4개의 평면, +right, -right, +up, -up
+	auto right = Math::Vector3{ _src.rotation._11, _src.rotation._12, _src.rotation._13 };
+	auto up = Math::Vector3{ _src.rotation._21, _src.rotation._22, _src.rotation._23 };
+	//auto look = Math::Vector3{ _src.rotation._31, _src.rotation._32, _src.rotation._33 };
+
+	// case 1: +right plane
+	if (right.Dot(_dest) - right.Dot(_src.center + right * _src.extent) > 0.f)
+		return false;
+
+	// case 2: -right plane
+	if (-right.Dot(_dest) + right.Dot(_src.center - right * _src.extent) > 0.f)
+		return false;
+
+	// case 3: +up plane
+	if (up.Dot(_dest) - up.Dot(_src.center + up * _src.extent) > 0.f)
+		return false;
+
+	// case 4: -up plane
+	if (-up.Dot(_dest) + up.Dot(_src.center - up * _src.extent) > 0.f)
+		return false;
+
+	return true;
+}
+
+bool Collider::_CollisionCircleToCircle(CircleInfo const& _src, CircleInfo const& _dest)
+{
+	auto src_to_dest = _dest.center - _src.center;
+
+	return src_to_dest.Length() < _src.radius + _dest.radius;
+}
+
+bool Collider::_CollisionCircleToRect(CircleInfo const& _src, RectInfo const& _dest)
+{
+	auto closest_x = std::clamp(_src.center.x, _dest.min.x, _dest.max.x);
+	auto closest_y = std::clamp(_src.center.y, _dest.min.y, _dest.max.y);
+
+	auto distance = Math::Vector3::Distance(Math::Vector3{ closest_x, closest_y, 0.f }, _src.center);
+
+	return distance <= _src.radius;
+}
+
+bool Collider::_CollisionCircleToPoint(CircleInfo const& _src, Math::Vector3 const& _dest)
+{
+	auto src_to_dest = _dest - _src.center;
+
+	return src_to_dest.Length() < _src.radius;
 }

@@ -86,6 +86,7 @@ enum class COLLIDER_TYPE
 {
 	RECT,
 	POINT,
+	CIRCLE,
 	OOBB
 };
 

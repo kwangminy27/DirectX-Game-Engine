@@ -75,6 +75,12 @@ namespace DG
 		Math::Vector3 diagonal;
 	};
 
+	struct CircleInfo
+	{
+		Math::Vector3 center;
+		float radius;
+	};
+
 	struct OOBBInfo
 	{
 		Math::Vector3 center;

@@ -11,6 +11,7 @@
 #include <Component/material.h>
 #include <Component/animation_2d.h>
 #include <Component/collider_rect.h>
+#include <Component/collider_circle.h>
 #include <Component/collider_OOBB.h>
 #include <input_manager.h>
 

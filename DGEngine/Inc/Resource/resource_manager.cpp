@@ -63,6 +63,17 @@ void ResourceManager::Initialize()
 			collider_rect, sizeof(Math::Vector3), 5, D3D11_USAGE_DEFAULT
 		);
 
+		// ColliderCircle
+		Math::Vector3 collider_circle[37]{};
+
+		for (int i = 0; i <= 36; ++i)
+			collider_circle[i] = Math::Vector3{ cos(DirectX::XMConvertToRadians(i * 10.f)) * 0.5f, sin(DirectX::XMConvertToRadians(i * 10.f)) * 0.5f, 0.f };
+
+		_CreateMesh(
+			"ColliderCircle", COLLIDER_CIRCLE_SHADER, D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP,
+			collider_circle, sizeof(Math::Vector3), 37, D3D11_USAGE_DEFAULT
+		);
+
 		_CreateTexture2D("Player", L"Player.png", TEXTURE_PATH);
 		_CreateTexture2D("Illuminati", L"Illuminati.png", TEXTURE_PATH);
 		_CreateTexture2D("Mouse", L"Mouse/Default/0.png", TEXTURE_PATH);
