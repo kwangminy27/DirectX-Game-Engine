@@ -290,7 +290,55 @@ bool Collider::_CollisionRectToPoint(RectInfo const& _src, Math::Vector3 const& 
 
 bool Collider::_CollisionOOBBToOOBB(OOBBInfo const& _src, OOBBInfo const& _dest)
 {
-	return false;
+	auto src_right = Math::Vector3{ _src.rotation._11, _src.rotation._12, _src.rotation._13 };
+	auto src_up = Math::Vector3{ _src.rotation._21, _src.rotation._22, _src.rotation._23 };
+	auto dest_right = Math::Vector3{ _dest.rotation._11, _dest.rotation._12, _dest.rotation._13 };
+	auto dest_up = Math::Vector3{ _dest.rotation._21, _dest.rotation._22, _dest.rotation._23 };
+
+	auto src_length_on_dest_right = std::fabs(src_right.Dot(dest_right) * _src.extent.x) + std::fabs(src_up.Dot(dest_right) * _src.extent.y);
+	auto src_length_on_dest_up = std::fabs(src_right.Dot(dest_up) * _src.extent.x) + std::fabs(src_up.Dot(dest_up) * _src.extent.y);
+	auto dest_length_on_src_right = std::fabs(dest_right.Dot(src_right) * _dest.extent.x) + std::fabs(dest_up.Dot(src_right) * _dest.extent.y);
+	auto dest_length_on_src_up = std::fabs(dest_right.Dot(src_up) * _dest.extent.x) + std::fabs(dest_up.Dot(src_up) * _dest.extent.y);
+
+	auto src_to_dest = _dest.center - _src.center;
+
+	float src_length{};
+	float dest_length{};
+	float src_to_dest_length{};
+
+	// case 1: src_right
+	src_length = _src.extent.x;
+	dest_length = dest_length_on_src_right;
+	src_to_dest_length = std::fabs(src_to_dest.Dot(src_right));
+
+	if (src_to_dest_length > src_length + dest_length)
+		return false;
+
+	// case 2: src_up
+	src_length = _src.extent.y;
+	dest_length = dest_length_on_src_up;
+	src_to_dest_length = std::fabs(src_to_dest.Dot(src_up));
+
+	if (src_to_dest_length > src_length + dest_length)
+		return false;
+
+	// case 3: dest_right
+	src_length = src_length_on_dest_right;
+	dest_length = _dest.extent.x;
+	src_to_dest_length = std::fabs(src_to_dest.Dot(dest_right));
+
+	if (src_to_dest_length > src_length + dest_length)
+		return false;
+
+	// case 4: dest_up
+	src_length = src_length_on_dest_up;
+	dest_length = _dest.extent.y;
+	src_to_dest_length = std::fabs(src_to_dest.Dot(dest_up));
+
+	if (src_to_dest_length > src_length + dest_length)
+		return false;
+
+	return true;
 }
 
 bool Collider::_CollisionOOBBToRect(OOBBInfo const& _src, RectInfo const& _dest)
