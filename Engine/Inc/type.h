@@ -74,4 +74,11 @@ namespace DG
 		Math::Vector3 max;
 		Math::Vector3 diagonal;
 	};
+
+	struct OOBBInfo
+	{
+		Math::Vector3 center;
+		Math::Vector3 extent;
+		Math::Matrix rotation;
+	};
 }

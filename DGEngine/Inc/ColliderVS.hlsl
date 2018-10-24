@@ -24,7 +24,9 @@ VS_OUTPUT_POS ColliderVS(VS_INPUT_POS input)
 {
 	VS_OUTPUT_POS output = (VS_OUTPUT_POS)0;
 
-	output.position = mul(float4(input.position, 1.f), g_WVP);
+	float3 position = input.position - g_diagonal * g_pivot;
+
+	output.position = mul(float4(position, 1.f), g_WVP);
 
 	return output;
 }

@@ -8,6 +8,7 @@
 #include <Component/renderer.h>
 #include <Component/material.h>
 #include <Component/collider_rect.h>
+#include <Component/collider_oobb.h>
 
 using namespace DG;
 
@@ -33,10 +34,14 @@ void MonsterComponent::Initialize()
 
 	material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
 
-	auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("MonsterBody"));
+	auto collider_oobb = std::dynamic_pointer_cast<ColliderOOBB>(object()->AddComponent<ColliderOOBB>("MonsterBody"));
 
 	auto const& mesh = ResourceManager::singleton()->FindMesh("ColorTri");
-	collider_rect->set_relative_info(Math::Vector3::Zero, (mesh->max() - mesh->min()) * transform->scale_vector());
+
+	auto extent = (mesh->max() - mesh->min()) * 0.5f * transform->scale_vector();
+
+	collider_oobb->set_pivot(Math::Vector3{ 0.5f, 0.5f, 0.f });
+	collider_oobb->set_relative_info(Math::Vector3::Zero, extent, Math::Matrix::Identity);
 }
 
 std::shared_ptr<Object> MonsterComponent::target()

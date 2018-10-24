@@ -9,6 +9,7 @@
 #include <Component/material.h>
 #include <Component/collider.h>
 #include <Component/collider_rect.h>
+#include <Component/collider_OOBB.h>
 
 using namespace DG;
 
@@ -36,11 +37,16 @@ void MissileComponent::Initialize()
 
 	material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
 
-	auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("ColliderRect"));
+	auto collider_oobb = std::dynamic_pointer_cast<ColliderOOBB>(object()->AddComponent<ColliderOOBB>("ColliderRect"));
 
 	auto const& mesh = ResourceManager::singleton()->FindMesh("ColorTri");
-	collider_rect->set_relative_info(Math::Vector3::Zero, (mesh->max() - mesh->min()) * transform->scale_vector());
-	collider_rect->AddCallback([this](Collider* _src, Collider* _dest, float _time) {
+
+	auto extent = (mesh->max() - mesh->min()) * 0.5f * transform->scale_vector();
+
+	collider_oobb->set_pivot(Math::Vector3{ 0.5f, 0.5f, 0.f });
+	collider_oobb->set_relative_info(Math::Vector3::Zero, extent, Math::Matrix::Identity);
+
+	collider_oobb->AddCallback([this](Collider* _src, Collider* _dest, float _time) {
 		_MissileHit(_dest);
 	}, COLLISION_CALLBACK_TYPE::ENTER);
 }

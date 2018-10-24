@@ -287,3 +287,18 @@ bool Collider::_CollisionRectToPoint(RectInfo const& _src, Math::Vector3 const& 
 
 	return true;
 }
+
+bool Collider::_CollisionOOBBToOOBB(OOBBInfo const& _src, OOBBInfo const& _dest)
+{
+	return false;
+}
+
+bool Collider::_CollisionOOBBToRect(OOBBInfo const& _src, RectInfo const& _dest)
+{
+	return false;
+}
+
+bool Collider::_CollisionOOBBToPoint(OOBBInfo const& _src, Math::Vector3 const& _dest)
+{
+	return false;
+}

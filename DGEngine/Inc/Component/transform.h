@@ -20,6 +20,7 @@ namespace DG
 		void Translation(Math::Vector3 const& _v);
 
 		Math::Vector3 scale_vector() const;
+		Math::Matrix GetLocalRotation() const;
 		Math::Vector3 GetLocalRight() const;
 		Math::Vector3 GetLocalUp() const;
 		Math::Vector3 GetLocalLook() const;

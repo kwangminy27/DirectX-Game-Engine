@@ -58,6 +58,9 @@ namespace DG
 
 		bool _CollisionRectToRect(RectInfo const& _src, RectInfo const& _dest);
 		bool _CollisionRectToPoint(RectInfo const& _src, Math::Vector3 const& _dest);
+		bool _CollisionOOBBToOOBB(OOBBInfo const& _src, OOBBInfo const& _dest);
+		bool _CollisionOOBBToRect(OOBBInfo const& _src, RectInfo const& _dest);
+		bool _CollisionOOBBToPoint(OOBBInfo const& _src, Math::Vector3 const& _dest);
 
 		COLLIDER_TYPE collider_type_{};
 		std::string collision_group_tag_{};

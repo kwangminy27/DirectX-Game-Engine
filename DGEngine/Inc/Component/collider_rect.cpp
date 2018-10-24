@@ -9,6 +9,7 @@
 #include "Component/transform.h"
 #include "Component/camera.h"
 #include "Component/collider_point.h"
+#include "Component/collider_OOBB.h"
 
 using namespace DG;
 
@@ -23,11 +24,14 @@ bool ColliderRect::Collision(Collider* _dest, float _time)
 {
 	switch (_dest->collider_type())
 	{
+	case COLLIDER_TYPE::POINT:
+		return _CollisionRectToPoint(final_info_, dynamic_cast<ColliderPoint*>(_dest)->final_info());
+
 	case COLLIDER_TYPE::RECT:
 		return _CollisionRectToRect(final_info_, dynamic_cast<ColliderRect*>(_dest)->final_info_);
 
-	case COLLIDER_TYPE::POINT:
-		return _CollisionRectToPoint(final_info_, dynamic_cast<ColliderPoint*>(_dest)->final_info());
+	case COLLIDER_TYPE::OOBB:
+		return _CollisionOOBBToRect(dynamic_cast<ColliderOOBB*>(_dest)->final_info(), final_info_);
 	}
 
 	return false;
