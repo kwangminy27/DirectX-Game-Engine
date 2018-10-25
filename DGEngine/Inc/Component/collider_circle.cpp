@@ -82,7 +82,7 @@ void ColliderCircle::_LateUpdate(float _time)
 	final_info_.center = object_position + relative_info_.center;
 
 	collider_min_ = final_info_.center - Math::Vector3{ final_info_.radius, final_info_.radius, 0.f };
-	collider_min_ = final_info_.center + Math::Vector3{ final_info_.radius, final_info_.radius, 0.f };
+	collider_max_ = final_info_.center + Math::Vector3{ final_info_.radius, final_info_.radius, 0.f };
 }
 
 void ColliderCircle::_Render(float _time)

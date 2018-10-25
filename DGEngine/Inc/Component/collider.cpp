@@ -348,30 +348,18 @@ bool Collider::_CollisionOOBBToOOBB(OOBBInfo const& _src, OOBBInfo const& _dest)
 
 bool Collider::_CollisionOOBBToCircle(OOBBInfo const& _src, CircleInfo const& _dest)
 {
-	auto src_right = Math::Vector3{ _src.rotation._11, _src.rotation._12, _src.rotation._13 };
-	auto src_up = Math::Vector3{ _src.rotation._21, _src.rotation._22, _src.rotation._23 };
+	auto inverse_matrix = _src.rotation.Invert();
 
-	auto src_to_dest = _dest.center - _src.center;
+	CircleInfo circle_info{};
+	circle_info.center = _src.center + DirectX::XMVector3TransformNormal(_dest.center - _src.center, inverse_matrix);
+	circle_info.radius = _dest.radius;
 
-	float src_length{};
-	float dest_length{};
-	float src_to_dest_length{};
+	RectInfo rect_info{};
+	rect_info.min = _src.center - Math::Vector3{ _src.extent.x, _src.extent.y, 0.f };
+	rect_info.max = _src.center + Math::Vector3{ _src.extent.x, _src.extent.y, 0.f };
+	rect_info.diagonal = rect_info.max - rect_info.min;
 
-	// case 1: src_right
-	src_length = _src.extent.x;
-	src_to_dest_length = std::fabs(src_to_dest.Dot(src_right));
-
-	if (src_to_dest_length > src_length + _dest.radius)
-		return false;
-
-	// case 2: src_up
-	src_length = _src.extent.y;
-	src_to_dest_length = std::fabs(src_to_dest.Dot(src_up));
-
-	if (src_to_dest_length > src_length + _dest.radius)
-		return false;
-
-	return true;
+	return _CollisionCircleToRect(circle_info, rect_info);
 }
 
 bool Collider::_CollisionOOBBToRect(OOBBInfo const& _src, RectInfo const& _dest)

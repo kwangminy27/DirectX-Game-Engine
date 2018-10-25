@@ -73,9 +73,9 @@ void PlayerComponent::_Input(float _time)
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
 	if (input_manager->KeyPressed("MoveLeft"))
-		transform->RotationZ(DirectX::XMConvertToRadians(360.f * _time));
+		transform->RotationZ(DirectX::XMConvertToRadians(180.f * _time));
 	if (input_manager->KeyPressed("MoveRight"))
-		transform->RotationZ(DirectX::XMConvertToRadians(-360.f * _time));
+		transform->RotationZ(DirectX::XMConvertToRadians(-180.f * _time));
 	if (input_manager->KeyPressed("MoveUp"))
 		transform->Translation(transform->GetLocalUp() * 400.f * _time);
 	if (input_manager->KeyPressed("MoveDown"))
