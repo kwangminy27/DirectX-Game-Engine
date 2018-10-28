@@ -25,3 +25,40 @@ int WINAPI wWinMain(HINSTANCE _instance, HINSTANCE _prev_instance, PWSTR _cmd_li
 
 	return 0;
 }
+
+// #include <DGNetwork_stdafx.h>
+// #include <thread_manager.h>
+
+//void Test(void* _argument)
+//{
+//	int* argument = reinterpret_cast<int*>(_argument);
+//
+//	auto& thread_manager = ThreadManager::singleton();
+//
+//	std::string message{ "thread id: " };
+//	message += to_string(*argument) + "\n"s;
+//
+//	thread_manager->debug_mutex().lock();
+//	thread_manager->debug_message_queue().push(message);
+//	thread_manager->debug_mutex().unlock();
+//}
+
+// thread
+//for (int i = 0; i < 10; ++i)
+//{
+//	ThreadManager::singleton()->CreateThread(
+//		"Test"s + to_string(i),
+//		[](void* _t) { Test(_t); },
+//		&i
+//	);
+//}
+//
+//auto& message_queue = ThreadManager::singleton()->debug_message_queue();
+//
+//while (message_queue.size() != 0)
+//{
+//	std::cout << message_queue.front() << std::endl;
+//	message_queue.pop();
+//}
+//
+//ThreadManager::singleton().reset();

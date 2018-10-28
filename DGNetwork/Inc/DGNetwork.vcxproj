@@ -173,17 +173,19 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="singleton.cpp" />
+    <ClCompile Include="singleton_temp.cpp" />
+    <ClCompile Include="thread.cpp" />
     <ClCompile Include="thread_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGNetwork_stdafx.h" />
     <ClInclude Include="macro.h" />
-    <ClInclude Include="singleton.h" />
+    <ClInclude Include="singleton_temp.h" />
+    <ClInclude Include="thread.h" />
     <ClInclude Include="thread_manager.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="singleton.inl" />
+    <None Include="singleton_temp.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

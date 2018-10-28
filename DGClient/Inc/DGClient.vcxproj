@@ -78,8 +78,8 @@
     <OutDir>../Bin/</OutDir>
     <IntDir>../Obj/</IntDir>
     <TargetName>$(ProjectName)_Debug</TargetName>
-    <IncludePath>$(SolutionDir)Engine\Inc\;$(SolutionDir)Math\Inc\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Engine\Bin\;$(SolutionDir)Math\Bin\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Engine\Inc\;$(SolutionDir)Math\Inc\;$(SolutionDir)Network\Inc\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Engine\Bin\;$(SolutionDir)Math\Bin\;$(SolutionDir)Network\Bin\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -88,8 +88,8 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>../Bin/</OutDir>
     <IntDir>../Obj/</IntDir>
-    <IncludePath>$(SolutionDir)Engine\Inc\;$(SolutionDir)Math\Inc\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Engine\Bin\;$(SolutionDir)Math\Bin\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Engine\Inc\;$(SolutionDir)Math\Inc\;$(SolutionDir)Network\Inc\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Engine\Bin\;$(SolutionDir)Math\Bin\;$(SolutionDir)Network\Bin\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

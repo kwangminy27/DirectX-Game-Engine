@@ -1,2 +1,2 @@
 #include "DGNetwork_stdafx.h"
-#include "singleton.h"
+#include "singleton_temp.h"

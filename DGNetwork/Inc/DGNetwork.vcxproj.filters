@@ -12,18 +12,18 @@
     <ClCompile Include="DGNetwork_stdafx.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="singleton.cpp">
-      <Filter>Base</Filter>
-    </ClCompile>
     <ClCompile Include="thread_manager.cpp">
       <Filter>1. Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="thread.cpp">
+      <Filter>1. Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="singleton_temp.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGNetwork_stdafx.h">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="singleton.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="macro.h">
@@ -32,9 +32,15 @@
     <ClInclude Include="thread_manager.h">
       <Filter>1. Thread</Filter>
     </ClInclude>
+    <ClInclude Include="thread.h">
+      <Filter>1. Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="singleton_temp.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="singleton.inl">
+    <None Include="singleton_temp.inl">
       <Filter>Base</Filter>
     </None>
   </ItemGroup>
