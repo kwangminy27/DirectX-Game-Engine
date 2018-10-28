@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		DGEngine.bat = DGEngine.bat
 		DGMath.bat = DGMath.bat
+		DGNetwork.bat = DGNetwork.bat
 		extension.txt = extension.txt
 	EndProjectSection
 EndProject
@@ -23,6 +24,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DGMath", "DGMath\Inc\DGMath.vcxproj", "{A3E30F05-35F9-4F1D-B625-53E29D205378}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTK_Desktop_2017_Win10", "DirectXTK\DirectXTK_Desktop_2017_Win10.vcxproj", "{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Network", "4. Network", "{0650E8D1-3A54-4A40-8B97-4F92F0703DB2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DGNetwork", "DGNetwork\Inc\DGNetwork.vcxproj", "{39E14631-9D05-4394-A154-5EF874738A6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +69,14 @@ Global
 		{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}.Release|x64.Build.0 = Release|x64
 		{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}.Release|x86.ActiveCfg = Release|Win32
 		{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}.Release|x86.Build.0 = Release|Win32
+		{39E14631-9D05-4394-A154-5EF874738A6C}.Debug|x64.ActiveCfg = Debug|x64
+		{39E14631-9D05-4394-A154-5EF874738A6C}.Debug|x64.Build.0 = Debug|x64
+		{39E14631-9D05-4394-A154-5EF874738A6C}.Debug|x86.ActiveCfg = Debug|Win32
+		{39E14631-9D05-4394-A154-5EF874738A6C}.Debug|x86.Build.0 = Debug|Win32
+		{39E14631-9D05-4394-A154-5EF874738A6C}.Release|x64.ActiveCfg = Release|x64
+		{39E14631-9D05-4394-A154-5EF874738A6C}.Release|x64.Build.0 = Release|x64
+		{39E14631-9D05-4394-A154-5EF874738A6C}.Release|x86.ActiveCfg = Release|Win32
+		{39E14631-9D05-4394-A154-5EF874738A6C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +85,7 @@ Global
 		{7B8120ED-B883-439E-B46D-91B7E982866B} = {70712F54-0752-4454-80B4-621F1C248BE4}
 		{EFD61888-0041-4871-A825-48556D5038B5} = {0EFDFF74-A311-4D88-853E-54EFD69C8EFA}
 		{A3E30F05-35F9-4F1D-B625-53E29D205378} = {018A0FF1-BB39-400E-AB00-A20C3F4D69AA}
+		{39E14631-9D05-4394-A154-5EF874738A6C} = {0650E8D1-3A54-4A40-8B97-4F92F0703DB2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {122886D7-43F3-4F8E-ACEE-13D254C5DEC5}
