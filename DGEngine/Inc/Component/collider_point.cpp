@@ -9,6 +9,7 @@
 #include "Component/collider_rect.h"
 #include "Component/collider_circle.h"
 #include "Component/collider_OOBB.h"
+#include "Component/collider_pixel.h"
 
 using namespace DG;
 
@@ -34,6 +35,9 @@ bool ColliderPoint::Collision(Collider* _dest, float _time)
 
 	case COLLIDER_TYPE::OOBB:
 		return _CollisionOOBBToPoint(dynamic_cast<ColliderOOBB*>(_dest)->final_info(), final_info_);
+
+	case COLLIDER_TYPE::PIXEL:
+		return _CollisionPixelToPoint(dynamic_cast<ColliderPixel*>(_dest)->final_info(), final_info_);
 	}
 
 	return false;

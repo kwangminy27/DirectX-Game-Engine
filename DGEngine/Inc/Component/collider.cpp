@@ -254,6 +254,58 @@ void Collider::_OnCollisionLeave(Collider* _dest, float _time)
 		_callback(this, _dest, _time);
 }
 
+bool Collider::_CollisionPixelToPixel(PixelInfo const& _src, PixelInfo const& _dest)
+{
+	return false;
+}
+
+bool Collider::_CollisionPixelToOOBB(PixelInfo const& _src, OOBBInfo const& _dest)
+{
+	return false;
+}
+
+bool Collider::_CollisionPixelToCircle(PixelInfo const& _src, CircleInfo const& _dest)
+{
+	return false;
+}
+
+bool Collider::_CollisionPixelToRect(PixelInfo const& _src, RectInfo const& _dest)
+{
+	if (!_CollisionRectToRect(_src.rect_info, _dest))
+		return false;
+
+	RectInfo cliped_rect_on_pixel_space{};
+	cliped_rect_on_pixel_space.min = _dest.min - _src.rect_info.min;
+	cliped_rect_on_pixel_space.max = _dest.max - _src.rect_info.min;
+
+	cliped_rect_on_pixel_space.min.x = std::clamp(cliped_rect_on_pixel_space.min.x, 0.f, _src.rect_info.diagonal.x);
+	cliped_rect_on_pixel_space.max.x = std::clamp(cliped_rect_on_pixel_space.max.x, 0.f, _src.rect_info.diagonal.x);
+	cliped_rect_on_pixel_space.min.y = std::clamp(cliped_rect_on_pixel_space.min.y, 0.f, _src.rect_info.diagonal.y);
+	cliped_rect_on_pixel_space.max.y = std::clamp(cliped_rect_on_pixel_space.max.y, 0.f, _src.rect_info.diagonal.y);
+
+	for (int y = static_cast<int>(cliped_rect_on_pixel_space.min.y); y < static_cast<int>(cliped_rect_on_pixel_space.max.y); ++y)
+	{
+		for (int x = static_cast<int>(cliped_rect_on_pixel_space.min.x); x < static_cast<int>(cliped_rect_on_pixel_space.max.x); ++x)
+		{
+			auto const& pixel_collider = CollisionManager::singleton()->FindPixelCollider(_src.tag);
+
+			int idx = pixel_collider->width * y + x;
+
+			Pixel24 const& pixel = pixel_collider->pixel_collection[idx];
+
+			if (pixel.r != 0 || pixel.g != 0 || pixel.b != 0)
+				return true;
+		}
+	}
+
+	return false;
+}
+
+bool Collider::_CollisionPixelToPoint(PixelInfo const& _src, Math::Vector3 const& _dest)
+{
+	return false;
+}
+
 bool Collider::_CollisionRectToRect(RectInfo const& _src, RectInfo const& _dest)
 {
 	if (_src.min.x > _dest.max.x)

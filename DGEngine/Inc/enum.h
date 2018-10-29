@@ -87,7 +87,8 @@ enum class COLLIDER_TYPE
 	RECT,
 	POINT,
 	CIRCLE,
-	OOBB
+	OOBB,
+	PIXEL
 };
 
 enum class COLLISION_CALLBACK_TYPE

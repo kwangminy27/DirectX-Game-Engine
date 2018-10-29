@@ -11,6 +11,12 @@
 #include <Component/transform.h>
 #include <Component/renderer.h>
 
+// Test
+#include <Component/material.h>
+#include <Component/collider_pixel.h>
+#include <Resource/resource_manager.h>
+#include <Resource/mesh.h>
+
 using namespace DG;
 
 void MainSceneComponent::Initialize()
@@ -26,6 +32,32 @@ void MainSceneComponent::Initialize()
 	auto player_component = player->AddComponent<PlayerComponent>("Player");
 
 	monster_component->set_target(player);
+
+	// Pixel Collision Test
+	auto pixel = Object::CreateObject("Pixel", default_layer);
+
+	auto transform = std::dynamic_pointer_cast<Transform>(pixel->AddComponent<Transform>("Transform"));
+	transform->Scaling({ 200.f, 50.f, 1.f });
+	transform->Translation({ 500.f, 100.f, 0.f });
+
+	auto renderer = dynamic_pointer_cast<Renderer>(pixel->AddComponent<Renderer>("Renderer"));
+	renderer->set_shader_tag(BASIC_TEX_SHADER);
+	renderer->set_mesh_tag("TexRect");
+
+	auto material = dynamic_pointer_cast<Material>(pixel->AddComponent<Material>("Material"));
+
+	MaterialConstantBuffer material_constant_buffer{};
+	material_constant_buffer.diffuse = DirectX::Colors::White.v;
+
+	material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
+	material->SetTexture("PixelCollider", 0, 0, 0);
+	material->SetSampler(LINEAR_SAMPLER, 0, 0, 0);
+
+	auto colider_pixel = dynamic_pointer_cast<ColliderPixel>(pixel->AddComponent<ColliderPixel>("ColliderPixel"));
+	auto const& mesh = ResourceManager::singleton()->FindMesh("TexRect");
+	auto extent = (mesh->max() - mesh->min()) * 0.5f * transform->scale_vector();
+
+	colider_pixel->set_relative_info("PixelCollider", Math::Vector3::Zero, extent * 2.f);
 }
 
 MainSceneComponent::MainSceneComponent(MainSceneComponent const& _other) : SceneComponent(_other)

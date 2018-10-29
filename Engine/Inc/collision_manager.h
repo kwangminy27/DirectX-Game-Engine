@@ -6,6 +6,7 @@ namespace DG
 {
 	class Object;
 	class Collider;
+	class ColliderPixel;
 
 	struct DG_ENGINE_DLL CollisionSection
 	{
@@ -39,6 +40,7 @@ namespace DG
 		void ClearCollisionGroup();
 
 		void AddColliders(std::shared_ptr<Object> const& _object);
+		std::unique_ptr<_PixelInfo, std::function<void(_PixelInfo*)>> const& FindPixelCollider(std::string const& _tag) const;
 		std::shared_ptr<CollisionGroup> const& FindCollisionGroup(std::string const& _tag) const;
 		void SetGroupType(std::string const& _tag, COLLISION_GROUP_TYPE _type);
 		void EraseExpiredCollider(Collider* _collider);
@@ -52,6 +54,7 @@ namespace DG
 
 		virtual void _Release() override;
 
+		void _CreatePixelCollider(std::string const& _tag, std::wstring const& _file_name, std::string const& _path_tag);
 		void _CreateGroup(
 			std::string const& _tag,
 			COLLISION_GROUP_TYPE _type,
@@ -61,7 +64,10 @@ namespace DG
 			Math::Vector3 const& _min,
 			Math::Vector3 const& _max);
 
+		static std::unique_ptr<_PixelInfo, std::function<void(_PixelInfo*)>> pixel_collider_nullptr_;
 		static std::shared_ptr<CollisionGroup> collision_group_nullptr_;
+
+		std::unordered_map<std::string, std::unique_ptr<_PixelInfo, std::function<void(_PixelInfo*)>>> pixel_collider_map_{};
 		std::unordered_map<std::string, std::shared_ptr<CollisionGroup>> collision_group_map_{};
 	};
 }

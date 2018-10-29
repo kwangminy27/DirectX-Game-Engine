@@ -198,6 +198,9 @@
     <ClInclude Include="Component\collider_circle.h">
       <Filter>09. Component\7. Collider</Filter>
     </ClInclude>
+    <ClInclude Include="Component\collider_pixel.h">
+      <Filter>09. Component\7. Collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -306,6 +309,9 @@
       <Filter>09. Component\7. Collider</Filter>
     </ClCompile>
     <ClCompile Include="Component\collider_circle.cpp">
+      <Filter>09. Component\7. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\collider_pixel.cpp">
       <Filter>09. Component\7. Collider</Filter>
     </ClCompile>
   </ItemGroup>

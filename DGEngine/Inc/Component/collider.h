@@ -56,6 +56,12 @@ namespace DG
 		void _OnCollision(Collider* _dest, float _time);
 		void _OnCollisionLeave(Collider* _dest, float _time);
 
+		bool _CollisionPixelToPixel(PixelInfo const& _src, PixelInfo const& _dest);
+		bool _CollisionPixelToOOBB(PixelInfo const& _src, OOBBInfo const& _dest);
+		bool _CollisionPixelToCircle(PixelInfo const& _src, CircleInfo const& _dest);
+		bool _CollisionPixelToRect(PixelInfo const& _src, RectInfo const& _dest);
+		bool _CollisionPixelToPoint(PixelInfo const& _src, Math::Vector3 const& _dest);
+
 		bool _CollisionOOBBToOOBB(OOBBInfo const& _src, OOBBInfo const& _dest);
 		bool _CollisionOOBBToCircle(OOBBInfo const& _src, CircleInfo const& _dest);
 		bool _CollisionOOBBToRect(OOBBInfo const& _src, RectInfo const& _dest);

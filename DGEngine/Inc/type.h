@@ -87,4 +87,25 @@ namespace DG
 		Math::Vector3 extent;
 		Math::Matrix rotation;
 	};
+
+	struct Pixel24
+	{
+		unsigned char r;
+		unsigned char g;
+		unsigned char b;
+	};
+
+	struct _PixelInfo
+	{
+		Pixel24* pixel_collection;
+		int width;
+		int height;
+	};
+
+	struct PixelInfo
+	{
+		std::string tag;
+		RectInfo rect_info;
+		Pixel24 nodal_point;
+	};
 }

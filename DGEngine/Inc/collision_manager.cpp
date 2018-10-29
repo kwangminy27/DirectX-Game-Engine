@@ -1,6 +1,7 @@
 #include "DGEngine_stdafx.h"
 #include "collision_manager.h"
 
+#include "path_manager.h"
 #include "object.h"
 #include "Component/collider.h"
 #include "Component/collider_point.h"
@@ -8,6 +9,7 @@
 
 using namespace DG;
 
+std::unique_ptr<_PixelInfo, std::function<void(_PixelInfo*)>> CollisionManager::pixel_collider_nullptr_{};
 std::shared_ptr<CollisionGroup> CollisionManager::collision_group_nullptr_{};
 
 void CollisionManager::Initialize()
@@ -27,6 +29,8 @@ void CollisionManager::Initialize()
 			4, 4, 1,
 			Math::Vector3{ 0.f, 0.f, 0.f }, Math::Vector3{ static_cast<float>(RESOLUTION::WIDTH), static_cast<float>(RESOLUTION::HEIGHT), 0.f }
 		);
+
+		_CreatePixelCollider("PixelCollider", L"PixelCollider.bmp", TEXTURE_PATH);
 	}
 	catch (std::exception const& _e)
 	{
@@ -356,6 +360,16 @@ void CollisionManager::AddColliders(std::shared_ptr<Object> const& _object)
 	}
 }
 
+std::unique_ptr<_PixelInfo, std::function<void(_PixelInfo*)>> const& CollisionManager::FindPixelCollider(std::string const& _tag) const
+{
+	auto iter = pixel_collider_map_.find(_tag);
+
+	if (iter == pixel_collider_map_.end())
+		return pixel_collider_nullptr_;
+
+	return iter->second;
+}
+
 std::shared_ptr<CollisionGroup> const& CollisionManager::FindCollisionGroup(std::string const& _tag) const
 {
 	auto iter = collision_group_map_.find(_tag);
@@ -391,6 +405,40 @@ void CollisionManager::EraseExpiredCollider(Collider* _collider)
 
 void CollisionManager::_Release()
 {
+}
+
+void CollisionManager::_CreatePixelCollider(std::string const& _tag, std::wstring const& _file_name, std::string const& _path_tag)
+{
+	auto const& path_buffer = PathManager::singleton()->FindPath(_path_tag);
+
+	if (path_buffer.empty())
+		throw std::exception{ "CollisionManager::_CreatePixel" };
+
+	std::wstring full_path = path_buffer.wstring() + _file_name;
+
+	std::ifstream file{ full_path, std::ios::binary };
+
+	if(file.fail())
+		throw std::exception{ "CollisionManager::_CreatePixel" };
+
+	BITMAPFILEHEADER bitmap_file_header{};
+	BITMAPINFOHEADER bitmap_info_header{};
+
+	file.read(reinterpret_cast<char*>(&bitmap_file_header), sizeof(BITMAPFILEHEADER));
+	file.read(reinterpret_cast<char*>(&bitmap_info_header), sizeof(BITMAPINFOHEADER));
+
+	auto pixel = std::unique_ptr<_PixelInfo, std::function<void(_PixelInfo*)>>{ new _PixelInfo, [](_PixelInfo* _p) {
+		delete[] _p->pixel_collection;
+		delete _p;
+	} };
+
+	pixel->width = bitmap_info_header.biWidth;
+	pixel->height = bitmap_info_header.biHeight;
+	pixel->pixel_collection = new Pixel24[pixel->width * pixel->height];
+
+	file.read(reinterpret_cast<char*>(pixel->pixel_collection), sizeof(Pixel24) * pixel->width * pixel->height);
+
+	pixel_collider_map_.insert(make_pair(_tag, move(pixel)));
 }
 
 void CollisionManager::_CreateGroup(
