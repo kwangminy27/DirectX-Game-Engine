@@ -42,6 +42,7 @@ namespace DG
 		virtual void _Collision(float _time);
 		virtual void _Render(float _time);
 		virtual std::unique_ptr<Component, std::function<void(Component*)>> _Clone() const = 0;
+		virtual void _AfterClone();
 
 		COMPONENT_TYPE type_{};
 		std::string object_tag_{};

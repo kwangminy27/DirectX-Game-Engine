@@ -65,6 +65,11 @@ std::shared_ptr<Object> const& Scene::main_camera() const
 	return main_camera_;
 }
 
+std::shared_ptr<Object> const& Scene::ui_camera() const
+{
+	return ui_camera_;
+}
+
 Scene::Scene(Scene const& _other) : Tag(_other)
 {
 	scene_component_list_ = _other.scene_component_list_;
@@ -112,12 +117,23 @@ void Scene::_Initialize()
 
 	main_camera_ = _CreateCamera(
 		"BasicCamera",
-		Math::Vector3(0.f, 0.f, -1.f),
+		Math::Vector3::Zero,
+		CAMERA_TYPE::ORTHOGONAL ,
+		DirectX::XM_PIDIV4,
+		static_cast<float>(RESOLUTION::WIDTH),
+		static_cast<float>(RESOLUTION::HEIGHT),
+		0.f, // perspective인 경우에는 0.f 될 수 없음
+		1000.f
+	);
+
+	ui_camera_ = _CreateCamera(
+		"UICamera",
+		Math::Vector3::Zero,
 		CAMERA_TYPE::ORTHOGONAL,
 		DirectX::XM_PIDIV4,
 		static_cast<float>(RESOLUTION::WIDTH),
 		static_cast<float>(RESOLUTION::HEIGHT),
-		0.001f,
+		0.f,
 		1000.f
 	);
 }

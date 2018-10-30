@@ -19,6 +19,7 @@ namespace DG
 		std::shared_ptr<Object> const& FindCamera(std::string const& _tag) const;
 
 		std::shared_ptr<Object> const& main_camera() const;
+		std::shared_ptr<Object> const& ui_camera() const;
 
 	private:
 		Scene() = default;
@@ -57,6 +58,7 @@ namespace DG
 		std::list<std::shared_ptr<Layer>> layer_list_{};
 		std::unordered_map<std::string, std::shared_ptr<Object>> camera_map_{};
 		std::shared_ptr<Object> main_camera_{};
+		std::shared_ptr<Object> ui_camera_{};
 	};
 }
 

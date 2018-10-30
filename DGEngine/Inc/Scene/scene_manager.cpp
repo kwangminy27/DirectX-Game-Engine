@@ -2,6 +2,8 @@
 #include "scene_manager.h"
 
 #include "scene.h"
+#include "object.h"
+#include "input_manager.h"
 
 using namespace DG;
 
@@ -9,7 +11,7 @@ void SceneManager::Initialize()
 {
 	try
 	{
-		scene_ = _CreateScene("BasicScene");
+		scene_ = _CreateScene("StartScene");
 	}
 	catch (exception const& _e)
 	{
@@ -48,7 +50,32 @@ void SceneManager::Render(float _time)
 
 std::shared_ptr<Object> const& SceneManager::FindObject(std::string const& _tag) const
 {
-	return scene_->FindObject(_tag);
+	auto const& object = scene_->FindObject(_tag);
+
+	if (object)
+		return object;
+
+	return next_scene_->FindObject(_tag);
+}
+
+
+void SceneManager::CreateNextScene(std::string const& _tag)
+{
+	next_scene_ = _CreateScene(_tag);
+}
+
+void SceneManager::TrySceneChange()
+{
+	if (!next_scene_)
+		return;
+
+	scene_ = std::move(next_scene_);
+
+	auto const& mouse = InputManager::singleton()->mouse();
+
+	mouse->set_scene(scene_);
+	for (auto const& _component : mouse->component_list_)
+		_component->set_scene(scene_);
 }
 
 std::shared_ptr<Scene> SceneManager::scene() const

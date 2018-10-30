@@ -26,10 +26,7 @@ void Layer::AddCloneObject(std::shared_ptr<Object> const& _object)
 	_object->set_layer(shared_from_this());
 
 	for (auto const& _component : _object->component_list_)
-	{
 		_component->set_layer(shared_from_this());
-		_component->set_object(_object);
-	}
 
 	object_list_.push_back(_object);
 }

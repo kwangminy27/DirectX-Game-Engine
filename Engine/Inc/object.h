@@ -10,6 +10,7 @@ namespace DG
 
 	class DG_ENGINE_DLL Object final : public Tag, public std::enable_shared_from_this<Object>
 	{
+		friend class SceneManager;
 		friend class Scene;
 		friend class Layer;
 		friend class InputManager;
@@ -29,6 +30,7 @@ namespace DG
 		std::list<std::shared_ptr<Component>> const& FindComponents(COMPONENT_TYPE _type) const;
 		bool IsComponent(COMPONENT_TYPE _type) const;
 
+		void AfterClone();
 		void Test(std::shared_ptr<Scene> const& _scene, std::shared_ptr<Layer> const& _layer, std::shared_ptr<Object> const& _object);
 
 		std::shared_ptr<Scene> scene() const;

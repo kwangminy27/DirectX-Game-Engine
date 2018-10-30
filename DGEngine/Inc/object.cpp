@@ -66,10 +66,12 @@ std::shared_ptr<Object> Object::CreateClone(std::string const& _tag, std::string
 
 	auto object = std::shared_ptr<Object>{ prototype->Clone() };
 
+	object->AfterClone(); // 복제된 컴포넌트들의 object 갱신
+
 	if (!_layer)
 		throw std::exception{ "Object::CreateClone" };
 
-	_layer->AddCloneObject(object);
+	_layer->AddCloneObject(object); // 복제된 컴포넌트에도 layer를 추가
 
 	return object;
 }
@@ -188,6 +190,15 @@ bool Object::IsComponent(COMPONENT_TYPE _type) const
 	}
 
 	return false;
+}
+
+void Object::AfterClone()
+{
+	for (auto& _component : component_list_)
+	{
+		_component->set_object(shared_from_this());
+		_component->_AfterClone();
+	}
 }
 
 void Object::Test(std::shared_ptr<Scene> const& _scene, std::shared_ptr<Layer> const& _layer, std::shared_ptr<Object> const& _object)

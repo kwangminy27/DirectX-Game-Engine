@@ -23,6 +23,8 @@ void InputManager::Initialize()
 		_AddKey("MoveLeft"s, 'A');
 		_AddKey("MoveRight"s, 'D');
 
+		_AddKey("LButton"s, VK_LBUTTON);
+
 		_AddKey("Space"s, VK_SPACE);
 
 		_AddKey("Pause"s, VK_F1);

@@ -18,8 +18,11 @@ namespace DG
 		void Collision(float _time);
 		void Render(float _time);
 
-		template <typename T> void AddSceneComponent(std::string const& _tag);
+		template <typename T> void AddSceneComponent(std::string const& _tag, bool _next_scene_flag);
 		std::shared_ptr<Object> const& FindObject(std::string const& _tag) const;
+
+		void CreateNextScene(std::string const& _tag);
+		void TrySceneChange();
 
 		std::shared_ptr<Scene> scene() const;
 		std::shared_ptr<Scene> next_scene() const;

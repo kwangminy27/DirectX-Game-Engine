@@ -33,6 +33,7 @@ enum class COMPONENT_TYPE
 	MATERIAL,
 	ANIMATION_2D,
 	COLLIDER,
+	UI,
 	END
 };
 
@@ -96,5 +97,20 @@ enum class COLLISION_CALLBACK_TYPE
 	ENTER,
 	STAY,
 	LEAVE,
+	END
+};
+
+enum class UI_TYPE
+{
+	PANEL,
+	BUTTON
+};
+
+enum class BUTTON_STATE
+{
+	DISABLE,
+	NORMAL,
+	MOUSEON,
+	CLICK,
 	END
 };

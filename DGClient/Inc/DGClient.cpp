@@ -2,6 +2,7 @@
 #include "resource.h"
 
 #include "SceneComponent/main_scene_component.h"
+#include "SceneComponent/start_scene.h"
 
 #include <DGEngine_stdafx.h>
 #include <core.h>
@@ -17,7 +18,7 @@ int WINAPI wWinMain(HINSTANCE _instance, HINSTANCE _prev_instance, PWSTR _cmd_li
 
 	core->Initialize(L"DirectX Game Engine", L"DirectX Game Engine", _instance, IDI_ICON1, GAME_MODE::_2D);
 
-	SceneManager::singleton()->AddSceneComponent<MainSceneComponent>("MainSceneComponent");
+	SceneManager::singleton()->AddSceneComponent<StartScene>("StartScene", false);
 
 	core->Run();
 

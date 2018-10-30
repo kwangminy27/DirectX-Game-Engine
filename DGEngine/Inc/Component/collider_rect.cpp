@@ -104,6 +104,10 @@ void ColliderRect::_Render(float _time)
 	transform_constant_buffer.view = view;
 	transform_constant_buffer.projection = camera_component->projection();
 	transform_constant_buffer.WVP = transform_constant_buffer.world * transform_constant_buffer.view * transform_constant_buffer.projection;
+	transform_constant_buffer.pivot = pivot_;
+
+	auto const& mesh = ResourceManager::singleton()->FindMesh(mesh_tag_);
+	transform_constant_buffer.diagonal = mesh->diagonal();
 
 	transform_constant_buffer.world = transform_constant_buffer.world.Transpose();
 	transform_constant_buffer.view = transform_constant_buffer.view.Transpose();

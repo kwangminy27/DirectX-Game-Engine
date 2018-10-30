@@ -104,3 +104,7 @@ void Component::_Collision(float _time)
 void Component::_Render(float _time)
 {
 }
+
+void Component::_AfterClone()
+{
+}

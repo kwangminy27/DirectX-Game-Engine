@@ -115,7 +115,13 @@ std::unique_ptr<Component, std::function<void(Component*)>> Renderer::_Clone() c
 
 void Renderer::_UpdateTransform()
 {
-	auto const& camera = scene()->main_camera();
+	std::shared_ptr<Object> camera{};
+
+	if (object()->IsComponent(COMPONENT_TYPE::UI))
+		camera = scene()->ui_camera();
+	else
+		camera = scene()->main_camera();
+
 	auto const& camera_component = dynamic_pointer_cast<Camera>(camera->FindComponent(camera->tag()));
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 	auto const& mesh = ResourceManager::singleton()->FindMesh(mesh_tag_);

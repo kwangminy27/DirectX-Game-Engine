@@ -55,12 +55,9 @@ void PlayerComponent::Initialize()
 	//collider_oobb->set_relative_info(Math::Vector3{ 0.f, extent.y, 0.f }, extent, Math::Matrix::Identity);
 
 	auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("PlayerBody"));
-
 	auto const& mesh = ResourceManager::singleton()->FindMesh("TexRect");
-
 	auto extent = (mesh->max() - mesh->min()) * 0.5f * transform->scale_vector();
 
-	collider_rect->set_pivot(Math::Vector3{ 0.5f, 0.5f, 0.f });
 	collider_rect->set_relative_info(Math::Vector3::Zero, extent * 2.f);
 }
 

@@ -79,6 +79,9 @@
     <Filter Include="09. Component\7. Collider">
       <UniqueIdentifier>{f318ab7c-f944-4da4-b15d-80835dd8c51c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="09. Component\8. UI">
+      <UniqueIdentifier>{2426b2e4-5ddc-4e75-bcdd-6e205f4094a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -201,6 +204,12 @@
     <ClInclude Include="Component\collider_pixel.h">
       <Filter>09. Component\7. Collider</Filter>
     </ClInclude>
+    <ClInclude Include="Component\UI.h">
+      <Filter>09. Component\8. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\button_UI.h">
+      <Filter>09. Component\8. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -313,6 +322,12 @@
     </ClCompile>
     <ClCompile Include="Component\collider_pixel.cpp">
       <Filter>09. Component\7. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\UI.cpp">
+      <Filter>09. Component\8. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\button_UI.cpp">
+      <Filter>09. Component\8. UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

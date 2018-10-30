@@ -13,6 +13,12 @@
     <Filter Include="2. UserComponent">
       <UniqueIdentifier>{83b3070b-a78f-4cb2-a452-082193bf537b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="1. SceneComponent\1. StartScene">
+      <UniqueIdentifier>{8c978fcb-fb44-4e6f-9cdd-be05bb966bbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1. SceneComponent\2. MainScene">
+      <UniqueIdentifier>{799a01f7-9504-41f2-abd3-2e85d81b052f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGClient_stdafx.h">
@@ -24,14 +30,17 @@
     <ClInclude Include="UserComponent\player_component.h">
       <Filter>2. UserComponent</Filter>
     </ClInclude>
-    <ClInclude Include="SceneComponent\main_scene_component.h">
-      <Filter>1. SceneComponent</Filter>
-    </ClInclude>
     <ClInclude Include="UserComponent\monster_component.h">
       <Filter>2. UserComponent</Filter>
     </ClInclude>
     <ClInclude Include="UserComponent\missile_component.h">
       <Filter>2. UserComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneComponent\main_scene_component.h">
+      <Filter>1. SceneComponent\2. MainScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneComponent\start_scene.h">
+      <Filter>1. SceneComponent\1. StartScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -42,14 +51,17 @@
     <ClCompile Include="UserComponent\player_component.cpp">
       <Filter>2. UserComponent</Filter>
     </ClCompile>
-    <ClCompile Include="SceneComponent\main_scene_component.cpp">
-      <Filter>1. SceneComponent</Filter>
-    </ClCompile>
     <ClCompile Include="UserComponent\monster_component.cpp">
       <Filter>2. UserComponent</Filter>
     </ClCompile>
     <ClCompile Include="UserComponent\missile_component.cpp">
       <Filter>2. UserComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneComponent\main_scene_component.cpp">
+      <Filter>1. SceneComponent\2. MainScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneComponent\start_scene.cpp">
+      <Filter>1. SceneComponent\1. StartScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

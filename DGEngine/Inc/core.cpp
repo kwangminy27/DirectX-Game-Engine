@@ -64,8 +64,11 @@ void Core::Run()
 		}
 		else
 		{
-			timer_->Update();
+			SceneManager::singleton()->TrySceneChange();
+
 			InputManager::singleton()->Update();
+
+			timer_->Update();
 
 			_Logic();
 		}
