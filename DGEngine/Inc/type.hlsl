@@ -70,6 +70,8 @@ cbuffer Collider : register(b9)
 cbuffer Button : register(b10)
 {
 	float4 g_color;
+	int g_checkbox_state;
+	float3 empty3;
 }
 
 Texture2D g_texture : register(t0);

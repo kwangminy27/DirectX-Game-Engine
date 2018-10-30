@@ -50,6 +50,13 @@ namespace DG
 		Math::Vector3 empty;
 	};
 
+	struct ButtonConstantBuffer
+	{
+		Math::Vector4 color;
+		int checkbox_state;
+		Math::Vector3 empty;
+	};
+
 	struct Animation2DFrameDesc
 	{
 		Math::Vector2 LT;

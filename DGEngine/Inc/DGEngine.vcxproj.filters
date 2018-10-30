@@ -82,6 +82,15 @@
     <Filter Include="09. Component\8. UI">
       <UniqueIdentifier>{2426b2e4-5ddc-4e75-bcdd-6e205f4094a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. Rendering\1. Shader\1. HLSL\1. Basic">
+      <UniqueIdentifier>{c54f192b-8ea3-454b-9350-1a1cc13269d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Rendering\1. Shader\1. HLSL\3. UI">
+      <UniqueIdentifier>{3c4c5f95-49d9-4305-bf80-257c43193a03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Rendering\1. Shader\1. HLSL\2. Collider">
+      <UniqueIdentifier>{1b43e48f-ed1c-4a0e-a41a-fc2fde7cbb88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -213,6 +222,9 @@
     <ClInclude Include="Component\bar_UI.h">
       <Filter>09. Component\8. UI</Filter>
     </ClInclude>
+    <ClInclude Include="Component\checkbox_UI.h">
+      <Filter>09. Component\8. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -335,6 +347,9 @@
     <ClCompile Include="Component\bar_UI.cpp">
       <Filter>09. Component\8. UI</Filter>
     </ClCompile>
+    <ClCompile Include="Component\checkbox_UI.cpp">
+      <Filter>09. Component\8. UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="singleton.inl">
@@ -354,38 +369,44 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="BasicVS.hlsl">
-      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
-    </FxCompile>
     <FxCompile Include="type.hlsl">
       <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
-    <FxCompile Include="BasicPS.hlsl">
-      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="BasicTexVS.hlsl">
-      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="BasicTexPS.hlsl">
-      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="BasicAnimation2DVS.hlsl">
-      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
+    <FxCompile Include="BasicVS.hlsl">
+      <Filter>05. Rendering\1. Shader\1. HLSL\1. Basic</Filter>
     </FxCompile>
     <FxCompile Include="BasicAnimation2DPS.hlsl">
-      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
+      <Filter>05. Rendering\1. Shader\1. HLSL\1. Basic</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicAnimation2DVS.hlsl">
+      <Filter>05. Rendering\1. Shader\1. HLSL\1. Basic</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicPS.hlsl">
+      <Filter>05. Rendering\1. Shader\1. HLSL\1. Basic</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicTexPS.hlsl">
+      <Filter>05. Rendering\1. Shader\1. HLSL\1. Basic</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicTexVS.hlsl">
+      <Filter>05. Rendering\1. Shader\1. HLSL\1. Basic</Filter>
     </FxCompile>
     <FxCompile Include="ColliderVS.hlsl">
-      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
+      <Filter>05. Rendering\1. Shader\1. HLSL\2. Collider</Filter>
     </FxCompile>
     <FxCompile Include="ColliderPS.hlsl">
-      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
+      <Filter>05. Rendering\1. Shader\1. HLSL\2. Collider</Filter>
     </FxCompile>
     <FxCompile Include="ButtonVS.hlsl">
-      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
+      <Filter>05. Rendering\1. Shader\1. HLSL\3. UI</Filter>
     </FxCompile>
     <FxCompile Include="ButtonPS.hlsl">
-      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
+      <Filter>05. Rendering\1. Shader\1. HLSL\3. UI</Filter>
+    </FxCompile>
+    <FxCompile Include="CheckboxVS.hlsl">
+      <Filter>05. Rendering\1. Shader\1. HLSL\3. UI</Filter>
+    </FxCompile>
+    <FxCompile Include="CheckboxPS.hlsl">
+      <Filter>05. Rendering\1. Shader\1. HLSL\3. UI</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@
 #include <Component/camera.h>
 #include <Component/transform.h>
 #include <Component/button_UI.h>
+#include <Component/checkbox_UI.h>
 
 using namespace DG;
 
@@ -28,6 +29,15 @@ void StartScene::Initialize()
 	button_UI_component->set_callback([this](float _time) {
 		_StartButtonCallback(_time);
 	});
+
+	auto checkbox = Object::CreateObject("Checkbox", ui_layer);
+	auto checkbox_ui_component = std::dynamic_pointer_cast<CheckboxUI>(checkbox->AddComponent<CheckboxUI>("CheckboxUI"));
+
+	auto checkbox1 = Object::CreateObject("Checkbox", ui_layer);
+	auto checkbox_ui_component1 = std::dynamic_pointer_cast<CheckboxUI>(checkbox1->AddComponent<CheckboxUI>("CheckboxUI"));
+
+	auto checkbox1_transform = std::dynamic_pointer_cast<Transform>(checkbox1->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	checkbox1_transform->Translation({ -50.f, 0.f, 0.f });
 }
 
 StartScene::StartScene(StartScene const& _other) : SceneComponent(_other)

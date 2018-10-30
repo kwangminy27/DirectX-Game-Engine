@@ -36,11 +36,14 @@ cbuffer Button : register(b10)
 Texture2D g_texture : register(t0);
 SamplerState g_sampler : register(s0);
 
-PS_OUTPUT_SINGLE_TARGET ButtonPS(VS_OUTPUT_POSITION_TEX input)
+PS_OUTPUT_SINGLE_TARGET CheckboxPS(VS_OUTPUT_POSITION_TEX input)
 {
 	PS_OUTPUT_SINGLE_TARGET output = (PS_OUTPUT_SINGLE_TARGET)0;
 
-	output.target = g_texture.Sample(g_sampler, input.uv) * g_diffuse * g_color;
+	if (g_checkbox_state)
+		output.target = g_texture.Sample(g_sampler, input.uv) * g_diffuse * g_color;
+	else
+		output.target = float4(1.f, 1.f, 1.f, 1.f);
 
 	return output;
 }

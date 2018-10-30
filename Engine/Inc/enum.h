@@ -116,10 +116,16 @@ enum class BUTTON_STATE
 	END
 };
 
-enum class BAR_DIR
+enum class CHECKBOX_STATE
 {
-	BOTTOM,
-	LEFT,
-	RIGHT,
-	TOP
+	NORMAL,
+	CHECKED
+};
+
+enum class CUTTING_DIR
+{
+	BOTTOM_TO_TOP,
+	LEFT_TO_RIGHT,
+	RIGHT_TO_LEFT,
+	TOP_TO_BOTTOM
 };

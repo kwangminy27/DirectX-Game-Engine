@@ -80,6 +80,7 @@ void ResourceManager::Initialize()
 		_CreateTexture2D("PixelCollider", L"PixelCollider.bmp", TEXTURE_PATH);
 		_CreateTexture2D("Button", L"Button.png", TEXTURE_PATH);
 		_CreateTexture2D("StartButton", L"Start.png", TEXTURE_PATH);
+		_CreateTexture2D("Checkbox", L"checkbox.png", TEXTURE_PATH);
 
 		_CreateSampler(
 			LINEAR_SAMPLER,

@@ -74,7 +74,10 @@ void ButtonUI::Initialize()
 
 void ButtonUI::UpdateConstantBuffer()
 {
-	RenderingManager::singleton()->UpdateConstantBuffer("Button", &color_array_.at(static_cast<int>(button_state_)));
+	ButtonConstantBuffer button_constant_buffer{};
+	memcpy_s(&button_constant_buffer.color, sizeof(Math::Vector4), &color_array_.at(static_cast<int>(button_state_)), sizeof(Math::Vector4));
+
+	RenderingManager::singleton()->UpdateConstantBuffer("Button", &button_constant_buffer);
 }
 
 void ButtonUI::Enable()
