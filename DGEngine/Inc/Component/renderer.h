@@ -31,6 +31,7 @@ namespace DG
 		virtual void _Render(float _time) override;
 		virtual std::unique_ptr<Component, std::function<void(Component*)>> _Clone() const override;
 
+		void _UpdateConstantBuffers(float _time);
 		void _UpdateTransform();
 
 		std::string mesh_tag_{};

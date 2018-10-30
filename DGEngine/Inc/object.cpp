@@ -13,13 +13,13 @@ std::shared_ptr<Component> Object::component_nullptr_{};
 std::shared_ptr<Object> Object::prototype_nullptr_{};
 std::unordered_map<std::string, std::unordered_map<std::string, std::shared_ptr<Object>>> Object::prototype_map_{};
 
-std::shared_ptr<Object> Object::CreatePrototype(std::string const& _tag, bool _current_flag)
+std::shared_ptr<Object> Object::CreatePrototype(std::string const& _tag, bool _next_scene_flag)
 {
 	auto const& scene_manager = SceneManager::singleton();
 
 	std::shared_ptr<Scene> scene{};
 
-	if (_current_flag)
+	if (!_next_scene_flag)
 		scene = scene_manager->scene();
 	else
 		scene = scene_manager->next_scene();
@@ -51,13 +51,13 @@ std::shared_ptr<Object> Object::CreatePrototype(std::string const& _tag, bool _c
 	return prototype;
 }
 
-std::shared_ptr<Object> Object::CreateClone(std::string const& _tag, std::string const& _prototype_tag, std::shared_ptr<Layer> const& _layer, bool _current_flag)
+std::shared_ptr<Object> Object::CreateClone(std::string const& _tag, std::string const& _prototype_tag, std::shared_ptr<Layer> const& _layer, bool _next_scene_flag)
 {
 	auto const& scene_manager = SceneManager::singleton();
 
 	std::shared_ptr<Scene> scene{};
 
-	if (_current_flag)
+	if (!_next_scene_flag)
 		scene = scene_manager->scene();
 	else
 		scene = scene_manager->next_scene();

@@ -11,6 +11,7 @@ namespace DG
 		friend class Object;
 	public:
 		virtual void Initialize() override;
+		virtual void UpdateConstantBuffer();
 
 		void Enable();
 		void Disable();
@@ -42,5 +43,6 @@ namespace DG
 
 		BUTTON_STATE button_state_{};
 		std::function<void(float)> callback_{};
+		std::array<Math::Vector4, static_cast<int>(BUTTON_STATE::END)> color_array_{};
 	};
 }

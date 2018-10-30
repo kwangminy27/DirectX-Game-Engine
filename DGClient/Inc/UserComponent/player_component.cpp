@@ -90,7 +90,7 @@ void PlayerComponent::_Input(float _time)
 	if (input_manager->KeyPressed("Space"))
 	{
 		auto const& default_layer = scene()->FindLayer("Default");
-		auto missile = Object::CreateClone("Missile", "Missile", default_layer, true);
+		auto missile = Object::CreateClone("Missile", "Missile", default_layer, false);
 		auto const& missile_transform = std::dynamic_pointer_cast<Transform>(missile->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
 		// scaling을 사용하고 있어서 각각 따로따로 세팅해 줌. GetRight·Up·Look은 normalize된 vector를 리턴해주도록 했음

@@ -18,6 +18,7 @@
 #define BASIC_ANIMATION_2D_SHADER "BasicAnimation2DShader"
 #define COLLIDER_SHADER "ColliderShader"
 #define COLLIDER_CIRCLE_SHADER "ColliderCircleShader"
+#define BUTTON_SHADER "ButtonShader"
 
 // ========== Sampler Key ==========
 #define LINEAR_SAMPLER "LinearSampler"

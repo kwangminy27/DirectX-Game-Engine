@@ -12,6 +12,7 @@
 #include "Component/camera.h"
 #include "Component/material.h"
 #include "Component/animation_2d.h"
+#include "Component/UI.h"
 
 using namespace DG;
 
@@ -67,16 +68,11 @@ void Renderer::_Release()
 
 void Renderer::_Render(float _time)
 {
-	auto const& animation_2d = std::dynamic_pointer_cast<Animation2D>(object()->FindComponent(COMPONENT_TYPE::ANIMATION_2D));
 	auto const& material = std::dynamic_pointer_cast<Material>(object()->FindComponent(COMPONENT_TYPE::MATERIAL));
 	auto const& shader = RenderingManager::singleton()->FindShader(shader_tag_);
 	auto const& mesh = ResourceManager::singleton()->FindMesh(mesh_tag_);
 
-	// UpdateConstantBuffer
-	_UpdateTransform();
-
-	if (animation_2d)
-		animation_2d->UpdateAnimation2DConstantBuffer(_time);
+	_UpdateConstantBuffers(_time);
 
 	shader->SetShader();
 
@@ -111,6 +107,21 @@ std::unique_ptr<Component, std::function<void(Component*)>> Renderer::_Clone() c
 		dynamic_cast<Renderer*>(_p)->_Release();
 		delete dynamic_cast<Renderer*>(_p);
 	} };
+}
+
+void Renderer::_UpdateConstantBuffers(float _time)
+{
+	// Transform
+	_UpdateTransform();
+
+	// Animation2D
+	if (auto const& animation_2d = std::dynamic_pointer_cast<Animation2D>(object()->FindComponent(COMPONENT_TYPE::ANIMATION_2D)))
+		animation_2d->UpdateAnimation2DConstantBuffer(_time);
+
+	// UI
+	auto const& UIs = object()->FindComponents(COMPONENT_TYPE::UI);
+	for (auto const& _UI : UIs)
+		_UI->UpdateConstantBuffer();
 }
 
 void Renderer::_UpdateTransform()

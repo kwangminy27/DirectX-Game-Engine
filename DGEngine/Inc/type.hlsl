@@ -62,7 +62,12 @@ cbuffer Animation2D : register(b8)
 	float3 empty2;
 };
 
-cbuffer Collider : register(b8)
+cbuffer Collider : register(b9)
+{
+	float4 g_color;
+}
+
+cbuffer Button : register(b10)
 {
 	float4 g_color;
 }

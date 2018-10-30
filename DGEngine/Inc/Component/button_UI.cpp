@@ -3,6 +3,7 @@
 
 #include "Resource/resource_manager.h"
 #include "Resource/mesh.h"
+#include "Rendering/rendering_manager.h"
 #include "object.h"
 #include "Component/transform.h"
 #include "Component/renderer.h"
@@ -17,19 +18,25 @@ void ButtonUI::Initialize()
 {
 	try
 	{
+		UI::Initialize();
+
 		button_state_ = BUTTON_STATE::NORMAL;
+		color_array_.at(static_cast<int>(BUTTON_STATE::DISABLE)) = DirectX::Colors::Gray.v;
+		color_array_.at(static_cast<int>(BUTTON_STATE::NORMAL)) = DirectX::Colors::Red.v;
+		color_array_.at(static_cast<int>(BUTTON_STATE::MOUSEON)) = DirectX::Colors::Green.v;
+		color_array_.at(static_cast<int>(BUTTON_STATE::CLICK)) = DirectX::Colors::Blue.v;
 
 		// Component
 		auto transform = std::dynamic_pointer_cast<Transform>(object()->AddComponent<Transform>("Transform"));
 
-		transform->Scaling(Math::Vector3{ 200.f, 50.f, 1.f });
+		transform->Scaling(Math::Vector3{ 120.f, 69.f, 1.f });
 		transform->Translation({ static_cast<float>(RESOLUTION::WIDTH) * 0.5f, static_cast<float>(RESOLUTION::HEIGHT) * 0.5, 0.f });
 
 		transform->set_pivot(Math::Vector3{ 0.5f, 0.5f, 0.f });
 
 		auto renderer = std::dynamic_pointer_cast<Renderer>(object()->AddComponent<Renderer>("Renderer"));
 
-		renderer->set_shader_tag(BASIC_TEX_SHADER);
+		renderer->set_shader_tag(BUTTON_SHADER);
 		renderer->set_mesh_tag("TexRect");
 		renderer->set_render_state(ALPHA_BLEND);
 
@@ -39,7 +46,7 @@ void ButtonUI::Initialize()
 		material_constant_buffer.diffuse = DirectX::Colors::White.v;
 
 		material->SetMaterialConstantBuffer(material_constant_buffer, 0, 0);
-		material->SetTexture("Button", 0, 0, 0);
+		material->SetTexture("StartButton", 0, 0, 0);
 		material->SetSampler(LINEAR_SAMPLER, 0, 0, 0);
 
 		auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("ButtonBody"));
@@ -63,6 +70,11 @@ void ButtonUI::Initialize()
 	{
 		std::cout << "ButtonUI::Initialize()" << std::endl;
 	}
+}
+
+void ButtonUI::UpdateConstantBuffer()
+{
+	RenderingManager::singleton()->UpdateConstantBuffer("Button", &color_array_.at(static_cast<int>(button_state_)));
 }
 
 void ButtonUI::Enable()
@@ -94,12 +106,15 @@ ButtonUI::ButtonUI(ButtonUI const& _other) : UI(_other)
 {
 	button_state_ = _other.button_state_;
 	callback_ = _other.callback_;
+
+	memcpy_s(color_array_.data(), sizeof(Math::Vector4) * color_array_.size(), _other.color_array_.data(), sizeof(Math::Vector4) * color_array_.size());
 }
 
 ButtonUI::ButtonUI(ButtonUI&& _other) noexcept : UI(std::move(_other))
 {
 	button_state_ = std::move(_other.button_state_);
 	callback_ = std::move(_other.callback_);
+	color_array_ = std::move(_other.color_array_);
 }
 
 void ButtonUI::_Release()

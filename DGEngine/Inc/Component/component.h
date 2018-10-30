@@ -13,6 +13,7 @@ namespace DG
 		friend class Object;
 	public:
 		virtual void Initialize() = 0;
+		virtual void UpdateConstantBuffer();
 
 		COMPONENT_TYPE type() const;
 		std::string const& object_tag() const;

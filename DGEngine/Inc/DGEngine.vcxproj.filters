@@ -210,6 +210,9 @@
     <ClInclude Include="Component\button_UI.h">
       <Filter>09. Component\8. UI</Filter>
     </ClInclude>
+    <ClInclude Include="Component\bar_UI.h">
+      <Filter>09. Component\8. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -329,6 +332,9 @@
     <ClCompile Include="Component\button_UI.cpp">
       <Filter>09. Component\8. UI</Filter>
     </ClCompile>
+    <ClCompile Include="Component\bar_UI.cpp">
+      <Filter>09. Component\8. UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="singleton.inl">
@@ -373,6 +379,12 @@
       <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
     <FxCompile Include="ColliderPS.hlsl">
+      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="ButtonVS.hlsl">
+      <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="ButtonPS.hlsl">
       <Filter>05. Rendering\1. Shader\1. HLSL</Filter>
     </FxCompile>
   </ItemGroup>

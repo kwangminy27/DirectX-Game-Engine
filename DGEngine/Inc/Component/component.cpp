@@ -7,6 +7,10 @@
 
 using namespace DG;
 
+void Component::UpdateConstantBuffer()
+{
+}
+
 COMPONENT_TYPE Component::type() const
 {
 	return type_;

@@ -103,7 +103,8 @@ enum class COLLISION_CALLBACK_TYPE
 enum class UI_TYPE
 {
 	PANEL,
-	BUTTON
+	BUTTON,
+	BAR
 };
 
 enum class BUTTON_STATE
@@ -113,4 +114,12 @@ enum class BUTTON_STATE
 	MOUSEON,
 	CLICK,
 	END
+};
+
+enum class BAR_DIR
+{
+	BOTTOM,
+	LEFT,
+	RIGHT,
+	TOP
 };

@@ -8,7 +8,7 @@ struct PS_OUTPUT_SINGLE_TARGET
 	float4 target : SV_TARGET;
 };
 
-cbuffer Collider : register(b8)
+cbuffer Collider : register(b9)
 {
 	float4 g_color;
 }
