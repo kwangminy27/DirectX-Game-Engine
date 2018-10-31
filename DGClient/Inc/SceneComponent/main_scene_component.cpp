@@ -55,7 +55,7 @@ void MainSceneComponent::Initialize()
 
 	auto colider_pixel = dynamic_pointer_cast<ColliderPixel>(pixel->AddComponent<ColliderPixel>("ColliderPixel"));
 	auto const& mesh = ResourceManager::singleton()->FindMesh("TexRect");
-	auto extent = (mesh->max() - mesh->min()) * 0.5f * transform->scale_vector();
+	auto extent = (mesh->max() - mesh->min()) * 0.5f * transform->GetLocalScale();
 
 	colider_pixel->set_relative_info("PixelCollider", Math::Vector3::Zero, extent * 2.f);
 }

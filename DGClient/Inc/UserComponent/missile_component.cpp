@@ -41,7 +41,7 @@ void MissileComponent::Initialize()
 
 	auto const& mesh = ResourceManager::singleton()->FindMesh("ColorTri");
 
-	auto extent = (mesh->max() - mesh->min()) * 0.5f * transform->scale_vector();
+	auto extent = (mesh->max() - mesh->min()) * 0.5f * transform->GetLocalScale();
 
 	collider_oobb->set_pivot(Math::Vector3{ 0.5f, 0.5f, 0.f });
 	collider_oobb->set_relative_info(Math::Vector3::Zero, extent, Math::Matrix::Identity);

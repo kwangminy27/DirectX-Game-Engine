@@ -124,7 +124,7 @@ void InputManager::Update()
 	mouse_client_position_ = Math::Vector3{ static_cast<float>(position.x), static_cast<float>(position.y), 1.f } * client_to_game_resolution_ratio;
 	
 	auto const& camera = SceneManager::singleton()->scene()->main_camera();
-	mouse_world_position_ = mouse_client_position_ + std::dynamic_pointer_cast<Transform>(camera->FindComponent(COMPONENT_TYPE::TRANSFORM))->GetWorldPosition();
+	mouse_world_position_ = mouse_client_position_ + std::dynamic_pointer_cast<Transform>(camera->FindComponent(COMPONENT_TYPE::TRANSFORM))->GetLocalPosition();
 
 	auto const& mouse_transform = std::dynamic_pointer_cast<Transform>(mouse_->FindComponent(COMPONENT_TYPE::TRANSFORM));
 	mouse_transform->SetLocalPosition(mouse_client_position_);

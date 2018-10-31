@@ -107,7 +107,7 @@ void ColliderOOBB::_LateUpdate(float _time)
 {
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
-	auto rotated_center = DirectX::XMVector3TransformCoord(relative_info_.center, transform->GetLocalRotation());
+	auto rotated_center = DirectX::XMVector3TransformCoord(relative_info_.center, transform->local_rotate());
 
 	final_info_.center = transform->GetLocalPosition() + rotated_center;
 	final_info_.extent = relative_info_.extent;
@@ -143,7 +143,7 @@ void ColliderOOBB::_Render(float _time)
 		view = camera_component->view();
 
 	TransformConstantBuffer transform_constant_buffer{};
-	transform_constant_buffer.world = Math::Matrix::CreateScale(transform->scale_vector()) * final_info_.rotation * Math::Matrix::CreateTranslation(final_info_.center);
+	transform_constant_buffer.world = transform->local_scale() * final_info_.rotation * Math::Matrix::CreateTranslation(final_info_.center);
 	transform_constant_buffer.view = view;
 	transform_constant_buffer.projection = camera_component->projection();
 	transform_constant_buffer.WVP = transform_constant_buffer.world * transform_constant_buffer.view * transform_constant_buffer.projection;

@@ -19,16 +19,11 @@ namespace DG
 		void RotationAxis(Math::Vector3 const& _axis, float _radians);
 		void Translation(Math::Vector3 const& _v);
 
-		Math::Vector3 scale_vector() const;
-		Math::Matrix GetLocalRotation() const;
+		Math::Vector3 GetLocalScale() const;
 		Math::Vector3 GetLocalRight() const;
 		Math::Vector3 GetLocalUp() const;
 		Math::Vector3 GetLocalLook() const;
 		Math::Vector3 GetLocalPosition() const;
-		Math::Vector3 GetWorldRight() const;
-		Math::Vector3 GetWorldUp() const;
-		Math::Vector3 GetWorldLook() const;
-		Math::Vector3 GetWorldPosition() const;
 
 		void SetLocalRight(Math::Vector3 const& _right);
 		void SetLocalUp(Math::Vector3 const& _up);
@@ -39,6 +34,9 @@ namespace DG
 
 		bool update_flag() const;
 		bool static_flag() const;
+		Math::Matrix const& local_scale() const;
+		Math::Matrix const& local_rotate() const;
+		Math::Matrix const& local_translate() const;
 		Math::Matrix const& local() const;
 		Math::Matrix const& parent() const;
 		Math::Matrix const& world() const;
@@ -46,8 +44,6 @@ namespace DG
 
 		void set_update_flag(bool _flag);
 		void set_static_flag(bool _flag);
-		void set_local(Math::Matrix const& _local);
-		void set_parent(Math::Matrix const& _parent);
 		void set_pivot(Math::Vector3 const& _pivot);
 
 	private:
@@ -65,7 +61,9 @@ namespace DG
 
 		bool update_flag_{ true };
 		bool static_flag_{};
-		Math::Vector3 scale_vector_{ Math::Vector3::One };
+		Math::Matrix local_scale_{ Math::Matrix::Identity };
+		Math::Matrix local_rotate_{ Math::Matrix::Identity };
+		Math::Matrix local_translate_{ Math::Matrix::Identity };
 		Math::Matrix local_{ Math::Matrix::Identity };
 		Math::Matrix parent_{ Math::Matrix::Identity };
 		Math::Matrix world_{ Math::Matrix::Identity };

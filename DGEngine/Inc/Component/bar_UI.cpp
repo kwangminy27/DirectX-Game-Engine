@@ -45,11 +45,11 @@ void BarUI::set_direction(CUTTING_DIR _direction)
 	{
 	case CUTTING_DIR::BOTTOM_TO_TOP:
 		transform->set_pivot({ 0.f, 1.f, 0.f });
-		transform->Translation({ 0.f, transform->scale_vector().y, 0.f });
+		transform->Translation({ 0.f, transform->GetLocalScale().y, 0.f });
 		break;
 	case CUTTING_DIR::LEFT_TO_RIGHT:
 		transform->set_pivot({ 1.f, 0.f, 0.f });
-		transform->Translation({ transform->scale_vector().x, 0.f, 0.f });
+		transform->Translation({ transform->GetLocalScale().x, 0.f, 0.f });
 		break;
 	case CUTTING_DIR::RIGHT_TO_LEFT:
 		transform->set_pivot({ 0.f, 0.f, 0.f });

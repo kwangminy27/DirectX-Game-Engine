@@ -39,7 +39,7 @@ void MonsterComponent::Initialize()
 
 	auto mesh = ResourceManager::singleton()->FindMesh("ColorTri");
 
-	auto extent = mesh->diagonal() * 0.5f * transform->scale_vector();
+	auto extent = mesh->diagonal() * 0.5f * transform->GetLocalScale();
 
 	collider_circle->set_relative_info(Math::Vector3{ extent.x, extent.y, 0.f }, extent.x);
 }

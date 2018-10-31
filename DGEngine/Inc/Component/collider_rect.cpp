@@ -77,7 +77,7 @@ void ColliderRect::_LateUpdate(float _time)
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
 	auto const& mesh = ResourceManager::singleton()->FindMesh(mesh_tag_);
-	Math::Vector3 object_position = transform->GetLocalPosition() - mesh->diagonal() * transform->scale_vector() * transform->pivot();
+	Math::Vector3 object_position = transform->GetLocalPosition() - mesh->diagonal() * transform->GetLocalScale() * transform->pivot();
 
 	final_info_.min = object_position + relative_info_.min;
 	final_info_.max = object_position + relative_info_.max;
@@ -100,7 +100,7 @@ void ColliderRect::_Render(float _time)
 		view = camera_component->view();
 
 	TransformConstantBuffer transform_constant_buffer{};
-	transform_constant_buffer.world = Math::Matrix::CreateScale(transform->scale_vector()) * Math::Matrix::CreateTranslation(final_info_.min);
+	transform_constant_buffer.world = Math::Matrix::CreateScale(transform->GetLocalScale()) * Math::Matrix::CreateTranslation(final_info_.min);
 	transform_constant_buffer.view = view;
 	transform_constant_buffer.projection = camera_component->projection();
 	transform_constant_buffer.WVP = transform_constant_buffer.world * transform_constant_buffer.view * transform_constant_buffer.projection;
