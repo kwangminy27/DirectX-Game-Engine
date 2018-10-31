@@ -17,7 +17,7 @@ void Transform::Initialize()
 
 void Transform::Scaling(Math::Vector3 const& _v)
 {
-	local_scale_ *= Math::Matrix::CreateScale(_v);
+	local_scale_ = Math::Matrix::CreateScale(_v);
 
 	update_flag_ = true;
 }

@@ -38,8 +38,8 @@ namespace DG
 		virtual std::unique_ptr<Component, std::function<void(Component*)>> _Clone() const override;
 		virtual void _AfterClone();
 
-		void _Hit(Collider* _src, Collider* _dest, float _time);
-		void _MouseOut(Collider* _src, Collider* _dest, float _time);
+		void _MouseOn(Collider* _src, Collider* _dest, float _time);
+		void _MouseOff(Collider* _src, Collider* _dest, float _time);
 
 		BUTTON_STATE button_state_{};
 		std::function<void(float)> callback_{};

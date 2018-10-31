@@ -56,10 +56,10 @@ void ButtonUI::Initialize()
 		collider_rect->set_collision_group_tag("UI");
 		collider_rect->set_relative_info(Math::Vector3::Zero, extent * 2.f);
 		collider_rect->AddCallback([this](Collider* _src, Collider* _dest, float _time) {
-			_Hit(_src, _dest, _time);
+			_MouseOn(_src, _dest, _time);
 		}, COLLISION_CALLBACK_TYPE::ENTER);
 		collider_rect->AddCallback([this](Collider* _src, Collider* _dest, float _time) {
-			_MouseOut(_src, _dest, _time);
+			_MouseOff(_src, _dest, _time);
 		}, COLLISION_CALLBACK_TYPE::LEAVE);
 	}
 	catch (std::exception const& _e)
@@ -171,13 +171,13 @@ void ButtonUI::_AfterClone()
 {
 }
 
-void ButtonUI::_Hit(Collider* _src, Collider* _dest, float _time)
+void ButtonUI::_MouseOn(Collider* _src, Collider* _dest, float _time)
 {
 	if (_dest->tag() == "MouseUICollider" || _src->tag() == "MouseUICollider")
 		button_state_ = BUTTON_STATE::MOUSEON;
 }
 
-void ButtonUI::_MouseOut(Collider* _src, Collider* _dest, float _time)
+void ButtonUI::_MouseOff(Collider * _src, Collider * _dest, float _time)
 {
 	if (_dest->tag() == "MouseUICollider" || _src->tag() == "MouseUICollider")
 		button_state_ = BUTTON_STATE::NORMAL;

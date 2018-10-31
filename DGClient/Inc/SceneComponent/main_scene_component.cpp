@@ -17,6 +17,9 @@
 #include <Resource/resource_manager.h>
 #include <Resource/mesh.h>
 
+// Bar
+#include <Component/bar_UI.h>
+
 using namespace DG;
 
 void MainSceneComponent::Initialize()
@@ -24,6 +27,7 @@ void MainSceneComponent::Initialize()
 	_CreatePrototypes();
 
 	auto const& default_layer = scene()->FindLayer("Default");
+	auto const& ui_layer = scene()->FindLayer("UI");
 
 	auto monster = Object::CreateObject("Monster", default_layer);
 	auto monster_component = std::dynamic_pointer_cast<MonsterComponent>(monster->AddComponent<MonsterComponent>("Monster"));
@@ -58,6 +62,10 @@ void MainSceneComponent::Initialize()
 	auto extent = (mesh->max() - mesh->min()) * 0.5f * transform->GetLocalScale();
 
 	colider_pixel->set_relative_info("PixelCollider", Math::Vector3::Zero, extent * 2.f);
+
+	// Bar
+	auto bar = Object::CreateObject("Bar", ui_layer);
+	auto bar_component = bar->AddComponent<BarUI>("Bar");
 }
 
 MainSceneComponent::MainSceneComponent(MainSceneComponent const& _other) : SceneComponent(_other)

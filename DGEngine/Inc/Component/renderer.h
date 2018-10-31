@@ -6,7 +6,6 @@ namespace DG
 {
 	class Mesh;
 	class Shader;
-	class Material;
 	class RenderState;
 
 	class DG_ENGINE_DLL Renderer final : public Component

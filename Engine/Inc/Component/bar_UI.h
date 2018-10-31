@@ -11,6 +11,13 @@ namespace DG
 		virtual void Initialize() override;
 		virtual void UpdateConstantBuffer();
 
+		void AddValue(float _value);
+
+		void set_direction(CUTTING_DIR _direction);
+		void set_range(float _min, float _max);
+		void set_value(float _value);
+		void set_scale_vector(Math::Vector3 const& _scale_vector);
+
 	protected:
 		BarUI() = default;
 		BarUI(BarUI const& _other);
@@ -27,5 +34,10 @@ namespace DG
 		virtual void _Render(float _time);
 		virtual std::unique_ptr<Component, std::function<void(Component*)>> _Clone() const override;
 		virtual void _AfterClone();
+
+		CUTTING_DIR direction_{};
+		std::pair<float, float> range_{};
+		float value_{};
+		Math::Vector3 scale_vector_{};
 	};
 }

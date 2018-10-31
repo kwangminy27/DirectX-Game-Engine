@@ -11,11 +11,12 @@ namespace DG
 		virtual void Initialize() override;
 		virtual void UpdateConstantBuffer();
 
-		void AddValue(float _time);
+		void AddValue(float _value);
 
 		void set_direction(CUTTING_DIR _direction);
 		void set_range(float _min, float _max);
 		void set_value(float _value);
+		void set_scale_vector(Math::Vector3 const& _scale_vector);
 
 	protected:
 		BarUI() = default;
@@ -37,5 +38,6 @@ namespace DG
 		CUTTING_DIR direction_{};
 		std::pair<float, float> range_{};
 		float value_{};
+		Math::Vector3 scale_vector_{};
 	};
 }
