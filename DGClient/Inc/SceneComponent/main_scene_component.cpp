@@ -19,6 +19,9 @@
 
 // Bar
 #include <Component/bar_UI.h>
+#include <Component/title_bar_UI.h>
+
+#include <input_manager.h>
 
 using namespace DG;
 
@@ -26,14 +29,41 @@ void MainSceneComponent::Initialize()
 {
 	_CreatePrototypes();
 
+	// Layer
 	auto const& default_layer = scene()->FindLayer("Default");
 	auto const& ui_layer = scene()->FindLayer("UI");
 
+	// Monster
 	auto monster = Object::CreateObject("Monster", default_layer);
 	auto monster_component = std::dynamic_pointer_cast<MonsterComponent>(monster->AddComponent<MonsterComponent>("Monster"));
 
+	// TitleBar_0
+	auto title_bar = Object::CreateObject("TitleBar", ui_layer);
+	auto title_bar_component = std::dynamic_pointer_cast<TitleBarUI>(title_bar->AddComponent<TitleBarUI>("Bar"));
+
+	title_bar_component->set_owner(monster);
+	title_bar_component->set_callback([_p = title_bar_component.get()](float _time) {
+		auto const& input_manager = InputManager::singleton();
+		auto const& owner_transform = std::dynamic_pointer_cast<Transform>(_p->owner()->FindComponent(COMPONENT_TYPE::TRANSFORM));
+
+		owner_transform->Translation(input_manager->mouse_displacement());
+	});
+
+	// Player
 	auto player = Object::CreateObject("Player", default_layer);
 	auto player_component = player->AddComponent<PlayerComponent>("Player");
+
+	// TitleBar_1
+	auto title_bar1 = Object::CreateObject("TitleBar", ui_layer);
+	auto title_bar1_component = std::dynamic_pointer_cast<TitleBarUI>(title_bar1->AddComponent<TitleBarUI>("Bar"));
+
+	title_bar1_component->set_owner(player);
+	title_bar1_component->set_callback([_p = title_bar1_component.get()](float _time) {
+		auto const& input_manager = InputManager::singleton();
+		auto const& owner_transform = std::dynamic_pointer_cast<Transform>(_p->owner()->FindComponent(COMPONENT_TYPE::TRANSFORM));
+
+		owner_transform->Translation(input_manager->mouse_displacement());
+	});
 
 	monster_component->set_target(player);
 
@@ -66,6 +96,18 @@ void MainSceneComponent::Initialize()
 	// Bar
 	auto bar = Object::CreateObject("Bar", ui_layer);
 	auto bar_component = bar->AddComponent<BarUI>("Bar");
+
+	//// TitleBar_2
+	//auto title_bar2 = Object::CreateObject("TitleBar", ui_layer);
+	//auto title_bar2_component = std::dynamic_pointer_cast<TitleBarUI>(title_bar2->AddComponent<TitleBarUI>("Bar"));
+
+	//title_bar2_component->set_owner(bar);
+	//title_bar2_component->set_callback([_p = title_bar2_component.get()](float _time) {
+	//	auto const& input_manager = InputManager::singleton();
+	//	auto const& owner_transform = std::dynamic_pointer_cast<Transform>(_p->owner()->FindComponent(COMPONENT_TYPE::TRANSFORM));
+
+	//	owner_transform->Translation(input_manager->mouse_displacement());
+	//});
 }
 
 MainSceneComponent::MainSceneComponent(MainSceneComponent const& _other) : SceneComponent(_other)

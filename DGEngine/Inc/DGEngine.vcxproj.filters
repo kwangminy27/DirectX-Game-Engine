@@ -228,6 +228,9 @@
     <ClInclude Include="Component\radio_button_UI.h">
       <Filter>09. Component\8. UI</Filter>
     </ClInclude>
+    <ClInclude Include="Component\title_bar_UI.h">
+      <Filter>09. Component\8. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -354,6 +357,9 @@
       <Filter>09. Component\8. UI</Filter>
     </ClCompile>
     <ClCompile Include="Component\radio_button_UI.cpp">
+      <Filter>09. Component\8. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\title_bar_UI.cpp">
       <Filter>09. Component\8. UI</Filter>
     </ClCompile>
   </ItemGroup>

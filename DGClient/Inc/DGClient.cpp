@@ -8,28 +8,9 @@
 #include <core.h>
 #include <Scene/scene_manager.h>
 
-using namespace DG;
-
-int WINAPI wWinMain(HINSTANCE _instance, HINSTANCE _prev_instance, PWSTR _cmd_line, int _cmd_show)
-{
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-
-	auto const& core = Core::singleton();
-
-	core->Initialize(L"DirectX Game Engine", L"DirectX Game Engine", _instance, IDI_ICON1, GAME_MODE::_2D);
-
-	SceneManager::singleton()->AddSceneComponent<StartScene>("StartScene", false);
-
-	core->Run();
-
-	Core::singleton().reset();
-
-	return 0;
-}
-
-// #include <DGNetwork_stdafx.h>
-// #include <thread_manager.h>
-
+//#include <DGNetwork_stdafx.h>
+//#include <thread_manager.h>
+//
 //void Test(void* _argument)
 //{
 //	int* argument = reinterpret_cast<int*>(_argument);
@@ -44,22 +25,40 @@ int WINAPI wWinMain(HINSTANCE _instance, HINSTANCE _prev_instance, PWSTR _cmd_li
 //	thread_manager->debug_mutex().unlock();
 //}
 
-// thread
-//for (int i = 0; i < 10; ++i)
-//{
-//	ThreadManager::singleton()->CreateThread(
-//		"Test"s + to_string(i),
-//		[](void* _t) { Test(_t); },
-//		&i
-//	);
-//}
-//
-//auto& message_queue = ThreadManager::singleton()->debug_message_queue();
-//
-//while (message_queue.size() != 0)
-//{
-//	std::cout << message_queue.front() << std::endl;
-//	message_queue.pop();
-//}
-//
-//ThreadManager::singleton().reset();
+using namespace DG;
+
+int WINAPI wWinMain(HINSTANCE _instance, HINSTANCE _prev_instance, PWSTR _cmd_line, int _cmd_show)
+{
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+	auto const& core = Core::singleton();
+
+	core->Initialize(L"DirectX Game Engine", L"DirectX Game Engine", _instance, IDI_ICON1, GAME_MODE::_2D);
+
+	SceneManager::singleton()->AddSceneComponent<StartScene>("StartScene", false);
+
+	//for (int i = 0; i < 10; ++i)
+	//{
+	//	ThreadManager::singleton()->CreateThread(
+	//		"Test"s + to_string(i),
+	//		[](void* _t) { Test(_t); },
+	//		&i
+	//	);
+	//}
+
+	//auto& message_queue = ThreadManager::singleton()->debug_message_queue();
+
+	//while (message_queue.size() != 0)
+	//{
+	//	std::cout << message_queue.front() << std::endl;
+	//	message_queue.pop();
+	//}
+
+	//ThreadManager::singleton().reset();
+
+	core->Run();
+
+	Core::singleton().reset();
+
+	return 0;
+}

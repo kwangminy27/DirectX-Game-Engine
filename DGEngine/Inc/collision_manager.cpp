@@ -188,6 +188,23 @@ bool CollisionManager::CollisionBetweenMouseWithUI(float _time)
 		}
 	}
 
+	// ui와 충돌이 발생한 경우 mouse_world_collider와 관련있는 collider들을 싹 제거해준다.
+	if (is_ui_collided)
+	{
+		Collider* mouse_world_collider = std::dynamic_pointer_cast<ColliderPoint>(mouse_object->FindComponent("MouseWorldCollider")).get();
+
+		for (auto iter = mouse_world_collider->collided_collider_list_.begin(); iter != mouse_world_collider->collided_collider_list_.end(); ++iter)
+		{
+			mouse_world_collider->_OnCollisionLeave(*iter, _time);
+
+			(*iter)->_OnCollisionLeave(mouse_world_collider, _time);
+			(*iter)->_EraseCollidedCollider(mouse_world_collider);
+		}
+
+		mouse_world_collider->collided_collider_list_.clear();
+	}
+
+
 	return is_ui_collided;
 }
 

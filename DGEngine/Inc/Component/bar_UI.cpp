@@ -46,7 +46,7 @@ void BarUI::Initialize()
 		collider_rect->set_collision_group_tag("UI");
 		collider_rect->set_relative_info(Math::Vector3::Zero, extent * 2.f);
 
-		set_direction(CUTTING_DIR::TOP_TO_BOTTOM);
+		set_direction(CUTTING_DIR::RIGHT_TO_LEFT);
 		set_range(0.f, 100.f);
 		set_value(100.f);
 		set_scale_vector(transform->GetLocalScale());

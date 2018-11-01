@@ -184,6 +184,7 @@
     <ClInclude Include="Component\material.h" />
     <ClInclude Include="Component\radio_button_UI.h" />
     <ClInclude Include="Component\renderer.h" />
+    <ClInclude Include="Component\title_bar_UI.h" />
     <ClInclude Include="Component\transform.h" />
     <ClInclude Include="Component\UI.h" />
     <ClInclude Include="Component\user_component.h" />
@@ -231,6 +232,7 @@
     <ClCompile Include="Component\material.cpp" />
     <ClCompile Include="Component\radio_button_UI.cpp" />
     <ClCompile Include="Component\renderer.cpp" />
+    <ClCompile Include="Component\title_bar_UI.cpp" />
     <ClCompile Include="Component\transform.cpp" />
     <ClCompile Include="Component\UI.cpp" />
     <ClCompile Include="Component\user_component.cpp" />

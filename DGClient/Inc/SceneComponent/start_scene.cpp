@@ -74,6 +74,8 @@ void StartScene::Initialize()
 		_p1->set_checkbox_state(CHECKBOX_STATE::NORMAL);
 		_p2->set_checkbox_state(CHECKBOX_STATE::CHECKED);
 	});
+
+	// TitleBar
 }
 
 StartScene::StartScene(StartScene const& _other) : SceneComponent(_other)
