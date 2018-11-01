@@ -225,6 +225,9 @@
     <ClInclude Include="Component\checkbox_UI.h">
       <Filter>09. Component\8. UI</Filter>
     </ClInclude>
+    <ClInclude Include="Component\radio_button_UI.h">
+      <Filter>09. Component\8. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -350,6 +353,9 @@
     <ClCompile Include="Component\checkbox_UI.cpp">
       <Filter>09. Component\8. UI</Filter>
     </ClCompile>
+    <ClCompile Include="Component\radio_button_UI.cpp">
+      <Filter>09. Component\8. UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="singleton.inl">
@@ -406,6 +412,12 @@
       <Filter>05. Rendering\1. Shader\1. HLSL\3. UI</Filter>
     </FxCompile>
     <FxCompile Include="CheckboxPS.hlsl">
+      <Filter>05. Rendering\1. Shader\1. HLSL\3. UI</Filter>
+    </FxCompile>
+    <FxCompile Include="RadioButtonVS.hlsl">
+      <Filter>05. Rendering\1. Shader\1. HLSL\3. UI</Filter>
+    </FxCompile>
+    <FxCompile Include="RadioButtonPS.hlsl">
       <Filter>05. Rendering\1. Shader\1. HLSL\3. UI</Filter>
     </FxCompile>
   </ItemGroup>

@@ -116,6 +116,23 @@ void ShaderManager::Initialize()
 			"ShaderPath"
 		);
 
+		// RadioButtonShader
+		cso_info_vector.clear();
+		input_element_desc_vector.clear();
+
+		cso_info_vector.push_back(make_pair(SHADER_TYPE::VERTEX, L"RadioButtonVS.cso"));
+		cso_info_vector.push_back(make_pair(SHADER_TYPE::PIXEL, L"RadioButtonPS.cso"));
+
+		input_element_desc_vector.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+		input_element_desc_vector.push_back({ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+
+		_LoadCompiledShader(
+			RADIO_BUTTON_SHADER,
+			cso_info_vector,
+			input_element_desc_vector,
+			"ShaderPath"
+		);
+
 		// ConstantBuffer
 		_CreateConstantBuffer(
 			"Transform",

@@ -20,6 +20,7 @@
 #define COLLIDER_CIRCLE_SHADER "ColliderCircleShader"
 #define BUTTON_SHADER "ButtonShader"
 #define CHECKBOX_SHADER "CheckboxShader"
+#define RADIO_BUTTON_SHADER "RadioButtonShader"
 
 // ========== Sampler Key ==========
 #define LINEAR_SAMPLER "LinearSampler"

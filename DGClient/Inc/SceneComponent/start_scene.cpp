@@ -10,6 +10,8 @@
 #include <Component/transform.h>
 #include <Component/button_UI.h>
 #include <Component/checkbox_UI.h>
+#include <Component/radio_button_UI.h>
+#include <Component/collider_rect.h>
 
 using namespace DG;
 
@@ -30,7 +32,7 @@ void StartScene::Initialize()
 		_StartButtonCallback(_time);
 	});
 
-	auto checkbox = Object::CreateObject("Checkbox", ui_layer);
+	auto checkbox = Object::CreateObject("CheckboxObj", ui_layer);
 	auto checkbox_ui_component = std::dynamic_pointer_cast<CheckboxUI>(checkbox->AddComponent<CheckboxUI>("CheckboxUI"));
 
 	auto checkbox1 = Object::CreateObject("Checkbox", ui_layer);
@@ -38,6 +40,40 @@ void StartScene::Initialize()
 
 	auto checkbox1_transform = std::dynamic_pointer_cast<Transform>(checkbox1->FindComponent(COMPONENT_TYPE::TRANSFORM));
 	checkbox1_transform->Translation({ -50.f, 0.f, 0.f });
+
+	// RadioButton
+	auto rb_0 = Object::CreateObject("RadioButtonObj", ui_layer);
+	auto rb_0_com = std::dynamic_pointer_cast<RadioButtonUI>(rb_0->AddComponent<RadioButtonUI>("RadioButtonUI"));
+	auto const& radio_button_transform_component = std::dynamic_pointer_cast<Transform>(rb_0->FindComponent(COMPONENT_TYPE::TRANSFORM));
+
+	auto rb_1 = Object::CreateObject("RadioButtonObj", ui_layer);
+	auto rb_1_com = std::dynamic_pointer_cast<RadioButtonUI>(rb_1->AddComponent<RadioButtonUI>("RadioButtonUI"));
+	auto const& radio_button_transform_component1 = std::dynamic_pointer_cast<Transform>(rb_1->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	radio_button_transform_component1->Translation({ -50.f, 0.f, 0.f });
+
+	auto rb_2 = Object::CreateObject("RadioButtonObj", ui_layer);
+	auto rb_2_com = std::dynamic_pointer_cast<RadioButtonUI>(rb_2->AddComponent<RadioButtonUI>("RadioButtonUI"));
+	auto const& radio_button_transform_component2 = std::dynamic_pointer_cast<Transform>(rb_2->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	radio_button_transform_component2->Translation({ 50.f, 0.f, 0.f });
+	
+	// RadioButton Grouping
+	rb_0_com->set_callback([_p = rb_0_com.get(), _p1 = rb_1_com.get(), _p2 = rb_2_com.get()](float _time) {
+		_p->set_checkbox_state(CHECKBOX_STATE::CHECKED);
+		_p1->set_checkbox_state(CHECKBOX_STATE::NORMAL);
+		_p2->set_checkbox_state(CHECKBOX_STATE::NORMAL);
+	});
+
+	rb_1_com->set_callback([_p = rb_0_com.get(), _p1 = rb_1_com.get(), _p2 = rb_2_com.get()](float _time) {
+		_p->set_checkbox_state(CHECKBOX_STATE::NORMAL);
+		_p1->set_checkbox_state(CHECKBOX_STATE::CHECKED);
+		_p2->set_checkbox_state(CHECKBOX_STATE::NORMAL);
+	});
+
+	rb_2_com->set_callback([_p = rb_0_com.get(), _p1 = rb_1_com.get(), _p2 = rb_2_com.get()](float _time) {
+		_p->set_checkbox_state(CHECKBOX_STATE::NORMAL);
+		_p1->set_checkbox_state(CHECKBOX_STATE::NORMAL);
+		_p2->set_checkbox_state(CHECKBOX_STATE::CHECKED);
+	});
 }
 
 StartScene::StartScene(StartScene const& _other) : SceneComponent(_other)
