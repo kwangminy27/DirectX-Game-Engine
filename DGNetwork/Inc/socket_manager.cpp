@@ -26,6 +26,62 @@ std::shared_ptr<TCPSocket> SocketManager::CreateTCPSocket(int _address_family)
 	return std::shared_ptr<TCPSocket>{ new TCPSocket{ s } };
 }
 
+fd_set* SocketManager::FillSetFromVector(fd_set& _set, std::vector<std::shared_ptr<TCPSocket>> const* _sockets)
+{
+	if (_sockets)
+	{
+		FD_ZERO(&_set);
+
+		for (std::shared_ptr<TCPSocket> const& _socket : *_sockets)
+			FD_SET(_socket->socket_, &_set);
+
+		return &_set;
+	}
+
+	return nullptr;
+}
+
+void SocketManager::FillVectorFromSet(
+	std::vector<std::shared_ptr<TCPSocket>> const* _in_sockets,
+	std::vector<std::shared_ptr<TCPSocket>>* _out_sockets,
+	fd_set const& _in_set)
+{
+	if (_in_sockets && _out_sockets)
+	{
+		_out_sockets->clear();
+
+		for (std::shared_ptr<TCPSocket> const& _socket : *_in_sockets)
+		{
+			if (FD_ISSET(_socket->socket_, &_in_set))
+				_out_sockets->push_back(_socket);
+		}
+	}
+}
+
+int SocketManager::Select(
+	std::vector<std::shared_ptr<TCPSocket>> const* _in_read_sockets,
+	std::vector<std::shared_ptr<TCPSocket>>* _out_read_sockets,
+	std::vector<std::shared_ptr<TCPSocket>> const* _in_write_sockets,
+	std::vector<std::shared_ptr<TCPSocket>>* _out_write_sockets,
+	std::vector<std::shared_ptr<TCPSocket>> const* _in_except_sockets,
+	std::vector<std::shared_ptr<TCPSocket>>* _out_except_sockets)
+{
+	fd_set read{}, write{}, except{};
+	fd_set* read_ptr = FillSetFromVector(read, _in_read_sockets);
+	fd_set* write_ptr = FillSetFromVector(write, _in_write_sockets);
+	fd_set* except_ptr = FillSetFromVector(except, _in_except_sockets);
+	int count = select(0, read_ptr, write_ptr, except_ptr, nullptr);
+
+	if (count > 0)
+	{
+		FillVectorFromSet(_in_read_sockets, _out_read_sockets, read);
+		FillVectorFromSet(_in_write_sockets, _out_write_sockets, write);
+		FillVectorFromSet(_in_except_sockets, _out_except_sockets, except);
+	}
+
+	return count;
+}
+
 SocketManager::SocketManager(SocketManager const& _other)
 {
 }

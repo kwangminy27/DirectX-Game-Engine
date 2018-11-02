@@ -40,6 +40,16 @@ int UDPSocket::ReceiveFrom(void* _buffer, int _len, SocketAddress& _address)
 	return bytes_received_count;
 }
 
+void UDPSocket::SetNonBlockingMode(bool _non_blocking_mode_flag)
+{
+	u_long arg = _non_blocking_mode_flag ? 1 : 0;
+	
+	int error = ioctlsocket(socket_, FIONBIO, &arg);
+
+	if (error == SOCKET_ERROR)
+		throw std::exception{ "UDPSocket::SetNonBlockingMode" };
+}
+
 UDPSocket::UDPSocket(SOCKET _socket)
 {
 	socket_ = _socket;
