@@ -40,6 +40,12 @@ int UDPSocket::ReceiveFrom(void* _buffer, int _len, SocketAddress& _address)
 	return bytes_received_count;
 }
 
+void UDPSocket::ShutDown()
+{
+	shutdown(socket_, SD_SEND);
+	shutdown(socket_, SD_RECEIVE);
+}
+
 void UDPSocket::SetNonBlockingMode(bool _non_blocking_mode_flag)
 {
 	u_long arg = _non_blocking_mode_flag ? 1 : 0;

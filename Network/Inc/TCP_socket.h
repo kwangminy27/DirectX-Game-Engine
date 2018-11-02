@@ -18,6 +18,8 @@ namespace DG
 		int Receive(void* _buffer, int _len);
 		void ShutDown();
 
+		void SetNonBlockingMode(bool _non_blocking_mode_flag);
+
 	private:
 		TCPSocket(SOCKET _socket);
 

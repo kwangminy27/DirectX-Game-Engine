@@ -12,7 +12,8 @@ namespace DG
 		void Bind(SocketAddress const& _address);
 		int SendTo(void const* _data, int _len, SocketAddress const& _address);
 		int ReceiveFrom(void* _buffer, int _len, SocketAddress& _address);
-		
+		void ShutDown();
+
 		void SetNonBlockingMode(bool _non_blocking_mode_flag);
 
 	private:

@@ -70,7 +70,9 @@ int SocketManager::Select(
 	fd_set* read_ptr = FillSetFromVector(read, _in_read_sockets);
 	fd_set* write_ptr = FillSetFromVector(write, _in_write_sockets);
 	fd_set* except_ptr = FillSetFromVector(except, _in_except_sockets);
-	int count = select(0, read_ptr, write_ptr, except_ptr, nullptr);
+
+	timeval time{0, 1}; // 0초 + 1마이크로초
+	int count = select(0, read_ptr, write_ptr, except_ptr, &time);
 
 	if (count > 0)
 	{

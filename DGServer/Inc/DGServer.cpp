@@ -1,5 +1,4 @@
 #include <DGNetwork_stdafx.h>
-#include <thread_manager.h>
 #include <socket_manager.h>
 #include <socket_address.h>
 #include <UDP_socket.h>
@@ -33,6 +32,14 @@ void DoTCPLoop()
 
 	while (true)
 	{
+		if (GetAsyncKeyState('Q') & 0x8000)
+		{
+			for (auto const& _socket : read_block_sockets)
+				_socket->ShutDown();
+
+			break;
+		}
+
 		// 작업 가능한 socket이 없는 경우 continue
 		if (!socket_manager->Select(&read_block_sockets, &readable_sockets, nullptr, nullptr, nullptr, nullptr))
 			continue;
@@ -70,16 +77,7 @@ int main()
 		WSADATA WSA_data{};
 		WSAStartup(MAKEWORD(2, 2), &WSA_data);
 
-		auto const& thread_manager = ThreadManager::singleton();
-		thread_manager->CreateThread("DoTCPLoop", [](void* _p) {
-			DoTCPLoop();
-		}, nullptr);
-
-		while (true)
-		{
-			if (GetAsyncKeyState('Q') & 0x8000)
-				break;
-		}
+		DoTCPLoop();
 
 		WSACleanup();
 	}

@@ -84,6 +84,7 @@ void Core::Run()
 	SocketAddress server_address_wrapper{ *(reinterpret_cast<sockaddr*>(&server_address)) };
 
 	my_socket->Connect(server_address_wrapper);
+	my_socket->SetNonBlockingMode(true); // Connect 후에 호출
 
 	MSG message{};
 	while (Core::state_ == MESSAGE_LOOP::RUN)

@@ -73,6 +73,16 @@ void TCPSocket::ShutDown()
 	shutdown(socket_, SD_RECEIVE);
 }
 
+void TCPSocket::SetNonBlockingMode(bool _non_blocking_mode_flag)
+{
+	u_long arg = _non_blocking_mode_flag ? 1 : 0;
+
+	int error = ioctlsocket(socket_, FIONBIO, &arg);
+
+	if (error == SOCKET_ERROR)
+		throw std::exception{ "TCPSocket::SetNonBlockingMode" };
+}
+
 TCPSocket::TCPSocket(SOCKET _socket)
 {
 	socket_ = _socket;
