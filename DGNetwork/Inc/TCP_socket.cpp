@@ -28,7 +28,7 @@ void TCPSocket::Listen(int _backlog)
 
 std::shared_ptr<TCPSocket> TCPSocket::Accept(SocketAddress& _address)
 {
-	int length{};
+	int length = _address.GetSize();
 	SOCKET new_socket = accept(socket_, &_address.sockaddr_, &length);
 
 	if (new_socket == INVALID_SOCKET)
@@ -59,10 +59,18 @@ int TCPSocket::Receive(void* _buffer, int _len)
 {
 	int bytes_received_count = recv(socket_, static_cast<char*>(_buffer), _len, 0);
 
+	int error = GetLastError();
+
 	if (bytes_received_count == SOCKET_ERROR)
-		throw std::exception{ "TCPSocket::Receive" };
+		throw std::exception{ /*"TCPSocket::Receive"*/std::to_string(error).c_str() };
 
 	return bytes_received_count;
+}
+
+void TCPSocket::ShutDown()
+{
+	shutdown(socket_, SD_SEND);
+	shutdown(socket_, SD_RECEIVE);
 }
 
 TCPSocket::TCPSocket(SOCKET _socket)

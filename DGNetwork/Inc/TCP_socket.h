@@ -16,6 +16,7 @@ namespace DG
 		void Connect(SocketAddress const& _address);
 		int Send(void const* _data, int _len);
 		int Receive(void* _buffer, int _len);
+		void ShutDown();
 
 	private:
 		TCPSocket(SOCKET _socket);

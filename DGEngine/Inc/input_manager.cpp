@@ -29,6 +29,7 @@ void InputManager::Initialize()
 		_AddKey("LButton"s, VK_LBUTTON);
 
 		_AddKey("Space"s, VK_SPACE);
+		_AddKey("Enter"s, VK_RETURN);
 
 		_AddKey("Pause"s, VK_F1);
 

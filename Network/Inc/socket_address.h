@@ -8,6 +8,7 @@ namespace DG
 		friend class UDPSocket;
 		friend class TCPSocket;
 	public:
+		SocketAddress() = default;
 		SocketAddress(uint32_t _address, uint16_t _port);
 		SocketAddress(sockaddr const& _sockaddr);
 

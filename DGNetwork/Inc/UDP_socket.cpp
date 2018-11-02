@@ -31,7 +31,7 @@ int UDPSocket::SendTo(void const* _data, int _len, SocketAddress const& _address
 
 int UDPSocket::ReceiveFrom(void* _buffer, int _len, SocketAddress& _address)
 {
-	int length{};
+	int length = _address.GetSize();
 	int bytes_received_count = recvfrom(socket_, static_cast<char*>(_buffer), _len, 0, &_address.sockaddr_, &length);
 
 	if (bytes_received_count == SOCKET_ERROR)
