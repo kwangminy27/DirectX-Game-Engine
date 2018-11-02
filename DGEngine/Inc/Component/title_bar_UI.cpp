@@ -134,6 +134,12 @@ void TitleBarUI::_Input(float _time)
 
 void TitleBarUI::_Update(float _time)
 {
+	if (owner_.expired())
+	{
+		object()->set_active_flag(false);
+		return;
+	}
+
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 	auto const& owner_transform = std::dynamic_pointer_cast<Transform>(owner()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 

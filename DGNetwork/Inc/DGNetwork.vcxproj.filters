@@ -7,6 +7,15 @@
     <Filter Include="1. Thread">
       <UniqueIdentifier>{c883179a-199e-441e-be4e-86c0e2a5f1fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2. Socket">
+      <UniqueIdentifier>{cddf23c3-217b-4dfa-a5d1-9fa2d2b3e2a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Socket\1. UDP">
+      <UniqueIdentifier>{8ba4d972-5472-4c69-943a-9debb529a61e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2. Socket\2. TCP">
+      <UniqueIdentifier>{c85351b6-0082-4d0f-8364-23423787b62e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGNetwork_stdafx.cpp">
@@ -20,6 +29,18 @@
     </ClCompile>
     <ClCompile Include="singleton_temp.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="socket_manager.cpp">
+      <Filter>2. Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="socket_address.cpp">
+      <Filter>2. Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="UDP_socket.cpp">
+      <Filter>2. Socket\1. UDP</Filter>
+    </ClCompile>
+    <ClCompile Include="TCP_socket.cpp">
+      <Filter>2. Socket\2. TCP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +58,18 @@
     </ClInclude>
     <ClInclude Include="singleton_temp.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="socket_manager.h">
+      <Filter>2. Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="socket_address.h">
+      <Filter>2. Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="UDP_socket.h">
+      <Filter>2. Socket\1. UDP</Filter>
+    </ClInclude>
+    <ClInclude Include="TCP_socket.h">
+      <Filter>2. Socket\2. TCP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
