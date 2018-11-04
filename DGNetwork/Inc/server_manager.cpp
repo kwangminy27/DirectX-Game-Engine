@@ -22,6 +22,12 @@ void ProcessDataFromClient(std::shared_ptr<TCPSocket> const& _socket, void* _seg
 // global variable
 int const kGoodSegmentSize = 1000;
 
+void ServerManager::Initialize()
+{
+	WSADATA WSA_data{};
+	WSAStartup(MAKEWORD(2, 2), &WSA_data);
+}
+
 void ServerManager::ExcuteTCPSelectLoop()
 {
 	auto const& socket_manager = SocketManager::singleton();
@@ -96,6 +102,7 @@ void ServerManager::ExcuteTCPEventSelectLoop()
 
 	while (true)
 	{
+		// WSAWaitForMultipleEvents에서 블락 걸려서 다르게 처리해야함
 		if (GetAsyncKeyState('Q') & 0x8000)
 		{
 			for (int i = 0; i < WSA_MAXIMUM_WAIT_EVENTS; ++i)
@@ -168,4 +175,5 @@ void ServerManager::ExcuteTCPEventSelectLoop()
 
 void ServerManager::_Release()
 {
+	WSACleanup();
 }

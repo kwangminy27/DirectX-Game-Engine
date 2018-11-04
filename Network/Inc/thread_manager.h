@@ -10,6 +10,8 @@ namespace DG
 	{
 		friend class Singleton_Temp<ThreadManager>;
 	public:
+		virtual void Initialize() override;
+
 		std::unique_ptr<Thread, std::function<void(Thread*)>> const& FindThread(std::string const& _tag) const;
 
 		void CreateThread(std::string const& _tag, std::function<void(void*)> const& _function, void* _argument);

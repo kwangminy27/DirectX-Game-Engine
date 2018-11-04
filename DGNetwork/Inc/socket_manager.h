@@ -12,6 +12,8 @@ namespace DG
 	{
 		friend class Singleton_Temp<SocketManager>;
 	public:
+		virtual void Initialize() override;
+
 		std::shared_ptr<UDPSocket> CreateUDPSocket(int _address_family);
 		std::shared_ptr<TCPSocket> CreateTCPSocket(int _address_family);
 

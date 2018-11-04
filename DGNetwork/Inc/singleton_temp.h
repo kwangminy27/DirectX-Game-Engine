@@ -7,6 +7,7 @@ namespace DG
 	{
 	public:
 		static std::unique_ptr<T, std::function<void(T*)>>& singleton();
+		virtual void Initialize() = 0;
 
 	protected:
 		Singleton_Temp() = default;

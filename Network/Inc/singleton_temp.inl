@@ -16,6 +16,7 @@ unique_ptr<T, function<void(T*)>>& Singleton_Temp<T>::singleton()
 			_p->_Release();
 			delete _p;
 		} };
+		singleton_->Initialize();
 	});
 
 	return singleton_;

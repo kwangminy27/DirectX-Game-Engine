@@ -8,6 +8,8 @@ namespace DG
 	{
 		friend class Singleton_Temp<ServerManager>;
 	public:
+		void Initialize() override;
+
 		void ExcuteTCPSelectLoop();
 		void ExcuteTCPEventSelectLoop();
 

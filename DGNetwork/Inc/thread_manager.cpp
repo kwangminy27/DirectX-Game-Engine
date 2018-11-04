@@ -7,6 +7,10 @@ using namespace DG;
 
 std::unique_ptr<Thread, std::function<void(Thread*)>> ThreadManager::thread_nullptr_{};
 
+void ThreadManager::Initialize()
+{
+}
+
 std::unique_ptr<Thread, std::function<void(Thread*)>> const& ThreadManager::FindThread(std::string const& _tag) const
 {
 	auto iter = thread_map_.find(_tag);

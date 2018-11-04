@@ -6,6 +6,10 @@
 
 using namespace DG;
 
+void SocketManager::Initialize()
+{
+}
+
 std::shared_ptr<UDPSocket> SocketManager::CreateUDPSocket(int _address_family)
 {
 	SOCKET s = socket(_address_family, SOCK_DGRAM, IPPROTO_UDP);
