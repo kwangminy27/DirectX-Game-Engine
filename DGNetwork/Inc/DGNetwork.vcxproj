@@ -169,10 +169,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="byte_swap.cpp" />
     <ClCompile Include="DGNetwork_stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="input_memory_stream.cpp" />
+    <ClCompile Include="output_memory_stream.cpp" />
+    <ClCompile Include="server_manager.cpp" />
     <ClCompile Include="singleton_temp.cpp" />
     <ClCompile Include="socket_address.cpp" />
     <ClCompile Include="socket_manager.cpp">
@@ -185,8 +189,12 @@
     <ClCompile Include="UDP_socket.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="byte_swap.h" />
     <ClInclude Include="DGNetwork_stdafx.h" />
+    <ClInclude Include="input_memory_stream.h" />
     <ClInclude Include="macro.h" />
+    <ClInclude Include="output_memory_stream.h" />
+    <ClInclude Include="server_manager.h" />
     <ClInclude Include="singleton_temp.h" />
     <ClInclude Include="socket_address.h" />
     <ClInclude Include="socket_manager.h">
@@ -199,6 +207,9 @@
     <ClInclude Include="UDP_socket.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="byte_swap.inl" />
+    <None Include="input_memory_stream.inl" />
+    <None Include="output_memory_stream.inl" />
     <None Include="singleton_temp.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

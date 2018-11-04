@@ -20,6 +20,8 @@ namespace DG
 
 		void SetNonBlockingMode(bool _non_blocking_mode_flag);
 
+		SOCKET socket() const;
+
 	private:
 		TCPSocket(SOCKET _socket);
 

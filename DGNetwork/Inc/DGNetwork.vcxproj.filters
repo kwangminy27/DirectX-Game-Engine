@@ -16,6 +16,18 @@
     <Filter Include="2. Socket\2. TCP">
       <UniqueIdentifier>{c85351b6-0082-4d0f-8364-23423787b62e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3. Stream">
+      <UniqueIdentifier>{24638972-4179-4f5c-b8e6-253e2b852725}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3. Stream\1. MemoryStream">
+      <UniqueIdentifier>{5f3a6de6-a76a-46ad-9169-3099698a6bdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3. Stream\2. ByteSwap">
+      <UniqueIdentifier>{1d999510-26dd-4bca-aba2-9f9de50fc410}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4. Server">
+      <UniqueIdentifier>{d8f3fea7-db11-46e2-ab8c-175c81c80a02}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGNetwork_stdafx.cpp">
@@ -41,6 +53,18 @@
     </ClCompile>
     <ClCompile Include="TCP_socket.cpp">
       <Filter>2. Socket\2. TCP</Filter>
+    </ClCompile>
+    <ClCompile Include="input_memory_stream.cpp">
+      <Filter>3. Stream\1. MemoryStream</Filter>
+    </ClCompile>
+    <ClCompile Include="output_memory_stream.cpp">
+      <Filter>3. Stream\1. MemoryStream</Filter>
+    </ClCompile>
+    <ClCompile Include="byte_swap.cpp">
+      <Filter>3. Stream\2. ByteSwap</Filter>
+    </ClCompile>
+    <ClCompile Include="server_manager.cpp">
+      <Filter>4. Server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,10 +95,31 @@
     <ClInclude Include="TCP_socket.h">
       <Filter>2. Socket\2. TCP</Filter>
     </ClInclude>
+    <ClInclude Include="input_memory_stream.h">
+      <Filter>3. Stream\1. MemoryStream</Filter>
+    </ClInclude>
+    <ClInclude Include="output_memory_stream.h">
+      <Filter>3. Stream\1. MemoryStream</Filter>
+    </ClInclude>
+    <ClInclude Include="byte_swap.h">
+      <Filter>3. Stream\2. ByteSwap</Filter>
+    </ClInclude>
+    <ClInclude Include="server_manager.h">
+      <Filter>4. Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="singleton_temp.inl">
       <Filter>Base</Filter>
+    </None>
+    <None Include="output_memory_stream.inl">
+      <Filter>3. Stream\1. MemoryStream</Filter>
+    </None>
+    <None Include="input_memory_stream.inl">
+      <Filter>3. Stream\1. MemoryStream</Filter>
+    </None>
+    <None Include="byte_swap.inl">
+      <Filter>3. Stream\2. ByteSwap</Filter>
     </None>
   </ItemGroup>
 </Project>

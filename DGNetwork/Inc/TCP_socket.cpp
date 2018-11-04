@@ -83,6 +83,11 @@ void TCPSocket::SetNonBlockingMode(bool _non_blocking_mode_flag)
 		throw std::exception{ "TCPSocket::SetNonBlockingMode" };
 }
 
+SOCKET TCPSocket::socket() const
+{
+	return socket_;
+}
+
 TCPSocket::TCPSocket(SOCKET _socket)
 {
 	socket_ = _socket;
