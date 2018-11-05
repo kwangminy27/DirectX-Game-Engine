@@ -32,6 +32,8 @@ namespace DG
 		void set_shader_tag(std::string const& _tag);
 		void set_color(Math::Vector4 const& _color);
 
+		void AddSkipTag(std::string const& _skip_tag);
+
 	protected:
 		Collider() = default;
 		Collider(Collider const& _other);
@@ -90,5 +92,7 @@ namespace DG
 		std::string mesh_tag_{};
 		std::string shader_tag_{};
 		Math::Vector4 color_{};
+
+		std::list<std::string> skip_tag_list_{};
 	};
 }

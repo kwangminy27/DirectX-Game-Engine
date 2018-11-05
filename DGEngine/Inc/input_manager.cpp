@@ -57,8 +57,10 @@ void InputManager::Initialize()
 
 		auto mouse_ui_collider = std::dynamic_pointer_cast<ColliderPoint>(mouse_->AddComponent<ColliderPoint>("MouseUICollider"));
 		mouse_ui_collider->set_collision_group_tag("UI");
+		mouse_ui_collider->set_relative_info({ -3.f, -3.f, 0.f });
+		//mouse_ui_collider->AddSkipTag("SlotBody");
 
-		auto mouse_world_collider = mouse_->AddComponent<ColliderPoint>("MouseWorldCollider");
+		auto mouse_world_collider = std::dynamic_pointer_cast<ColliderPoint>(mouse_->AddComponent<ColliderPoint>("MouseWorldCollider"));
 
 		auto scene = SceneManager::singleton()->scene();
 

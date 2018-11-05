@@ -199,6 +199,7 @@ Transform::Transform(Transform const& _other) : Component(_other)
 {
 	update_flag_ = _other.update_flag_;
 	static_flag_ = _other.static_flag_;
+	option_ = _other.option_;
 	local_scale_ = _other.local_scale_;
 	local_rotate_ = _other.local_rotate_;
 	local_translate_ = _other.local_translate_;
@@ -212,6 +213,7 @@ Transform::Transform(Transform&& _other) noexcept : Component(std::move(_other))
 {
 	update_flag_ = std::move(_other.update_flag_);
 	static_flag_ = std::move(_other.static_flag_);
+	option_ = std::move(_other.option_);
 	local_scale_ = std::move(_other.local_scale_);
 	local_rotate_ = std::move(_other.local_rotate_);
 	local_translate_ = std::move(_other.local_translate_);

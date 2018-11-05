@@ -83,6 +83,8 @@ void ResourceManager::Initialize()
 		_CreateTexture2D("Checkbox", L"checkbox.png", TEXTURE_PATH);
 		_CreateTexture2D("RadioButton", L"radio_button.png", TEXTURE_PATH);
 		_CreateTexture2D("HPBar", L"Bar/HPBar.png", TEXTURE_PATH);
+		_CreateTexture2D("Slot", L"slot.png", TEXTURE_PATH);
+		_CreateTexture2D("Apple", L"apple.png", TEXTURE_PATH);
 
 		_CreateSampler(
 			LINEAR_SAMPLER,

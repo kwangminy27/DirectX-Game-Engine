@@ -17,7 +17,7 @@ namespace DG
 	public:
 		static std::shared_ptr<Object> CreatePrototype(std::string const& _tag, bool _next_scene_flag);
 		static std::shared_ptr<Object> CreateClone(std::string const& _tag, std::string const& _prototype_tag, std::shared_ptr<Layer> const& _layer, bool _next_scene_flag);
-		static std::shared_ptr<Object> CreateObject(std::string const& _tag, std::shared_ptr<Layer> const& _layer);
+		static std::shared_ptr<Object> CreateObject(std::string const& _tag, std::shared_ptr<Layer> const& _layer); // child 만들 때는 layer를 nullptr로 설정
 		static std::shared_ptr<Object> FindPrototype(std::string const& _scene_tag, std::string const& _tag);
 		static std::shared_ptr<Object> FindObject(std::string const& _tag);
 		static void DestroyPrototype();
@@ -32,6 +32,8 @@ namespace DG
 
 		void AfterClone();
 		void Test(std::shared_ptr<Scene> const& _scene, std::shared_ptr<Layer> const& _layer, std::shared_ptr<Object> const& _object);
+
+		void AddChild(std::shared_ptr<Object> const& _child);
 
 		std::shared_ptr<Scene> scene() const;
 		std::shared_ptr<Layer> layer() const;
@@ -62,6 +64,7 @@ namespace DG
 		std::weak_ptr<Scene> scene_{};
 		std::weak_ptr<Layer> layer_{};
 		std::list<std::shared_ptr<Component>> component_list_{};
+		std::list<std::weak_ptr<Object>> child_list_{}; // layer에 추가하는 방식으로 구현
 	};
 }
 

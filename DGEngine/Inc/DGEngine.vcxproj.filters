@@ -231,6 +231,12 @@
     <ClInclude Include="Component\title_bar_UI.h">
       <Filter>09. Component\8. UI</Filter>
     </ClInclude>
+    <ClInclude Include="Component\icon_UI.h">
+      <Filter>09. Component\8. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\slot_UI.h">
+      <Filter>09. Component\8. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -360,6 +366,12 @@
       <Filter>09. Component\8. UI</Filter>
     </ClCompile>
     <ClCompile Include="Component\title_bar_UI.cpp">
+      <Filter>09. Component\8. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\icon_UI.cpp">
+      <Filter>09. Component\8. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\slot_UI.cpp">
       <Filter>09. Component\8. UI</Filter>
     </ClCompile>
   </ItemGroup>

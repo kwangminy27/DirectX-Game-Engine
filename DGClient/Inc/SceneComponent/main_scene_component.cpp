@@ -10,6 +10,9 @@
 #include <Component/component.h>
 #include <Component/transform.h>
 #include <Component/renderer.h>
+#include <Component/icon_UI.h>
+#include <Component/Slot_ui.h>
+#include <Component/collider_rect.h>
 
 // Test
 #include <Component/material.h>
@@ -97,17 +100,27 @@ void MainSceneComponent::Initialize()
 	auto bar = Object::CreateObject("Bar", ui_layer);
 	auto bar_component = bar->AddComponent<BarUI>("Bar");
 
-	//// TitleBar_2
-	//auto title_bar2 = Object::CreateObject("TitleBar", ui_layer);
-	//auto title_bar2_component = std::dynamic_pointer_cast<TitleBarUI>(title_bar2->AddComponent<TitleBarUI>("Bar"));
+	// Slot
+	auto slot = Object::CreateObject("Slot", ui_layer);
+	auto slot_component = std::dynamic_pointer_cast<SlotUI>(slot->AddComponent<SlotUI>("Slot"));
 
-	//title_bar2_component->set_owner(bar);
-	//title_bar2_component->set_callback([_p = title_bar2_component.get()](float _time) {
-	//	auto const& input_manager = InputManager::singleton();
-	//	auto const& owner_transform = std::dynamic_pointer_cast<Transform>(_p->owner()->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	auto slot_2 = Object::CreateObject("Slot", ui_layer);
+	auto slot_2_component = std::dynamic_pointer_cast<SlotUI>(slot_2->AddComponent<SlotUI>("Slot"));
+	auto const& slot_2_transform = std::dynamic_pointer_cast<Transform>(slot_2->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	slot_2_transform->Translation({ 37.f, 0.f, 0.f });
 
-	//	owner_transform->Translation(input_manager->mouse_displacement());
-	//});
+	auto slot_3 = Object::CreateObject("Slot", ui_layer);
+	auto slot_3_component = std::dynamic_pointer_cast<SlotUI>(slot_3->AddComponent<SlotUI>("Slot"));
+	auto const& slot_3_transform = std::dynamic_pointer_cast<Transform>(slot_3->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	slot_3_transform->Translation({ 74.f, 0.f, 0.f });
+
+	// Icon
+	auto icon = Object::CreateObject("Icon", ui_layer);
+	auto icon_component = std::dynamic_pointer_cast<IconUI>(icon->AddComponent<IconUI>("Icon"));
+	icon_component->AddSlot(slot);
+	icon_component->AddSlot(slot_2);
+	icon_component->AddSlot(slot_3);
+	icon_component->set_current_slot(slot);
 }
 
 MainSceneComponent::MainSceneComponent(MainSceneComponent const& _other) : SceneComponent(_other)

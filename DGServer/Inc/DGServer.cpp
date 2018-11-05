@@ -18,5 +18,8 @@ int main()
 		std::cout << "main" << std::endl;
 	}
 
+	int error = GetLastError();
+	std::cout << error << std::endl;
+
 	return 0;
 }

@@ -82,6 +82,26 @@ void CollisionManager::Collision(float _time)
 					if (!dest_collider->active_flag() || !dest_collider->enable_flag())
 						continue;
 
+					bool has_skip_tag{};
+					for (auto iter = src_collider->skip_tag_list_.begin(); iter != src_collider->skip_tag_list_.end(); ++iter)
+					{
+						if((*iter) == dest_collider->tag())
+						{
+							has_skip_tag = true;
+							break;
+						}
+					}
+					for (auto iter = dest_collider->skip_tag_list_.begin(); iter != dest_collider->skip_tag_list_.end(); ++iter)
+					{
+						if ((*iter) == src_collider->tag())
+						{
+							has_skip_tag = true;
+							break;
+						}
+					}
+					if (has_skip_tag)
+						continue;
+
 					if (src_collider->Collision(dest_collider, _time))
 					{
 						if (!src_collider->_IsCollidedCollider(dest_collider))
@@ -150,6 +170,33 @@ bool CollisionManager::CollisionBetweenMouseWithUI(float _time)
 			if (!dest->active_flag() || !dest->enable_flag())
 				continue;
 
+			if (is_ui_collided)
+			{ // 이미 충돌이 되었다면 나머지는 충돌목록에서 제거한다. 1개만 선택되도록
+				if (mouse_ui_collider->_IsCollidedCollider(dest))
+				{
+					mouse_ui_collider->_EraseCollidedCollider(dest);
+					dest->_EraseCollidedCollider(mouse_ui_collider);
+
+					mouse_ui_collider->_OnCollisionLeave(dest, _time);
+					dest->_OnCollisionLeave(mouse_ui_collider, _time);
+				}
+
+				continue;
+			}
+
+			// Skip specified collider.
+			bool has_skip_tag{};
+			for (auto iter = mouse_ui_collider->skip_tag_list_.begin(); iter != mouse_ui_collider->skip_tag_list_.end(); ++iter)
+			{
+				if ((*iter) == dest->tag())
+				{
+					has_skip_tag = true;
+					break;
+				}
+			}
+			if (has_skip_tag)
+				continue;
+
 			if (mouse_ui_collider->Collision(dest, _time))
 			{
 				if (!mouse_ui_collider->_IsCollidedCollider(dest))
@@ -161,8 +208,6 @@ bool CollisionManager::CollisionBetweenMouseWithUI(float _time)
 					dest->_OnCollisionEnter(mouse_ui_collider, _time);
 
 					is_ui_collided = true;
-
-					break;
 				}
 				else
 				{
@@ -170,8 +215,6 @@ bool CollisionManager::CollisionBetweenMouseWithUI(float _time)
 					dest->_OnCollision(mouse_ui_collider, _time);
 
 					is_ui_collided = true;
-
-					break;
 				}
 			}
 			else

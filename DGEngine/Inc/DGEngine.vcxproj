@@ -181,9 +181,11 @@
     <ClInclude Include="Component\collider_point.h" />
     <ClInclude Include="Component\collider_rect.h" />
     <ClInclude Include="Component\component.h" />
+    <ClInclude Include="Component\icon_UI.h" />
     <ClInclude Include="Component\material.h" />
     <ClInclude Include="Component\radio_button_UI.h" />
     <ClInclude Include="Component\renderer.h" />
+    <ClInclude Include="Component\slot_UI.h" />
     <ClInclude Include="Component\title_bar_UI.h" />
     <ClInclude Include="Component\transform.h" />
     <ClInclude Include="Component\UI.h" />
@@ -229,9 +231,11 @@
     <ClCompile Include="Component\collider_point.cpp" />
     <ClCompile Include="Component\collider_rect.cpp" />
     <ClCompile Include="Component\component.cpp" />
+    <ClCompile Include="Component\icon_UI.cpp" />
     <ClCompile Include="Component\material.cpp" />
     <ClCompile Include="Component\radio_button_UI.cpp" />
     <ClCompile Include="Component\renderer.cpp" />
+    <ClCompile Include="Component\slot_UI.cpp" />
     <ClCompile Include="Component\title_bar_UI.cpp" />
     <ClCompile Include="Component\transform.cpp" />
     <ClCompile Include="Component\UI.cpp" />

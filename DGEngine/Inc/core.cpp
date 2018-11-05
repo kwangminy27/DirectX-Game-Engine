@@ -60,31 +60,31 @@ void Core::Initialize(wstring const& _class_name, wstring const& _window_name, H
 
 void Core::Run()
 {
-	auto const& input_manager = InputManager::singleton();
-	auto const& socket_manager = SocketManager::singleton();
-	auto const& thread_manager = ThreadManager::singleton();
+	//auto const& input_manager = InputManager::singleton();
+	//auto const& socket_manager = SocketManager::singleton();
+	//auto const& thread_manager = ThreadManager::singleton();
 
-	WSADATA WSA_data{};
-	WSAStartup(MAKEWORD(2, 2), &WSA_data);
+	//WSADATA WSA_data{};
+	//WSAStartup(MAKEWORD(2, 2), &WSA_data);
 
-	auto my_socket = socket_manager->CreateTCPSocket(AF_INET);
+	//auto my_socket = socket_manager->CreateTCPSocket(AF_INET);
 
-	sockaddr_in my_address{};
-	my_address.sin_family = AF_INET;
-	my_address.sin_port = htons(0);
-	InetPton(AF_INET, L"192.168.1.119", &my_address.sin_addr);
-	SocketAddress my_address_wrapper{ *(reinterpret_cast<sockaddr*>(&my_address)) };
+	//sockaddr_in my_address{};
+	//my_address.sin_family = AF_INET;
+	//my_address.sin_port = htons(0);
+	//InetPton(AF_INET, L"192.168.1.119", &my_address.sin_addr);
+	//SocketAddress my_address_wrapper{ *(reinterpret_cast<sockaddr*>(&my_address)) };
 
-	my_socket->Bind(my_address_wrapper);
+	//my_socket->Bind(my_address_wrapper);
 
-	sockaddr_in server_address{};
-	server_address.sin_family = AF_INET;
-	server_address.sin_port = htons(666);
-	InetPton(AF_INET, L"192.168.1.119", &server_address.sin_addr);
-	SocketAddress server_address_wrapper{ *(reinterpret_cast<sockaddr*>(&server_address)) };
+	//sockaddr_in server_address{};
+	//server_address.sin_family = AF_INET;
+	//server_address.sin_port = htons(666);
+	//InetPton(AF_INET, L"192.168.1.119", &server_address.sin_addr);
+	//SocketAddress server_address_wrapper{ *(reinterpret_cast<sockaddr*>(&server_address)) };
 
-	my_socket->Connect(server_address_wrapper);
-	my_socket->SetNonBlockingMode(true); // Connect 후에 호출
+	//my_socket->Connect(server_address_wrapper);
+	//my_socket->SetNonBlockingMode(true); // Connect 후에 호출
 
 	MSG message{};
 	while (Core::state_ == MESSAGE_LOOP::RUN)
@@ -96,16 +96,16 @@ void Core::Run()
 		}
 		else
 		{
-			if (input_manager->KeyPush("Enter"))
-				my_socket->Send("Hello! I'm client.", sizeof("Hello! I'm client."));
+			//if (input_manager->KeyPush("Enter"))
+			//	my_socket->Send("Hello! I'm client.", sizeof("Hello! I'm client."));
 
 			_Logic();
 		}
 	}
 
-	my_socket->ShutDown();
+	//my_socket->ShutDown();
 
-	WSACleanup();
+	//WSACleanup();
 }
 
 void Core::SetDefaultState(GAME_MODE _mode)

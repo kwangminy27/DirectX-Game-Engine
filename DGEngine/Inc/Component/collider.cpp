@@ -81,6 +81,11 @@ void Collider::set_color(Math::Vector4 const& _color)
 	color_ = _color;
 }
 
+void Collider::AddSkipTag(std::string const& _skip_tag)
+{
+	skip_tag_list_.push_back(_skip_tag);
+}
+
 Collider::Collider(Collider const& _other) : Component(_other)
 {
 	collider_type_ = _other.collider_type_;

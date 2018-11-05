@@ -211,6 +211,11 @@ void Object::Test(std::shared_ptr<Scene> const& _scene, std::shared_ptr<Layer> c
 	}
 }
 
+void Object::AddChild(std::shared_ptr<Object> const& _child)
+{
+	child_list_.push_back(_child);
+}
+
 std::shared_ptr<Scene> Object::scene() const
 {
 	return scene_.lock();
@@ -240,6 +245,10 @@ Object::Object(Object const& _other) : Tag(_other)
 
 	for (auto const& _component : _other.component_list_)
 		component_list_.push_back(_component->_Clone());
+
+	// child를 어떻게 깊은 복사 해야할까?, 일단 Clone() 수행해보자.
+	for (auto const& _child : _other.child_list_)
+		child_list_.push_back(std::shared_ptr<Object>{ _child.lock()->Clone() });
 }
 
 Object::Object(Object&& _other) noexcept : Tag(move(_other))
@@ -248,6 +257,8 @@ Object::Object(Object&& _other) noexcept : Tag(move(_other))
 	layer_ = move(_other.layer_);
 
 	component_list_ = std::move(_other.component_list_);
+
+	child_list_ = std::move(_other.child_list_);
 }
 
 void Object::_Release()

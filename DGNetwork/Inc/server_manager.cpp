@@ -44,7 +44,7 @@ void ServerManager::ExcuteTCPSelectLoop()
 
 	while (true)
 	{
-		if (GetAsyncKeyState('Q') & 0x8000)
+		if (GetAsyncKeyState(VK_F12) & 0x8000)
 		{
 			for (auto const& _socket : read_block_sockets)
 				_socket->ShutDown();

@@ -6,6 +6,7 @@ namespace DG
 {
 	class Collider;
 
+	// 나중에 이름을 ClickUI로 변경하자.
 	class DG_ENGINE_DLL ButtonUI : public UI
 	{
 		friend class Object;
