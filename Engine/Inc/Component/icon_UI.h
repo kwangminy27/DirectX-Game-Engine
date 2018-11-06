@@ -13,7 +13,7 @@ namespace DG
 		void AddSlot(std::shared_ptr<Object> const& _slot);
 
 		std::shared_ptr<Object> current_slot() const;
-		void set_current_slot(std::weak_ptr<Object> const& _slot);
+		void set_current_slot(std::shared_ptr<Object> const& _slot);
 
 		bool clicked_flag() const;
 		void set_clicked_flag(bool _flag);

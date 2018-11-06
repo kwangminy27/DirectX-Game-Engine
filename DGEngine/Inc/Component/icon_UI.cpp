@@ -8,6 +8,7 @@
 #include "Component/renderer.h"
 #include "Component/material.h"
 #include "Component/collider_rect.h"
+#include "Component/slot_UI.h"
 #include "input_manager.h"
 
 using namespace DG;
@@ -78,7 +79,7 @@ std::shared_ptr<Object> IconUI::current_slot() const
 	return current_slot_.lock();
 }
 
-void IconUI::set_current_slot(std::weak_ptr<Object> const& _slot)
+void IconUI::set_current_slot(std::shared_ptr<Object> const& _slot)
 {
 	current_slot_ = _slot;
 }
@@ -143,7 +144,9 @@ void IconUI::_Input(float _time)
 					if (mouse_client_position.y < slot_position.y || mouse_client_position.y > slot_position.y + slot_scale.y)
 						continue;
 
-					set_current_slot(*iter);
+					// swap icon.
+
+					set_current_slot((*iter).lock());
 					button_state_ = BUTTON_STATE::MOUSEON;
 					clicked_flag_ = false;
 

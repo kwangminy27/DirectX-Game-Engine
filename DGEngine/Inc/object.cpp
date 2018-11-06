@@ -304,9 +304,9 @@ void Object::_Update(float _time)
 	}
 
 	auto const& transform = std::dynamic_pointer_cast<Transform>(FindComponent(COMPONENT_TYPE::TRANSFORM));
-	auto const& scale = transform->local_scale();
-	auto const& rotate = transform->local_rotate();
-	auto const& translate = transform->local_translate();
+	auto const& scale = transform->local_scale() * transform->parent_scale();
+	auto const& rotate = transform->local_rotate() * transform->parent_rotate();
+	auto const& translate = transform->local_translate() * transform->parent_translate();
 
 	for (auto iter = child_list_.begin(); iter != child_list_.end(); ++iter)
 	{
@@ -335,9 +335,9 @@ void Object::_LateUpdate(float _time)
 	}
 
 	auto const& transform = std::dynamic_pointer_cast<Transform>(FindComponent(COMPONENT_TYPE::TRANSFORM));
-	auto const& scale = transform->local_scale();
-	auto const& rotate = transform->local_rotate();
-	auto const& translate = transform->local_translate();
+	auto const& scale = transform->local_scale() * transform->parent_scale();
+	auto const& rotate = transform->local_rotate() * transform->parent_rotate();
+	auto const& translate = transform->local_translate() * transform->parent_translate();
 
 	for (auto iter = child_list_.begin(); iter != child_list_.end(); ++iter)
 	{

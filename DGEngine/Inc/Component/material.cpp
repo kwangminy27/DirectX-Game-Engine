@@ -16,14 +16,22 @@ void Material::Initialize()
 void Material::SetToShader(int _container_idx, int _subset_idx)
 {
 	auto const& subset_material = material_container_vector_.at(_container_idx).at(_subset_idx);
-	auto const& texture = subset_material->texture;
-	auto const& sampler = subset_material->sampler;
 
-	if (texture)
-		texture->SetToShader(subset_material->texture_slot);
+	for (int i = 0; i < subset_material->texture_vector.size(); ++i)
+	{
+		auto const& texture = subset_material->texture_vector.at(i);
 
-	if (sampler)
-		sampler->SetToShader(subset_material->sampler_slot);
+		if (texture)
+			texture->SetToShader(i);
+	}
+
+	for (int i = 0; i < subset_material->sampler_vector.size(); ++i)
+	{
+		auto const& sampler = subset_material->sampler_vector.at(i);
+
+		if (sampler)
+			sampler->SetToShader(i);
+	}
 
 	RenderingManager::singleton()->UpdateConstantBuffer("Material", &subset_material->material_constant_buffer);
 }
@@ -44,8 +52,11 @@ void Material::SetTexture(std::string const& _tag, int _slot, int _container_idx
 	}
 
 	auto const& subset_material = material_container_vector_.at(_container_idx).at(_subset_idx);
-	subset_material->texture = ResourceManager::singleton()->FindTexture(_tag);
-	subset_material->texture_slot = _slot;
+
+	if (subset_material->texture_vector.capacity() <= _slot)
+		subset_material->texture_vector.resize(_slot + 1);
+
+	subset_material->texture_vector.at(_slot) = ResourceManager::singleton()->FindTexture(_tag);
 }
 
 void Material::SetSampler(std::string const& _tag, int _slot, int _container_idx, int _subset_idx)
@@ -64,8 +75,11 @@ void Material::SetSampler(std::string const& _tag, int _slot, int _container_idx
 	}
 
 	auto const& subset_material = material_container_vector_.at(_container_idx).at(_subset_idx);
-	subset_material->sampler = ResourceManager::singleton()->FindSampler(_tag);
-	subset_material->sampler_slot = _slot;
+
+	if (subset_material->sampler_vector.capacity() <= _slot)
+		subset_material->sampler_vector.resize(_slot + 1);
+
+	subset_material->sampler_vector.at(_slot) = ResourceManager::singleton()->FindSampler(_tag);
 }
 
 void Material::SetMaterialConstantBuffer(MaterialConstantBuffer const& _material_constant_buffer, int _container_idx, int _subset_idx)

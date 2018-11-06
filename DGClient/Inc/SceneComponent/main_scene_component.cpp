@@ -80,6 +80,21 @@ void MainSceneComponent::Initialize()
 	child_2_transform->set_pivot({ 0.5f, 0.f, 0.f });
 	child_2_transform->set_transform_flag(transform_flag);
 
+	// child's child
+	transform_flag = {};
+	//transform_flag = static_cast<int>(TRANSFORM_FLAG::SCALE);
+	//transform_flag |= static_cast<int>(TRANSFORM_FLAG::ROTATE);
+	transform_flag |= static_cast<int>(TRANSFORM_FLAG::TRANSLATE);
+
+	auto child_child = Object::CreateObject("Child", nullptr);
+	child->AddChild(child_child);
+	auto child_child_component = child_child->AddComponent<SlotUI>("Slot");
+
+	auto const& child_child_transform = std::dynamic_pointer_cast<Transform>(child_child->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	child_child_transform->SetLocalPosition({ 100.f, 0.f, 0.f });
+	child_child_transform->set_pivot({ 0.5f, 0.f, 0.f });
+	child_child_transform->set_transform_flag(transform_flag);
+
 	// TitleBar_1
 	auto title_bar1 = Object::CreateObject("TitleBar", ui_layer);
 	auto title_bar1_component = std::dynamic_pointer_cast<TitleBarUI>(title_bar1->AddComponent<TitleBarUI>("Bar"));
@@ -145,6 +160,15 @@ void MainSceneComponent::Initialize()
 	icon_component->AddSlot(slot_2);
 	icon_component->AddSlot(slot_3);
 	icon_component->set_current_slot(slot);
+
+	auto icon_2 = Object::CreateObject("Icon", ui_layer);
+	auto icon_2_component = std::dynamic_pointer_cast<IconUI>(icon_2->AddComponent<IconUI>("Icon"));
+	auto const& icon_2_material = std::dynamic_pointer_cast<Material>(icon_2->FindComponent(COMPONENT_TYPE::MATERIAL));
+	icon_2_material->SetTexture("Cake", 0, 0, 0);
+	icon_2_component->AddSlot(slot);
+	icon_2_component->AddSlot(slot_2);
+	icon_2_component->AddSlot(slot_3);
+	icon_2_component->set_current_slot(slot_2);
 }
 
 MainSceneComponent::MainSceneComponent(MainSceneComponent const& _other) : SceneComponent(_other)

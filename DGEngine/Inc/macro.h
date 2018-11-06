@@ -6,6 +6,9 @@
 #define DG_ENGINE_DLL __declspec(dllimport)
 #endif
 
+#define MAX_TEXTURE_COUNT 4
+#define MAX_SAMPLER_COUNT 2
+
 // ========== Path Key ==========
 #define ROOT_PATH "RootPath"
 #define SHADER_PATH "ShaderPath"

@@ -9,10 +9,8 @@ namespace DG
 
 	struct DG_ENGINE_DLL SubsetMaterial
 	{ // 변경되는 경우에만 Set하도록 수정해보자.
-		std::shared_ptr<Texture> texture;
-		int texture_slot;
-		std::shared_ptr<Sampler> sampler;
-		int sampler_slot;
+		std::vector<std::shared_ptr<Texture>> texture_vector;
+		std::vector<std::shared_ptr<Sampler>> sampler_vector;
 		MaterialConstantBuffer material_constant_buffer;
 	};
 

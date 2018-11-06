@@ -70,17 +70,6 @@ void SlotUI::_Release()
 
 void SlotUI::_Input(float _time)
 {
-	auto const& input_manager = InputManager::singleton();
-	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
-
-	if (input_manager->KeyPressed("U"))
-		transform->RotationZ(DirectX::XMConvertToRadians(180.f * _time));
-	if (input_manager->KeyPressed("I"))
-		transform->RotationZ(DirectX::XMConvertToRadians(-180.f * _time));
-	if (input_manager->KeyPressed("O"))
-		transform->Translation(transform->GetWorldUp() * 400.f * _time);
-	if (input_manager->KeyPressed("P"))
-		transform->Translation(transform->GetWorldUp() * -400.f * _time);
 }
 
 void SlotUI::_Update(float _time)
