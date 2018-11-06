@@ -28,6 +28,12 @@
     <Filter Include="4. Server">
       <UniqueIdentifier>{d8f3fea7-db11-46e2-ab8c-175c81c80a02}</UniqueIdentifier>
     </Filter>
+    <Filter Include="5. Replication">
+      <UniqueIdentifier>{655cea35-ec31-40f8-bcbc-8bca24933255}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3. Stream\3. LinkingContext">
+      <UniqueIdentifier>{956aa459-0c9c-4a3d-9b74-134a54c67352}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGNetwork_stdafx.cpp">

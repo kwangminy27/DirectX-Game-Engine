@@ -33,13 +33,12 @@ namespace DG
 		void AfterClone();
 		void Test(std::shared_ptr<Scene> const& _scene, std::shared_ptr<Layer> const& _layer, std::shared_ptr<Object> const& _object);
 
-		void AddChild(std::shared_ptr<Object> const& _child);
-
 		std::shared_ptr<Scene> scene() const;
 		std::shared_ptr<Layer> layer() const;
 
 		void set_scene(std::shared_ptr<Scene> const& _scene);
 		void set_layer(std::shared_ptr<Layer> const& _layer);
+		void AddChild(std::shared_ptr<Object> const& _child); // Child Object 만들자마자 부모에 추가해줘야 함. 그래야 나중에 추가하는 Component들에도 scene, layer가 정상적으로 들어감
 
 	private:
 		Object() = default;

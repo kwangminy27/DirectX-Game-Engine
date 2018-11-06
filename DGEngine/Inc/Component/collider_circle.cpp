@@ -81,7 +81,7 @@ void ColliderCircle::_LateUpdate(float _time)
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
 	auto const& mesh = ResourceManager::singleton()->FindMesh(mesh_tag_);
-	Math::Vector3 object_position = transform->GetLocalPosition() - mesh->diagonal() * transform->GetLocalScale() * transform->pivot();
+	Math::Vector3 object_position = transform->GetWorldPosition() - mesh->diagonal() * transform->GetWorldScale() * transform->pivot();
 
 	final_info_.center = object_position + relative_info_.center;
 
@@ -102,7 +102,7 @@ void ColliderCircle::_Render(float _time)
 		view = camera_component->view();
 
 	TransformConstantBuffer transform_constant_buffer{};
-	transform_constant_buffer.world = Math::Matrix::CreateScale(transform->GetLocalScale()) * Math::Matrix::CreateTranslation(final_info_.center);
+	transform_constant_buffer.world = Math::Matrix::CreateScale(transform->GetWorldScale()) * Math::Matrix::CreateTranslation(final_info_.center);
 	transform_constant_buffer.view = view;
 	transform_constant_buffer.projection = camera_component->projection();
 	transform_constant_buffer.WVP = transform_constant_buffer.world * transform_constant_buffer.view * transform_constant_buffer.projection;

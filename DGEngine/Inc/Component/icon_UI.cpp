@@ -40,7 +40,7 @@ void IconUI::Initialize()
 		material->SetSampler(LINEAR_SAMPLER, 0, 0, 0);
 
 		set_callback([this](float _time) {
-			set_drag_flag(true);
+			set_clicked_flag(true);
 		});
 
 		auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("IconBody"));
@@ -83,20 +83,20 @@ void IconUI::set_current_slot(std::weak_ptr<Object> const& _slot)
 	current_slot_ = _slot;
 }
 
-bool IconUI::drag_flag() const
+bool IconUI::clicked_flag() const
 {
-	return drag_flag_;
+	return clicked_flag_;
 }
 
-void IconUI::set_drag_flag(bool _flag)
+void IconUI::set_clicked_flag(bool _flag)
 {
-	drag_flag_ = _flag;
+	clicked_flag_ = _flag;
 }
 
 IconUI::IconUI(IconUI const& _other) : ButtonUI(_other)
 {
 	slot_list_ = _other.slot_list_;
-	drag_flag_ = _other.drag_flag_;
+	clicked_flag_ = _other.clicked_flag_;
 	current_slot_ = _other.current_slot_;
 }
 
@@ -104,7 +104,7 @@ IconUI::IconUI(IconUI const& _other) : ButtonUI(_other)
 IconUI::IconUI(IconUI&& _other) noexcept : ButtonUI(std::move(_other))
 {
 	slot_list_ = std::move(_other.slot_list_);
-	drag_flag_ = std::move(_other.drag_flag_);
+	clicked_flag_ = std::move(_other.clicked_flag_);
 	current_slot_ = std::move(_other.current_slot_);
 }
 
@@ -126,7 +126,7 @@ void IconUI::_Input(float _time)
 	case BUTTON_STATE::CLICK:
 		if (input_manager->KeyUp("LButton"))
 		{
-			if(!drag_flag_)
+			if(!clicked_flag_)
 				callback_(_time);
 			else
 			{
@@ -145,7 +145,7 @@ void IconUI::_Input(float _time)
 
 					set_current_slot(*iter);
 					button_state_ = BUTTON_STATE::MOUSEON;
-					drag_flag_ = false;
+					clicked_flag_ = false;
 
 					break;
 				}
@@ -165,7 +165,7 @@ void IconUI::_Update(float _time)
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 	auto const& slot_transform = std::dynamic_pointer_cast<Transform>(current_slot()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
-	if (drag_flag_)
+	if (clicked_flag_)
 		transform->Translation(input_manager->mouse_displacement());
 	else
 		transform->SetLocalPosition(slot_transform->GetLocalPosition());

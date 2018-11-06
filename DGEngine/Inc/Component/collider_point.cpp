@@ -72,7 +72,7 @@ void ColliderPoint::_Release()
 
 void ColliderPoint::_LateUpdate(float _time)
 {
-	Math::Vector3 object_position = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM))->GetLocalPosition();
+	Math::Vector3 object_position = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM))->GetWorldPosition();
 
 	final_info_ = object_position + relative_info_;
 

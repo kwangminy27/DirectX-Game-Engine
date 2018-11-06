@@ -98,9 +98,9 @@ void ColliderOOBB::_Update(float _time)
 {
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
-	memcpy_s(&relative_info_.rotation._11, sizeof(Math::Vector3), &(transform->GetLocalRight()), sizeof(Math::Vector3));
-	memcpy_s(&relative_info_.rotation._21, sizeof(Math::Vector3), &(transform->GetLocalUp()), sizeof(Math::Vector3));
-	memcpy_s(&relative_info_.rotation._31, sizeof(Math::Vector3), &(transform->GetLocalLook()), sizeof(Math::Vector3));
+	memcpy_s(&relative_info_.rotation._11, sizeof(Math::Vector3), &(transform->GetWorldRight()), sizeof(Math::Vector3));
+	memcpy_s(&relative_info_.rotation._21, sizeof(Math::Vector3), &(transform->GetWorldUp()), sizeof(Math::Vector3));
+	memcpy_s(&relative_info_.rotation._31, sizeof(Math::Vector3), &(transform->GetWorldLook()), sizeof(Math::Vector3));
 }
 
 void ColliderOOBB::_LateUpdate(float _time)
@@ -109,7 +109,7 @@ void ColliderOOBB::_LateUpdate(float _time)
 
 	auto rotated_center = DirectX::XMVector3TransformCoord(relative_info_.center, transform->local_rotate());
 
-	final_info_.center = transform->GetLocalPosition() + rotated_center;
+	final_info_.center = transform->GetWorldPosition() + rotated_center;
 	final_info_.extent = relative_info_.extent;
 	final_info_.rotation = relative_info_.rotation;
 

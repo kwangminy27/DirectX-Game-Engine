@@ -129,3 +129,10 @@ enum class CUTTING_DIR
 	RIGHT_TO_LEFT,
 	TOP_TO_BOTTOM
 };
+
+enum class TRANSFORM_FLAG
+{
+	SCALE = 1 << 0,
+	ROTATE = 1 << 1,
+	TRANSLATE = 1 << 2
+};

@@ -56,6 +56,30 @@ void MainSceneComponent::Initialize()
 	auto player = Object::CreateObject("Player", default_layer);
 	auto player_component = player->AddComponent<PlayerComponent>("Player");
 
+	// Child
+	int transform_flag{};
+	//transform_flag = static_cast<int>(TRANSFORM_FLAG::SCALE);
+	transform_flag |= static_cast<int>(TRANSFORM_FLAG::ROTATE);
+	transform_flag |= static_cast<int>(TRANSFORM_FLAG::TRANSLATE);
+
+	auto child = Object::CreateObject("Child", nullptr);
+	player->AddChild(child);
+	auto child_component = child->AddComponent<SlotUI>("Slot");
+
+	auto const& child_transform = std::dynamic_pointer_cast<Transform>(child->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	child_transform->SetLocalPosition({ 150.f, 0.f, 0.f });
+	child_transform->set_pivot({ 0.5f, 0.f, 0.f });
+	child_transform->set_transform_flag(transform_flag);
+
+	auto child_2 = Object::CreateObject("Child", nullptr);
+	player->AddChild(child_2);
+	auto child_2_component = child_2->AddComponent<SlotUI>("Slot");
+
+	auto const& child_2_transform = std::dynamic_pointer_cast<Transform>(child_2->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	child_2_transform->SetLocalPosition({ -150.f, 0.f, 0.f });
+	child_2_transform->set_pivot({ 0.5f, 0.f, 0.f });
+	child_2_transform->set_transform_flag(transform_flag);
+
 	// TitleBar_1
 	auto title_bar1 = Object::CreateObject("TitleBar", ui_layer);
 	auto title_bar1_component = std::dynamic_pointer_cast<TitleBarUI>(title_bar1->AddComponent<TitleBarUI>("Bar"));

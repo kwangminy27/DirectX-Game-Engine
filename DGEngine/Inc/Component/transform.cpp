@@ -1,6 +1,8 @@
 #include "DGEngine_stdafx.h"
 #include "transform.h"
 
+#include "object.h"
+
 using namespace DG;
 
 void Transform::Initialize()
@@ -89,6 +91,31 @@ Math::Vector3 Transform::GetLocalPosition() const
 	return Math::Vector3{ local_translate_._41, local_translate_._42, local_translate_._43 };
 }
 
+Math::Vector3 Transform::GetWorldScale() const
+{
+	return Math::Vector3{ world_scale_._11, world_scale_._22, world_scale_._33 };
+}
+
+Math::Vector3 Transform::GetWorldRight() const
+{
+	return Math::Vector3{ world_rotate_._11, world_rotate_._12, world_rotate_._13 };
+}
+
+Math::Vector3 Transform::GetWorldUp() const
+{
+	return Math::Vector3{ world_rotate_._21, world_rotate_._22, world_rotate_._23 };
+}
+
+Math::Vector3 Transform::GetWorldLook() const
+{
+	return Math::Vector3{ world_rotate_._31, world_rotate_._32, world_rotate_._33 };
+}
+
+Math::Vector3 Transform::GetWorldPosition() const
+{
+	return Math::Vector3{ world_translate_._41, world_translate_._42, world_translate_._43 };
+}
+
 void Transform::SetLocalRight(Math::Vector3 const& _right)
 {
 	memcpy_s(&local_rotate_._11, sizeof(Math::Vector3), &_right, sizeof(Math::Vector3));
@@ -145,6 +172,11 @@ bool Transform::static_flag() const
 	return static_flag_;
 }
 
+int Transform::transform_flag() const
+{
+	return transform_flag_;
+}
+
 Math::Matrix const& Transform::local_scale() const
 {
 	return local_scale_;
@@ -163,6 +195,21 @@ Math::Matrix const& Transform::local_translate() const
 Math::Matrix const& Transform::local() const
 {
 	return local_;
+}
+
+Math::Matrix const& Transform::parent_scale() const
+{
+	return parent_scale_;
+}
+
+Math::Matrix const& Transform::parent_rotate() const
+{
+	return parent_rotate_;
+}
+
+Math::Matrix const& Transform::parent_translate() const
+{
+	return parent_translate_;
 }
 
 Math::Matrix const& Transform::parent() const
@@ -190,6 +237,26 @@ void Transform::set_static_flag(bool _flag)
 	static_flag_ = _flag;
 }
 
+void Transform::set_transform_flag(int _flag)
+{
+	transform_flag_ = _flag;
+}
+
+void Transform::set_parent_scale(Math::Matrix const& _scale)
+{
+	parent_scale_ = _scale;
+}
+
+void Transform::set_parent_rotate(Math::Matrix const& _rotate)
+{
+	parent_rotate_ = _rotate;
+}
+
+void Transform::set_parent_translate(Math::Matrix const& _translate)
+{
+	parent_translate_ = _translate;
+}
+
 void Transform::set_pivot(Math::Vector3 const& _pivot)
 {
 	pivot_ = _pivot;
@@ -199,11 +266,14 @@ Transform::Transform(Transform const& _other) : Component(_other)
 {
 	update_flag_ = _other.update_flag_;
 	static_flag_ = _other.static_flag_;
-	option_ = _other.option_;
+	transform_flag_ = _other.transform_flag_;
 	local_scale_ = _other.local_scale_;
 	local_rotate_ = _other.local_rotate_;
 	local_translate_ = _other.local_translate_;
 	local_ = _other.local_;
+	parent_scale_ = _other.parent_scale_;
+	parent_rotate_ = _other.parent_rotate_;
+	parent_translate_ = _other.parent_translate_;
 	parent_ = _other.parent_;
 	world_ = _other.world_;
 	pivot_ = _other.pivot_;
@@ -213,11 +283,14 @@ Transform::Transform(Transform&& _other) noexcept : Component(std::move(_other))
 {
 	update_flag_ = std::move(_other.update_flag_);
 	static_flag_ = std::move(_other.static_flag_);
-	option_ = std::move(_other.option_);
+	transform_flag_ = std::move(_other.transform_flag_);
 	local_scale_ = std::move(_other.local_scale_);
 	local_rotate_ = std::move(_other.local_rotate_);
 	local_translate_ = std::move(_other.local_translate_);
 	local_ = std::move(_other.local_);
+	parent_scale_ = std::move(_other.parent_scale_);
+	parent_rotate_ = std::move(_other.parent_rotate_);
+	parent_translate_ = std::move(_other.parent_translate_);
 	parent_ = std::move(_other.parent_);
 	world_ = std::move(_other.world_);
 	pivot_ = std::move(_other.pivot_);
@@ -237,6 +310,28 @@ void Transform::_Update(float _time)
 
 	local_ = local_scale_ * local_rotate_ * local_translate_;
 
+	parent_ = Math::Matrix::Identity;
+
+	world_scale_ = local_scale_;
+	world_rotate_ = local_rotate_;
+	world_translate_ = local_translate_;
+
+	if ((transform_flag_ & static_cast<int>(TRANSFORM_FLAG::SCALE)))
+	{
+		world_scale_ *= parent_scale_;
+		parent_ *= parent_scale_;
+	}
+	if ((transform_flag_ & static_cast<int>(TRANSFORM_FLAG::ROTATE)))
+	{
+		world_rotate_ *= parent_rotate_;
+		parent_ *= parent_rotate_;
+	}
+	if ((transform_flag_ & static_cast<int>(TRANSFORM_FLAG::TRANSLATE)))
+	{
+		world_translate_ *= parent_translate_;
+		parent_ *= parent_translate_;
+	}
+
 	world_ = local_ * parent_;
 
 	update_flag_ = false;
@@ -251,6 +346,28 @@ void Transform::_LateUpdate(float _time)
 		return;
 
 	local_ = local_scale_ * local_rotate_ * local_translate_;
+
+	parent_ = Math::Matrix::Identity;
+
+	world_scale_ = local_scale_;
+	world_rotate_ = local_rotate_;
+	world_translate_ = local_translate_;
+
+	if ((transform_flag_ & static_cast<int>(TRANSFORM_FLAG::SCALE)))
+	{
+		world_scale_ *= parent_scale_;
+		parent_ *= parent_scale_;
+	}
+	if ((transform_flag_ & static_cast<int>(TRANSFORM_FLAG::ROTATE)))
+	{
+		world_rotate_ *= parent_rotate_;
+		parent_ *= parent_rotate_;
+	}
+	if ((transform_flag_ & static_cast<int>(TRANSFORM_FLAG::TRANSLATE)))
+	{
+		world_translate_ *= parent_translate_;
+		parent_ *= parent_translate_;
+	}
 
 	world_ = local_ * parent_;
 

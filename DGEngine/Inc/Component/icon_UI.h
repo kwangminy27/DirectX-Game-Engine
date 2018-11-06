@@ -15,8 +15,8 @@ namespace DG
 		std::shared_ptr<Object> current_slot() const;
 		void set_current_slot(std::weak_ptr<Object> const& _slot);
 
-		bool drag_flag() const;
-		void set_drag_flag(bool _flag);
+		bool clicked_flag() const;
+		void set_clicked_flag(bool _flag);
 
 	private:
 		IconUI() = default;
@@ -37,6 +37,6 @@ namespace DG
 
 		std::list<std::weak_ptr<Object>> slot_list_{};
 		std::weak_ptr<Object> current_slot_{};
-		bool drag_flag_{};
+		bool clicked_flag_{};
 	};
 }

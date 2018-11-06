@@ -5,6 +5,7 @@
 #include "Scene/scene.h"
 #include "Scene/layer.h"
 #include "Component/component.h"
+#include "Component/transform.h"
 #include "collision_manager.h"
 
 using namespace DG;
@@ -213,6 +214,8 @@ void Object::Test(std::shared_ptr<Scene> const& _scene, std::shared_ptr<Layer> c
 
 void Object::AddChild(std::shared_ptr<Object> const& _child)
 {
+	layer()->AddObject(_child);
+
 	child_list_.push_back(_child);
 }
 
@@ -253,8 +256,8 @@ Object::Object(Object const& _other) : Tag(_other)
 
 Object::Object(Object&& _other) noexcept : Tag(move(_other))
 {
-	scene_ = move(_other.scene_);
-	layer_ = move(_other.layer_);
+	scene_ = std::move(_other.scene_);
+	layer_ = std::move(_other.layer_);
 
 	component_list_ = std::move(_other.component_list_);
 
@@ -299,6 +302,21 @@ void Object::_Update(float _time)
 			++iter;
 		}
 	}
+
+	auto const& transform = std::dynamic_pointer_cast<Transform>(FindComponent(COMPONENT_TYPE::TRANSFORM));
+	auto const& scale = transform->local_scale();
+	auto const& rotate = transform->local_rotate();
+	auto const& translate = transform->local_translate();
+
+	for (auto iter = child_list_.begin(); iter != child_list_.end(); ++iter)
+	{
+		auto const& child_transform = std::dynamic_pointer_cast<Transform>((*iter).lock()->FindComponent(COMPONENT_TYPE::TRANSFORM));
+
+		child_transform->set_parent_scale(scale);
+		child_transform->set_parent_rotate(rotate);
+		child_transform->set_parent_translate(translate);
+		child_transform->set_update_flag(true);
+	}
 }
 
 void Object::_LateUpdate(float _time)
@@ -314,6 +332,21 @@ void Object::_LateUpdate(float _time)
 			(*iter)->_LateUpdate(_time);
 			++iter;
 		}
+	}
+
+	auto const& transform = std::dynamic_pointer_cast<Transform>(FindComponent(COMPONENT_TYPE::TRANSFORM));
+	auto const& scale = transform->local_scale();
+	auto const& rotate = transform->local_rotate();
+	auto const& translate = transform->local_translate();
+
+	for (auto iter = child_list_.begin(); iter != child_list_.end(); ++iter)
+	{
+		auto const& child_transform = std::dynamic_pointer_cast<Transform>((*iter).lock()->FindComponent(COMPONENT_TYPE::TRANSFORM));
+
+		child_transform->set_parent_scale(scale);
+		child_transform->set_parent_rotate(rotate);
+		child_transform->set_parent_translate(translate);
+		child_transform->set_update_flag(true);
 	}
 }
 

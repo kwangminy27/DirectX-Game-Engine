@@ -26,6 +26,11 @@ void InputManager::Initialize()
 		_AddKey("Z"s, 'Z');
 		_AddKey("X"s, 'X');
 
+		_AddKey("U"s, 'U');
+		_AddKey("I"s, 'I');
+		_AddKey("O"s, 'O');
+		_AddKey("P"s, 'P');
+
 		_AddKey("LButton"s, VK_LBUTTON);
 
 		_AddKey("Space"s, VK_SPACE);
@@ -58,7 +63,7 @@ void InputManager::Initialize()
 		auto mouse_ui_collider = std::dynamic_pointer_cast<ColliderPoint>(mouse_->AddComponent<ColliderPoint>("MouseUICollider"));
 		mouse_ui_collider->set_collision_group_tag("UI");
 		mouse_ui_collider->set_relative_info({ -3.f, -3.f, 0.f });
-		//mouse_ui_collider->AddSkipTag("SlotBody");
+		mouse_ui_collider->AddSkipTag("SlotBody");
 
 		auto mouse_world_collider = std::dynamic_pointer_cast<ColliderPoint>(mouse_->AddComponent<ColliderPoint>("MouseWorldCollider"));
 

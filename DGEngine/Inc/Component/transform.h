@@ -25,6 +25,12 @@ namespace DG
 		Math::Vector3 GetLocalLook() const;
 		Math::Vector3 GetLocalPosition() const;
 
+		Math::Vector3 GetWorldScale() const;
+		Math::Vector3 GetWorldRight() const;
+		Math::Vector3 GetWorldUp() const;
+		Math::Vector3 GetWorldLook() const;
+		Math::Vector3 GetWorldPosition() const;
+
 		void SetLocalRight(Math::Vector3 const& _right);
 		void SetLocalUp(Math::Vector3 const& _up);
 		void SetLocalLook(Math::Vector3 const& _look);
@@ -34,16 +40,24 @@ namespace DG
 
 		bool update_flag() const;
 		bool static_flag() const;
+		int transform_flag() const;
 		Math::Matrix const& local_scale() const;
 		Math::Matrix const& local_rotate() const;
 		Math::Matrix const& local_translate() const;
 		Math::Matrix const& local() const;
+		Math::Matrix const& parent_scale() const;
+		Math::Matrix const& parent_rotate() const;
+		Math::Matrix const& parent_translate() const;
 		Math::Matrix const& parent() const;
 		Math::Matrix const& world() const;
 		Math::Vector3 const& pivot() const;
 
 		void set_update_flag(bool _flag);
 		void set_static_flag(bool _flag);
+		void set_transform_flag(int _flag);
+		void set_parent_scale(Math::Matrix const& _scale);
+		void set_parent_rotate(Math::Matrix const& _rotate);
+		void set_parent_translate(Math::Matrix const& _translate);
 		void set_pivot(Math::Vector3 const& _pivot);
 
 	private:
@@ -61,12 +75,18 @@ namespace DG
 
 		bool update_flag_{ true };
 		bool static_flag_{};
-		int option_{};
+		int transform_flag_{};
 		Math::Matrix local_scale_{ Math::Matrix::Identity };
 		Math::Matrix local_rotate_{ Math::Matrix::Identity };
 		Math::Matrix local_translate_{ Math::Matrix::Identity };
 		Math::Matrix local_{ Math::Matrix::Identity };
+		Math::Matrix parent_scale_{ Math::Matrix::Identity };
+		Math::Matrix parent_rotate_{ Math::Matrix::Identity };
+		Math::Matrix parent_translate_{ Math::Matrix::Identity };
 		Math::Matrix parent_{ Math::Matrix::Identity };
+		Math::Matrix world_scale_{ Math::Matrix::Identity };
+		Math::Matrix world_rotate_{ Math::Matrix::Identity };
+		Math::Matrix world_translate_{ Math::Matrix::Identity };
 		Math::Matrix world_{ Math::Matrix::Identity };
 		Math::Vector3 pivot_{};
 	};
