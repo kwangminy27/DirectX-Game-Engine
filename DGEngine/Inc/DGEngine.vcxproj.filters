@@ -91,6 +91,9 @@
     <Filter Include="05. Rendering\1. Shader\1. HLSL\2. Collider">
       <UniqueIdentifier>{1b43e48f-ed1c-4a0e-a41a-fc2fde7cbb88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="11. Font">
+      <UniqueIdentifier>{68097f88-ec47-4734-a5aa-d9f3d71941f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -237,6 +240,9 @@
     <ClInclude Include="Component\slot_UI.h">
       <Filter>09. Component\8. UI</Filter>
     </ClInclude>
+    <ClInclude Include="font_manager.h">
+      <Filter>11. Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -373,6 +379,9 @@
     </ClCompile>
     <ClCompile Include="Component\slot_UI.cpp">
       <Filter>09. Component\8. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="font_manager.cpp">
+      <Filter>11. Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

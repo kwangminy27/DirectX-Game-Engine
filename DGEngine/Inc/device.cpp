@@ -1,7 +1,6 @@
 #include "DGEngine_stdafx.h"
 #include "device.h"
 
-using namespace std;
 using namespace DirectX::Colors;
 using namespace DG;
 
@@ -11,6 +10,7 @@ void Device::Initialize(HWND _window)
 {
 	try
 	{
+		// Direct3D
 		UINT flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 #ifdef _DEBUG
 		flags |= D3D11_CREATE_DEVICE_DEBUG;
@@ -76,6 +76,24 @@ void Device::Initialize(HWND _window)
 
 		context_->RSSetViewports(1, &viewport);
 		context_->OMSetRenderTargets(1, RTV_.GetAddressOf(), DSV_.Get());
+
+		// Direct2D Initialization
+		// 1. create d2d factory.
+		// 2. create dxgi surface render target.
+
+		D2D1_FACTORY_OPTIONS d2d_factory_options{};
+		d2d_factory_options.debugLevel = D2D1_DEBUG_LEVEL_INFORMATION;
+		ThrowIfFailed(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, __uuidof(ID2D1Factory), &d2d_factory_options, &d2d_factory_));
+		
+		ComPtr<IDXGISurface> dxgi_surface{};
+		ThrowIfFailed(swap_chain_->GetBuffer(0, __uuidof(IDXGISurface), &dxgi_surface));
+
+		D2D1_RENDER_TARGET_PROPERTIES d2d_render_target_properties{}; // dpi, usage, min_level 등은 0.f 주면 자동으로 설정 됨
+		d2d_render_target_properties.type = D2D1_RENDER_TARGET_TYPE_HARDWARE;
+		d2d_render_target_properties.pixelFormat.format = DXGI_FORMAT_B8G8R8A8_UNORM;
+		d2d_render_target_properties.pixelFormat.alphaMode = D2D1_ALPHA_MODE_PREMULTIPLIED;
+
+		ThrowIfFailed(d2d_factory_->CreateDxgiSurfaceRenderTarget(dxgi_surface.Get(), d2d_render_target_properties, &d2d_render_target_));
 	}
 	catch (exception const& _e)
 	{
@@ -128,6 +146,11 @@ ComPtr<ID3D11Device> const& Device::device() const
 ComPtr<ID3D11DeviceContext> const& Device::context() const
 {
 	return context_;
+}
+
+ComPtr<ID2D1RenderTarget> const& Device::d2d_render_target() const
+{
+	return d2d_render_target_;
 }
 
 void Device::_Release()

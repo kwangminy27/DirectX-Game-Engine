@@ -143,4 +143,6 @@ void OutputMemoryBitsStream::_Release()
 void OutputMemoryBitsStream::_ReallocBuffer(uint32_t _length)
 {
 	buffer_ = static_cast<char*>(std::realloc(buffer_, _length));
+
+	bit_capacity_ = _length * 8;
 }

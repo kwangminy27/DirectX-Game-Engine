@@ -15,3 +15,16 @@ void InputMemoryStream::Read(T& _data)
 	T swapped_data = ByteSwap(_data);
 	Read(&swapped_data, sizeof(swapped_data));
 }
+
+template <typename T>
+void InputMemoryStream::Read(std::vector<T>& _element_vector)
+{
+	size_t element_count{};
+
+	Read(element_count);
+
+	_element_vector.resize(element_count);
+
+	for (auto& _element : _element_vector)
+		Read(_element);
+}

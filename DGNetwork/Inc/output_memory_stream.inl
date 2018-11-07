@@ -17,6 +17,17 @@ void OutputMemoryStream::Write(T const& _data)
 	Write(&swapped_data, sizeof(swapped_data));
 }
 
+template <typename T>
+void OutputMemoryStream::Write(std::vector<T> const& _element_vector)
+{
+	size_t element_count = _element_vector.size();
+
+	Write(element_count);
+
+	for (auto const& _element : _element_vector)
+		Write(_element);
+}
+
 template<typename T>
 void OutputMemoryBitsStream::Write(T const& _data, size_t _bit_count)
 {

@@ -31,10 +31,14 @@
 #include <dxgidebug.h>
 #include <d3d11.h>
 #include <d3dcompiler.h>
+#include <d2d1.h>
+#include <dwrite.h>
 
-#pragma comment(lib, "dxguid.lib")
-#pragma comment(lib, "d3d11.lib")
-#pragma comment(lib, "d3dcompiler.lib")
+#pragma comment(lib, "dxguid")
+#pragma comment(lib, "d3d11")
+#pragma comment(lib, "d3dcompiler")
+#pragma comment(lib, "d2d1")
+#pragma comment(lib, "dwrite")
 
 // DirectXMath
 #include <DirectXColors.h>

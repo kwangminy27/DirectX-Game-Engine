@@ -16,6 +16,8 @@ namespace DG
 		Microsoft::WRL::ComPtr<ID3D11Device> const& device() const;
 		Microsoft::WRL::ComPtr<ID3D11DeviceContext> const& context() const;
 
+		Microsoft::WRL::ComPtr<ID2D1RenderTarget> const& d2d_render_target() const;
+
 	private:
 		Device() = default;
 		Device(Device const&) = delete;
@@ -25,6 +27,7 @@ namespace DG
 
 		virtual void _Release() override;
 
+		// Direct3D
 		HMODULE DXGIDebug_{};
 		Microsoft::WRL::ComPtr<IDXGIDebug> debug_{};
 		Microsoft::WRL::ComPtr<ID3D11Device> device_{};
@@ -32,5 +35,9 @@ namespace DG
 		Microsoft::WRL::ComPtr<IDXGISwapChain> swap_chain_{};
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> RTV_{};
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> DSV_{};
+
+		// Direct2D
+		Microsoft::WRL::ComPtr<ID2D1RenderTarget> d2d_render_target_{};
+		Microsoft::WRL::ComPtr<ID2D1Factory> d2d_factory_{};
 	};
 }

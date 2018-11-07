@@ -4,6 +4,8 @@
 
 namespace DG
 {
+	// LinkingContext ÇÊ¿ä
+
 	// Byte
 	class DG_NETWORK_DLL OutputMemoryStream : public Singleton_Temp<OutputMemoryStream>
 	{
@@ -15,8 +17,9 @@ namespace DG
 		char const* GetBufferPtr() const;
 		uint32_t GetLength() const;
 
-		template <typename T> void Write(T const& _data);
 		void Write(void const* _data, size_t _byte_count);
+		template <typename T> void Write(T const& _data);
+		template <typename T> void Write(std::vector<T> const& _element_vector);
 
 	private:
 		OutputMemoryStream() = default;

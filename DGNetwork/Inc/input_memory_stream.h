@@ -4,6 +4,9 @@
 
 namespace DG
 {
+	// LinkingContext 필요
+
+	// Byte
 	class DG_NETWORK_DLL InputMemoryStream : public Singleton_Temp<InputMemoryStream>
 	{
 		friend class Singleton_Temp<InputMemoryStream>;
@@ -16,8 +19,9 @@ namespace DG
 		
 		uint32_t GetRemainingDataSize() const;
 
-		template <typename T> void Read(T& _data);
 		void Read(void* _data, uint32_t _byte_size);
+		template <typename T> void Read(T& _data);
+		template <typename T> void Read(std::vector<T>& _element_vector);
 
 	private:
 		InputMemoryStream() = default;
@@ -33,6 +37,38 @@ namespace DG
 		char* buffer_{};
 		uint32_t head_{};
 		uint32_t capacity_{};
+	};
+
+	// Bit
+	class DG_NETWORK_DLL InputMemoryBitsStream : public Singleton_Temp<InputMemoryBitsStream>
+	{
+		friend class Singleton_Temp<InputMemoryBitsStream>;
+	public:
+		virtual void Initialize() override;
+		void PreProcess();
+
+		//template <typename T> void Write(T const& _data, size_t _bit_count = sizeof(T) * 8); // bool 타입 특수화 필요.
+		void ReadBits(uint8_t& _data, size_t _bit_count);
+		void ReadBits(void* _data, size_t _bit_count);
+		void ReadBytes(void* _data, size_t _byte_count);
+
+		char const* GetBufferPtr() const;
+		uint32_t GetRemainingBitCount() const;
+
+	private:
+		InputMemoryBitsStream() = default;
+		InputMemoryBitsStream(InputMemoryBitsStream const&) = delete;
+		InputMemoryBitsStream(InputMemoryBitsStream&&) noexcept = delete;
+		InputMemoryBitsStream& operator=(InputMemoryBitsStream const&) = delete;
+		InputMemoryBitsStream& operator=(InputMemoryBitsStream&&) noexcept = delete;
+
+		virtual void _Release() override;
+
+		void _ReallocBuffer(uint32_t _length);
+
+		char* buffer_{};
+		uint32_t bit_head_{};
+		uint32_t bit_capacity_{};
 	};
 }
 
