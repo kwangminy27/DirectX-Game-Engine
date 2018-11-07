@@ -23,12 +23,14 @@ namespace DG
 		Math::Vector3 GetLocalRight() const;
 		Math::Vector3 GetLocalUp() const;
 		Math::Vector3 GetLocalLook() const;
+		Math::Vector3 GetLocalTranslate() const;
 		Math::Vector3 GetLocalPosition() const;
 
 		Math::Vector3 GetWorldScale() const;
 		Math::Vector3 GetWorldRight() const;
 		Math::Vector3 GetWorldUp() const;
 		Math::Vector3 GetWorldLook() const;
+		Math::Vector3 GetWorldTranslate() const;
 		Math::Vector3 GetWorldPosition() const;
 
 		void SetLocalRight(Math::Vector3 const& _right);
@@ -49,6 +51,9 @@ namespace DG
 		Math::Matrix const& parent_rotate() const;
 		Math::Matrix const& parent_translate() const;
 		Math::Matrix const& parent() const;
+		Math::Matrix const& world_scale() const;
+		Math::Matrix const& world_rotate() const;
+		Math::Matrix const& world_translate() const;
 		Math::Matrix const& world() const;
 		Math::Vector3 const& pivot() const;
 

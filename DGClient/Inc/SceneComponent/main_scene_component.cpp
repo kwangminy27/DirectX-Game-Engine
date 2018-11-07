@@ -68,7 +68,6 @@ void MainSceneComponent::Initialize()
 
 	auto const& child_transform = std::dynamic_pointer_cast<Transform>(child->FindComponent(COMPONENT_TYPE::TRANSFORM));
 	child_transform->SetLocalPosition({ 150.f, 0.f, 0.f });
-	child_transform->set_pivot({ 0.5f, 0.f, 0.f });
 	child_transform->set_transform_flag(transform_flag);
 
 	auto child_2 = Object::CreateObject("Child", nullptr);
@@ -77,7 +76,6 @@ void MainSceneComponent::Initialize()
 
 	auto const& child_2_transform = std::dynamic_pointer_cast<Transform>(child_2->FindComponent(COMPONENT_TYPE::TRANSFORM));
 	child_2_transform->SetLocalPosition({ -150.f, 0.f, 0.f });
-	child_2_transform->set_pivot({ 0.5f, 0.f, 0.f });
 	child_2_transform->set_transform_flag(transform_flag);
 
 	// child's child
@@ -92,7 +90,6 @@ void MainSceneComponent::Initialize()
 
 	auto const& child_child_transform = std::dynamic_pointer_cast<Transform>(child_child->FindComponent(COMPONENT_TYPE::TRANSFORM));
 	child_child_transform->SetLocalPosition({ 100.f, 0.f, 0.f });
-	child_child_transform->set_pivot({ 0.5f, 0.f, 0.f });
 	child_child_transform->set_transform_flag(transform_flag);
 
 	// TitleBar_1

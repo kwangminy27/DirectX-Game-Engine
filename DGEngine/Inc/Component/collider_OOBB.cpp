@@ -98,16 +98,17 @@ void ColliderOOBB::_Update(float _time)
 {
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
-	memcpy_s(&relative_info_.rotation._11, sizeof(Math::Vector3), &(transform->GetWorldRight()), sizeof(Math::Vector3));
-	memcpy_s(&relative_info_.rotation._21, sizeof(Math::Vector3), &(transform->GetWorldUp()), sizeof(Math::Vector3));
-	memcpy_s(&relative_info_.rotation._31, sizeof(Math::Vector3), &(transform->GetWorldLook()), sizeof(Math::Vector3));
+	relative_info_.rotation = transform->world_rotate();
 }
 
 void ColliderOOBB::_LateUpdate(float _time)
 {
 	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
-	auto rotated_center = DirectX::XMVector3TransformCoord(relative_info_.center, transform->local_rotate());
+	auto const& mesh = ResourceManager::singleton()->FindMesh(mesh_tag_);
+	//Math::Vector3 object_position =  - mesh->diagonal() * transform->GetWorldScale() * transform->pivot();
+
+	auto rotated_center = DirectX::XMVector3TransformCoord(relative_info_.center, relative_info_.rotation);
 
 	final_info_.center = transform->GetWorldPosition() + rotated_center;
 	final_info_.extent = relative_info_.extent;
@@ -143,7 +144,7 @@ void ColliderOOBB::_Render(float _time)
 		view = camera_component->view();
 
 	TransformConstantBuffer transform_constant_buffer{};
-	transform_constant_buffer.world = transform->local_scale() * final_info_.rotation * Math::Matrix::CreateTranslation(final_info_.center);
+	transform_constant_buffer.world = transform->world_scale() * final_info_.rotation * Math::Matrix::CreateTranslation(final_info_.center);
 	transform_constant_buffer.view = view;
 	transform_constant_buffer.projection = camera_component->projection();
 	transform_constant_buffer.WVP = transform_constant_buffer.world * transform_constant_buffer.view * transform_constant_buffer.projection;

@@ -24,6 +24,7 @@ void PlayerComponent::Initialize()
 	auto transform = std::dynamic_pointer_cast<Transform>(object()->AddComponent<Transform>("Transform"));
 
 	transform->Scaling(Math::Vector3{ 100.f, 100.f, 1.f });
+	transform->Translation({ 200.f, 200.f, 0.f });
 	transform->set_pivot(Math::Vector3{ 0.5f, 0.f, 0.f });
 
 	auto renderer = std::dynamic_pointer_cast<Renderer>(object()->AddComponent<Renderer>("Renderer"));
@@ -45,20 +46,18 @@ void PlayerComponent::Initialize()
 
 	animation_2d->AddClip("Player");
 
-	//auto collider_oobb = std::dynamic_pointer_cast<ColliderOOBB>(object()->AddComponent<ColliderOOBB>("PlayerBody"));
-
-	//auto const& mesh = ResourceManager::singleton()->FindMesh("TexRect");
-
-	//auto extent = (mesh->max() - mesh->min()) * 0.5f * transform->scale_vector();
-
-	//collider_oobb->set_pivot(Math::Vector3{ 0.5f, 0.5f, 0.f });
-	//collider_oobb->set_relative_info(Math::Vector3{ 0.f, extent.y, 0.f }, extent, Math::Matrix::Identity);
-
-	auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("PlayerBody"));
+	auto collider_oobb = std::dynamic_pointer_cast<ColliderOOBB>(object()->AddComponent<ColliderOOBB>("PlayerBody"));
 	auto const& mesh = ResourceManager::singleton()->FindMesh("TexRect");
 	auto extent = (mesh->max() - mesh->min()) * 0.5f * transform->GetLocalScale();
 
-	collider_rect->set_relative_info(Math::Vector3::Zero, extent * 2.f);
+	collider_oobb->set_pivot({ 0.5f, 0.5f, 0.f });
+	collider_oobb->set_relative_info({ 0.f, extent.y, 0.f }, extent, Math::Matrix::Identity);
+
+	//auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("PlayerBody"));
+	//auto const& mesh = ResourceManager::singleton()->FindMesh("TexRect");
+	//auto extent = (mesh->max() - mesh->min()) * 0.5f * transform->GetLocalScale();
+
+	//collider_rect->set_relative_info(Math::Vector3::Zero, extent * 2.f);
 }
 
 PlayerComponent::PlayerComponent(PlayerComponent const& _other) : UserComponent(_other)

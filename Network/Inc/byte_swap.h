@@ -2,6 +2,7 @@
 
 namespace DG
 {
+	// ByteSwap 함수, 부호 없는 정수만 뒤집을 수 있음
 	inline uint16_t ByteSwap2(uint16_t _data)
 	{
 		return _data >> 8 | _data << 8;
@@ -27,6 +28,7 @@ namespace DG
 			((_data << 56) & 0xFF00000000000000);
 	}
 
+	// float, double, 부호 있는 정수, 열거자 등을 지원하기 위한 별칭 클래스
 	template <typename from, typename to>
 	class TypeAliaser
 	{
@@ -42,6 +44,7 @@ namespace DG
 		};
 	};
 
+	// "리틀 엔디언 <-> 빅 엔디언"을 위한 보조 클래스
 	template <typename T, size_t size> class ByteSwapper;
 
 	template <typename T>
@@ -65,6 +68,7 @@ namespace DG
 		T Swap(T _data) const;
 	};
 
+	// "리틀 엔디언 <-> 빅 엔디언"을 위한 클래스를 호출해주는 보조 함수, 원시 자료형에 한하여 바이트 스와핑 해야한다고 함.
 	template <typename T>
 	T ByteSwap(T _data);
 }

@@ -86,9 +86,14 @@ Math::Vector3 Transform::GetLocalLook() const
 	return Math::Vector3{ local_rotate_._31, local_rotate_._32, local_rotate_._33 };
 }
 
-Math::Vector3 Transform::GetLocalPosition() const
+Math::Vector3 Transform::GetLocalTranslate() const
 {
 	return Math::Vector3{ local_translate_._41, local_translate_._42, local_translate_._43 };
+}
+
+Math::Vector3 Transform::GetLocalPosition() const
+{
+	return Math::Vector3{ local_._41, local_._42, local_._43 };
 }
 
 Math::Vector3 Transform::GetWorldScale() const
@@ -111,9 +116,14 @@ Math::Vector3 Transform::GetWorldLook() const
 	return Math::Vector3{ world_rotate_._31, world_rotate_._32, world_rotate_._33 };
 }
 
-Math::Vector3 Transform::GetWorldPosition() const
+Math::Vector3 DG::Transform::GetWorldTranslate() const
 {
 	return Math::Vector3{ world_translate_._41, world_translate_._42, world_translate_._43 };
+}
+
+Math::Vector3 Transform::GetWorldPosition() const
+{
+	return Math::Vector3{ world_._41, world_._42, world_._43 };
 }
 
 void Transform::SetLocalRight(Math::Vector3 const& _right)
@@ -215,6 +225,21 @@ Math::Matrix const& Transform::parent_translate() const
 Math::Matrix const& Transform::parent() const
 {
 	return parent_;
+}
+
+Math::Matrix const& Transform::world_scale() const
+{
+	return world_scale_;
+}
+
+Math::Matrix const& Transform::world_rotate() const
+{
+	return world_rotate_;
+}
+
+Math::Matrix const& Transform::world_translate() const
+{
+	return world_translate_;
 }
 
 Math::Matrix const& Transform::world() const

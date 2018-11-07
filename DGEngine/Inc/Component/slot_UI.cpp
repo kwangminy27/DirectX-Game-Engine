@@ -8,6 +8,7 @@
 #include "Component/renderer.h"
 #include "Component/material.h"
 #include "Component/collider_rect.h"
+#include "Component/collider_OOBB.h"
 #include "input_manager.h"
 
 using namespace DG;
@@ -38,13 +39,14 @@ void SlotUI::Initialize()
 		material->SetTexture("Slot", 0, 0, 0);
 		material->SetSampler(LINEAR_SAMPLER, 0, 0, 0);
 
-		auto collider_rect = std::dynamic_pointer_cast<ColliderRect>(object()->AddComponent<ColliderRect>("SlotBody"));
+		auto collider_oobb = std::dynamic_pointer_cast<ColliderOOBB>(object()->AddComponent<ColliderOOBB>("SlotBody"));
 		auto const& mesh = ResourceManager::singleton()->FindMesh("TexRect");
 		auto extent = (mesh->max() - mesh->min()) * 0.5f * transform->GetLocalScale();
 
-		collider_rect->set_collision_group_tag("UI");
-		collider_rect->set_relative_info(Math::Vector3::Zero, extent * 2.f);
-		collider_rect->AddSkipTag("IconBody");
+		collider_oobb->set_collision_group_tag("UI");
+		collider_oobb->set_pivot({ 0.5f, 0.5f, 0.f });
+		collider_oobb->set_relative_info({ extent.x, extent.y, 0.f }, extent, Math::Matrix::Identity);
+		collider_oobb->AddSkipTag("IconBody");
 	}
 	catch (std::exception const& _e)
 	{

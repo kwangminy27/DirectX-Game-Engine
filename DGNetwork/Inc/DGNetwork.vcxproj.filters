@@ -60,17 +60,17 @@
     <ClCompile Include="TCP_socket.cpp">
       <Filter>2. Socket\2. TCP</Filter>
     </ClCompile>
-    <ClCompile Include="input_memory_stream.cpp">
-      <Filter>3. Stream\1. MemoryStream</Filter>
-    </ClCompile>
-    <ClCompile Include="output_memory_stream.cpp">
-      <Filter>3. Stream\1. MemoryStream</Filter>
-    </ClCompile>
     <ClCompile Include="byte_swap.cpp">
       <Filter>3. Stream\2. ByteSwap</Filter>
     </ClCompile>
     <ClCompile Include="server_manager.cpp">
       <Filter>4. Server</Filter>
+    </ClCompile>
+    <ClCompile Include="input_memory_stream.cpp">
+      <Filter>3. Stream\1. MemoryStream</Filter>
+    </ClCompile>
+    <ClCompile Include="output_memory_stream.cpp">
+      <Filter>3. Stream\1. MemoryStream</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,31 +101,31 @@
     <ClInclude Include="TCP_socket.h">
       <Filter>2. Socket\2. TCP</Filter>
     </ClInclude>
-    <ClInclude Include="input_memory_stream.h">
-      <Filter>3. Stream\1. MemoryStream</Filter>
-    </ClInclude>
-    <ClInclude Include="output_memory_stream.h">
-      <Filter>3. Stream\1. MemoryStream</Filter>
-    </ClInclude>
     <ClInclude Include="byte_swap.h">
       <Filter>3. Stream\2. ByteSwap</Filter>
     </ClInclude>
     <ClInclude Include="server_manager.h">
       <Filter>4. Server</Filter>
     </ClInclude>
+    <ClInclude Include="input_memory_stream.h">
+      <Filter>3. Stream\1. MemoryStream</Filter>
+    </ClInclude>
+    <ClInclude Include="output_memory_stream.h">
+      <Filter>3. Stream\1. MemoryStream</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="singleton_temp.inl">
       <Filter>Base</Filter>
+    </None>
+    <None Include="byte_swap.inl">
+      <Filter>3. Stream\2. ByteSwap</Filter>
     </None>
     <None Include="output_memory_stream.inl">
       <Filter>3. Stream\1. MemoryStream</Filter>
     </None>
     <None Include="input_memory_stream.inl">
       <Filter>3. Stream\1. MemoryStream</Filter>
-    </None>
-    <None Include="byte_swap.inl">
-      <Filter>3. Stream\2. ByteSwap</Filter>
     </None>
   </ItemGroup>
 </Project>
