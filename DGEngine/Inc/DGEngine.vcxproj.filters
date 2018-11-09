@@ -94,6 +94,9 @@
     <Filter Include="11. Font">
       <UniqueIdentifier>{68097f88-ec47-4734-a5aa-d9f3d71941f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="09. Component\9. Text">
+      <UniqueIdentifier>{0442d76c-f708-4e73-9194-d0f1a36561c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -243,6 +246,9 @@
     <ClInclude Include="font_manager.h">
       <Filter>11. Font</Filter>
     </ClInclude>
+    <ClInclude Include="Component\text.h">
+      <Filter>09. Component\9. Text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -382,6 +388,9 @@
     </ClCompile>
     <ClCompile Include="font_manager.cpp">
       <Filter>11. Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\text.cpp">
+      <Filter>09. Component\9. Text</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

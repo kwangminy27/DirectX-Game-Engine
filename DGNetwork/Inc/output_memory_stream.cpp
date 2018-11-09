@@ -10,6 +10,16 @@ void OutputMemoryStream::Initialize()
 	capacity_ = STREAM_BUFFER_DEFAULT_SIZE;
 }
 
+void OutputMemoryStream::Serialize(void* _data, uint32_t _byte_count)
+{
+	Write(_data, _byte_count);
+}
+
+bool OutputMemoryStream::IsInput() const
+{
+	return false;
+}
+
 void OutputMemoryStream::PreProcess()
 {
 	head_ = 0;

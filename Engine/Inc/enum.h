@@ -34,6 +34,7 @@ enum class COMPONENT_TYPE
 	ANIMATION_2D,
 	COLLIDER,
 	UI,
+	TEXT,
 	END
 };
 

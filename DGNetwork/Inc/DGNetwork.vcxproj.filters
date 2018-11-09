@@ -72,6 +72,9 @@
     <ClCompile Include="output_memory_stream.cpp">
       <Filter>3. Stream\1. MemoryStream</Filter>
     </ClCompile>
+    <ClCompile Include="memory_stream.cpp">
+      <Filter>3. Stream\1. MemoryStream</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGNetwork_stdafx.h">
@@ -113,6 +116,9 @@
     <ClInclude Include="output_memory_stream.h">
       <Filter>3. Stream\1. MemoryStream</Filter>
     </ClInclude>
+    <ClInclude Include="memory_stream.h">
+      <Filter>3. Stream\1. MemoryStream</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="singleton_temp.inl">
@@ -125,6 +131,9 @@
       <Filter>3. Stream\1. MemoryStream</Filter>
     </None>
     <None Include="input_memory_stream.inl">
+      <Filter>3. Stream\1. MemoryStream</Filter>
+    </None>
+    <None Include="memory_stream.inl">
       <Filter>3. Stream\1. MemoryStream</Filter>
     </None>
   </ItemGroup>

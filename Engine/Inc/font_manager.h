@@ -11,7 +11,8 @@ namespace DG
 		void Initialize();
 
 		Microsoft::WRL::ComPtr<IDWriteTextFormat> const& FindTextFormat(std::string const& _tag) const;
-		Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> const& FindSolidColorBrush(unsigned int _key) const;
+		Microsoft::WRL::ComPtr<IDWriteTextLayout> const& FindTextLayout(std::string const& _tag) const;
+		Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> const& FindSolidColorBrush(Math::Vector4 const& _color) const;
 
 		Microsoft::WRL::ComPtr<IDWriteTextFormat> CreateTextFormat(
 			std::string const& _tag,
@@ -21,8 +22,14 @@ namespace DG
 			DWRITE_FONT_STRETCH _stretch,
 			float _size,
 			std::wstring const& _locale_name);
+		Microsoft::WRL::ComPtr<IDWriteTextLayout> CreateTextLayout(
+			std::string const& _tag,
+			std::wstring const& _text,
+			std::string const& _text_format_tag,
+			float _max_width,
+			float _max_height);
 		Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> CreateSolidColorBrush(Math::Vector4 const& _color);
-		unsigned int CreateColorKey(Math::Vector4 const& _color);
+		unsigned int CreateColorKey(Math::Vector4 const& _color) const;
 
 	private:
 		FontManager() = default;
@@ -34,9 +41,11 @@ namespace DG
 		virtual void _Release() override;
 
 		static Microsoft::WRL::ComPtr<IDWriteTextFormat> text_format_nullptr_;
+		static Microsoft::WRL::ComPtr<IDWriteTextLayout> text_layout_nullptr_;
 		static Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> solid_color_brush_nullptr_;
 		Microsoft::WRL::ComPtr<IDWriteFactory> dwrite_factory_{};
 		std::unordered_map<std::string, Microsoft::WRL::ComPtr<IDWriteTextFormat>> text_format_map_{};
+		std::unordered_map<std::string, Microsoft::WRL::ComPtr<IDWriteTextLayout>> text_layout_map_{};
 		std::unordered_map<unsigned int, Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>> solid_color_brush_map_{};
 	};
 }

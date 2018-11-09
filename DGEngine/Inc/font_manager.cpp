@@ -8,6 +8,7 @@ using namespace DG;
 using Microsoft::WRL::ComPtr;
 
 ComPtr<IDWriteTextFormat> FontManager::text_format_nullptr_{};
+ComPtr<IDWriteTextLayout> FontManager::text_layout_nullptr_{};
 ComPtr<ID2D1SolidColorBrush> FontManager::solid_color_brush_nullptr_{};
 
 void FontManager::Initialize()
@@ -15,6 +16,15 @@ void FontManager::Initialize()
 	try
 	{
 		ThrowIfFailed(DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), &dwrite_factory_));
+
+		CreateTextFormat("¿œπ›", L"±√º≠√º", DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, 20.f, L"ko");
+
+		CreateSolidColorBrush(DirectX::Colors::Red.v);
+		CreateSolidColorBrush(DirectX::Colors::Green.v);
+		CreateSolidColorBrush(DirectX::Colors::Blue.v);
+		CreateSolidColorBrush(DirectX::Colors::Gold.v);
+		CreateSolidColorBrush(DirectX::Colors::Black.v);
+		CreateSolidColorBrush(DirectX::Colors::White.v);
 	}
 	catch (std::exception const& _e)
 	{
@@ -36,9 +46,21 @@ ComPtr<IDWriteTextFormat> const& FontManager::FindTextFormat(std::string const& 
 	return iter->second;
 }
 
-ComPtr<ID2D1SolidColorBrush> const& FontManager::FindSolidColorBrush(unsigned int _key) const
+ComPtr<IDWriteTextLayout> const& FontManager::FindTextLayout(std::string const& _tag) const
 {
-	auto iter = solid_color_brush_map_.find(_key);
+	auto iter = text_layout_map_.find(_tag);
+
+	if (iter == text_layout_map_.end())
+		return text_layout_nullptr_;
+
+	return iter->second;
+}
+
+ComPtr<ID2D1SolidColorBrush> const& FontManager::FindSolidColorBrush(Math::Vector4 const& _color) const
+{
+	auto key = CreateColorKey(_color);
+
+	auto iter = solid_color_brush_map_.find(key);
 
 	if (iter == solid_color_brush_map_.end())
 		return solid_color_brush_nullptr_;
@@ -86,23 +108,53 @@ ComPtr<IDWriteTextFormat> FontManager::CreateTextFormat(
 	return text_format;
 }
 
+ComPtr<IDWriteTextLayout> FontManager::CreateTextLayout(
+	std::string const& _tag,
+	std::wstring const& _text,
+	std::string const& _text_format_tag,
+	float _max_width,
+	float _max_height)
+{
+	ComPtr<IDWriteTextLayout> text_layout = FindTextLayout(_tag);
+
+	if (text_layout)
+		throw std::exception{ "FontManager::CreateTextLayout" };
+
+	auto const& text_format = FindTextFormat(_text_format_tag);
+
+	if (!text_format)
+		throw std::exception{ "FontManager::CreateTextLayout" };
+
+	ThrowIfFailed(dwrite_factory_->CreateTextLayout(
+		_text.c_str(),
+		static_cast<uint32_t>(_text.length()),
+		text_format.Get(),
+		_max_width,
+		_max_height,
+		&text_layout));
+
+	text_layout_map_.insert(make_pair(_tag, text_layout));
+
+	return text_layout;
+}
+
 ComPtr<ID2D1SolidColorBrush> FontManager::CreateSolidColorBrush(Math::Vector4 const& _color)
 {
-	auto key = CreateColorKey(_color);
-
-	auto solid_color_brush = FindSolidColorBrush(key);
+	auto solid_color_brush = FindSolidColorBrush(_color);
 
 	if (solid_color_brush)
 		throw std::exception{ "FontManager::CreateSolidColorBrush" };
 
 	ThrowIfFailed(Device::singleton()->d2d_render_target()->CreateSolidColorBrush(D2D1::ColorF{ _color.x, _color.y, _color.z, _color.w }, &solid_color_brush));
 
+	auto key = CreateColorKey(_color);
+
 	solid_color_brush_map_.insert(make_pair(key, solid_color_brush));
 
 	return solid_color_brush;
 }
 
-unsigned int FontManager::CreateColorKey(Math::Vector4 const& _color)
+unsigned int FontManager::CreateColorKey(Math::Vector4 const& _color) const
 {
 	auto color = _color;
 	color *= 255.f;

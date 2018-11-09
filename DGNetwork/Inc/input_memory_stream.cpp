@@ -11,6 +11,16 @@ void InputMemoryStream::Initialize()
 	capacity_ = 1024;
 }
 
+void InputMemoryStream::Serialize(void* _data, uint32_t _byte_count)
+{
+	Read(_data, _byte_count);
+}
+
+bool InputMemoryStream::IsInput() const
+{
+	return true;
+}
+
 void InputMemoryStream::PreProcess()
 {
 	head_ = 0;

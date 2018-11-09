@@ -13,6 +13,7 @@
 #include "Scene/scene_manager.h"
 #include "collision_manager.h"
 #include "input_manager.h"
+#include "font_manager.h"
 
 #include <DGNetwork_stdafx.h>
 #include <thread_manager.h>
@@ -41,6 +42,7 @@ void Core::Initialize(wstring const& _class_name, wstring const& _window_name, H
 		ResourceManager::singleton()->Initialize();
 		RenderingManager::singleton()->Initialize();
 		CollisionManager::singleton()->Initialize();
+		FontManager::singleton()->Initialize();
 		SceneManager::singleton()->Initialize();
 		InputManager::singleton()->Initialize();
 
@@ -136,6 +138,7 @@ void Core::_Release()
 {
 	InputManager::singleton().reset();
 	SceneManager::singleton().reset();
+	FontManager::singleton().reset();
 	CollisionManager::singleton().reset();
 	RenderingManager::singleton().reset();
 	ResourceManager::singleton().reset();

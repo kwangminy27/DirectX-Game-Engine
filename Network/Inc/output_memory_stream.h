@@ -1,17 +1,22 @@
 #pragma once
 
 #include "singleton_temp.h"
+#include "memory_stream.h"
 
 namespace DG
 {
 	// LinkingContext ÇÊ¿ä
 
 	// Byte
-	class DG_NETWORK_DLL OutputMemoryStream : public Singleton_Temp<OutputMemoryStream>
+	class DG_NETWORK_DLL OutputMemoryStream : public MemoryStream, public Singleton_Temp<OutputMemoryStream>
 	{
 		friend class Singleton_Temp<OutputMemoryStream>;
 	public:
 		virtual void Initialize() override;
+
+		virtual void Serialize(void* _data, uint32_t _byte_count) override;
+		virtual bool IsInput() const override;
+
 		void PreProcess();
 
 		char const* GetBufferPtr() const;

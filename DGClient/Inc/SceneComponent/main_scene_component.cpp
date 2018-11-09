@@ -13,6 +13,7 @@
 #include <Component/icon_UI.h>
 #include <Component/Slot_ui.h>
 #include <Component/collider_rect.h>
+#include <Component/text.h>
 
 // Test
 #include <Component/material.h>
@@ -166,6 +167,18 @@ void MainSceneComponent::Initialize()
 	icon_2_component->AddSlot(slot_2);
 	icon_2_component->AddSlot(slot_3);
 	icon_2_component->set_current_slot(slot_2);
+
+	// Text
+	auto text = Object::CreateObject("Text", ui_layer);
+	auto text_component = std::dynamic_pointer_cast<Text>(text->AddComponent<Text>("Text"));
+	
+	text_component->set_text(L"Hello, world!");
+	text_component->set_text_alignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+	text_component->set_paragraph_alignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+	text_component->set_ui_flag(true);
+	text_component->set_text_format_tag("ÀÏ¹Ý");
+	text_component->set_brush_color(DirectX::Colors::Black.v);
+	text_component->set_render_area({ 0.f, 0.f, 200.f, 100.f });
 }
 
 MainSceneComponent::MainSceneComponent(MainSceneComponent const& _other) : SceneComponent(_other)
