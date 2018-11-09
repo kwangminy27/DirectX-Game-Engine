@@ -175,8 +175,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="input_memory_stream.cpp" />
+    <ClCompile Include="linking_context.cpp" />
     <ClCompile Include="memory_stream.cpp" />
     <ClCompile Include="output_memory_stream.cpp" />
+    <ClCompile Include="replication_manager.cpp" />
     <ClCompile Include="server_manager.cpp" />
     <ClCompile Include="singleton_temp.cpp" />
     <ClCompile Include="socket_address.cpp" />
@@ -193,9 +195,11 @@
     <ClInclude Include="byte_swap.h" />
     <ClInclude Include="DGNetwork_stdafx.h" />
     <ClInclude Include="input_memory_stream.h" />
+    <ClInclude Include="linking_context.h" />
     <ClInclude Include="macro.h" />
     <ClInclude Include="memory_stream.h" />
     <ClInclude Include="output_memory_stream.h" />
+    <ClInclude Include="replication_manager.h" />
     <ClInclude Include="server_manager.h" />
     <ClInclude Include="singleton_temp.h" />
     <ClInclude Include="socket_address.h" />

@@ -14,6 +14,7 @@
 #define SHADER_PATH "ShaderPath"
 #define TEXTURE_PATH "TexturePath"
 #define DATA_PATH "DataPath"
+#define SOUND_PATH "SoundPath"
 
 // ========== Shader Key ==========
 #define BASIC_SHADER "BasicShader"

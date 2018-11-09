@@ -20,9 +20,9 @@ namespace DG
 		Math::Vector3 const& shadow_offset() const;
 		std::string const& text_format_tag() const;
 		std::string const& text_layout_tag() const;
-		Math::Vector4 const& shadow_brush_color() const;
 		Math::Vector4 const& brush_color() const;
-		D2D1_RECT_F render_area() const;
+		Math::Vector4 const& shadow_brush_color() const;
+		D2D1_RECT_F text_area() const;
 
 		void set_text(std::wstring const& _text);
 		void set_text_alignment(DWRITE_TEXT_ALIGNMENT _alignment);
@@ -34,9 +34,9 @@ namespace DG
 		void set_shadow_offset(Math::Vector3 const& _offset);
 		void set_text_format_tag(std::string const& _tag);
 		void set_text_layout_tag(std::string const& _tag);
-		void set_shadow_brush_color(Math::Vector4 const& _color);
 		void set_brush_color(Math::Vector4 const& _color);
-		void set_render_area(D2D1_RECT_F _area);
+		void set_shadow_brush_color(Math::Vector4 const& _color);
+		void set_text_area(D2D1_RECT_F _area); // 순서대로 left, bottom, right, top
 
 	private:
 		Text() = default;
@@ -65,8 +65,8 @@ namespace DG
 		Math::Vector3 shadow_offset_{};
 		std::string text_format_tag_{};
 		std::string text_layout_tag_{};
-		Math::Vector4 shadow_brush_color_{};
 		Math::Vector4 brush_color_{};
-		D2D1_RECT_F render_area_{};
+		Math::Vector4 shadow_brush_color_{};
+		D2D1_RECT_F text_area_{};
 	};
 }

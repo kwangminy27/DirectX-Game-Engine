@@ -194,6 +194,9 @@
     <ProjectReference Include="..\..\DGNetwork\Inc\DGNetwork.vcxproj">
       <Project>{39e14631-9d05-4394-a154-5ef874738a6c}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\DirectXTK\DirectXTK_Desktop_2017_Win10.vcxproj">
+      <Project>{e0b52ae7-e160-4d32-bf3f-910b785e5a8e}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DGClient.rc" />

@@ -16,8 +16,6 @@ void Text::Initialize()
 		type_ = COMPONENT_TYPE::TEXT;
 
 		auto transform = std::dynamic_pointer_cast<Transform>(object()->AddComponent<Transform>("Transform"));
-		
-		transform->SetLocalPosition({ 0.f, 0.f, 0.f });
 	}
 	catch (std::exception const& _e)
 	{
@@ -79,19 +77,19 @@ std::string const& Text::text_layout_tag() const
 	return text_layout_tag_;
 }
 
-Math::Vector4 const& Text::shadow_brush_color() const
-{
-	return shadow_brush_color_;
-}
-
 Math::Vector4 const& Text::brush_color() const
 {
 	return brush_color_;
 }
 
-D2D1_RECT_F Text::render_area() const
+Math::Vector4 const& Text::shadow_brush_color() const
 {
-	return render_area_;
+	return shadow_brush_color_;
+}
+
+D2D1_RECT_F Text::text_area() const
+{
+	return text_area_;
 }
 
 void Text::set_text(std::wstring const& _text)
@@ -144,19 +142,19 @@ void Text::set_text_layout_tag(std::string const& _tag)
 	text_layout_tag_ = _tag;
 }
 
-void Text::set_shadow_brush_color(Math::Vector4 const& _color)
-{
-	shadow_brush_color_ = _color;
-}
-
 void Text::set_brush_color(Math::Vector4 const& _color)
 {
 	brush_color_ = _color;
 }
 
-void Text::set_render_area(D2D1_RECT_F _area)
+void Text::set_shadow_brush_color(Math::Vector4 const& _color)
 {
-	render_area_ = _area;
+	shadow_brush_color_ = _color;
+}
+
+void Text::set_text_area(D2D1_RECT_F _area)
+{
+	text_area_ = _area;
 }
 
 Text::Text(Text const& _other) : Component(_other)
@@ -170,7 +168,7 @@ Text::Text(Text const& _other) : Component(_other)
 	text_layout_tag_ = _other.text_layout_tag_;
 	shadow_brush_color_ = _other.shadow_brush_color_;
 	brush_color_ = _other.brush_color_;
-	render_area_ = _other.render_area_;
+	text_area_ = _other.text_area_;
 }
 
 Text::Text(Text&& _other) noexcept : Component(std::move(_other))
@@ -184,7 +182,7 @@ Text::Text(Text&& _other) noexcept : Component(std::move(_other))
 	text_layout_tag_ = std::move(_other.text_layout_tag_);
 	shadow_brush_color_ = std::move(_other.shadow_brush_color_);
 	brush_color_ = std::move(_other.brush_color_);
-	render_area_ = std::move(_other.render_area_);
+	text_area_ = std::move(_other.text_area_);
 }
 
 void Text::_Release()
@@ -231,7 +229,7 @@ void Text::_Render(float _time)
 		text_layout->SetTextAlignment(text_alignment_);
 		text_layout->SetParagraphAlignment(paragraph_alignment_);
 
-		if (ui_flag_)
+		if (!ui_flag_)
 		{
 			auto const& camera_transform = std::dynamic_pointer_cast<Transform>(scene()->main_camera()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
@@ -266,7 +264,10 @@ void Text::_Render(float _time)
 	}
 	else
 	{ // text_layout이 없는 경우
-		if (ui_flag_)
+		auto render_area = text_area_;
+		auto shadow_render_area = text_area_;
+
+		if (!ui_flag_)
 		{
 			auto const& camera_transform = std::dynamic_pointer_cast<Transform>(scene()->main_camera()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
@@ -282,24 +283,30 @@ void Text::_Render(float _time)
 			else
 				shadow_brush->SetOpacity(1.f);
 
-			shadow_position.y = static_cast<float>(RESOLUTION::HEIGHT) - shadow_position.y;
+			shadow_render_area.left += shadow_position.x;
+			shadow_render_area.right += shadow_position.x;
+			shadow_render_area.top += static_cast<float>(RESOLUTION::HEIGHT) - shadow_position.y;
+			shadow_render_area.bottom += static_cast<float>(RESOLUTION::HEIGHT) - shadow_position.y;
 
 			d2d_render_target->DrawTextW(
 				text_.c_str(),
 				static_cast<uint32_t>(text_.length()),
 				text_format.Get(),
-				render_area_,
-				brush.Get()
+				shadow_render_area,
+				shadow_brush.Get()
 			);
 		}
 
-		position.y = static_cast<float>(RESOLUTION::HEIGHT) - position.y;
+		render_area.left += position.x;
+		render_area.right += position.x;
+		render_area.top += static_cast<float>(RESOLUTION::HEIGHT) - position.y;
+		render_area.bottom += static_cast<float>(RESOLUTION::HEIGHT) - position.y;
 
 		d2d_render_target->DrawTextW(
 			text_.c_str(),
 			static_cast<uint32_t>(text_.length()),
 			text_format.Get(),
-			render_area_,
+			render_area,
 			brush.Get()
 		);
 	}

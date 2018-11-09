@@ -14,6 +14,7 @@
 #include "collision_manager.h"
 #include "input_manager.h"
 #include "font_manager.h"
+#include "audio_manager.h"
 
 #include <DGNetwork_stdafx.h>
 #include <thread_manager.h>
@@ -45,6 +46,7 @@ void Core::Initialize(wstring const& _class_name, wstring const& _window_name, H
 		FontManager::singleton()->Initialize();
 		SceneManager::singleton()->Initialize();
 		InputManager::singleton()->Initialize();
+		AudioManager::singleton()->Initialize();
 
 		SetDefaultState(_mode);
 
@@ -136,6 +138,7 @@ HWND Core::window() const
 
 void Core::_Release()
 {
+	AudioManager::singleton().reset();
 	InputManager::singleton().reset();
 	SceneManager::singleton().reset();
 	FontManager::singleton().reset();
@@ -222,6 +225,8 @@ void Core::_Logic()
 	SceneManager::singleton()->TrySceneChange();
 
 	InputManager::singleton()->Update();
+
+	AudioManager::singleton()->Update();
 
 	timer_->Update();
 

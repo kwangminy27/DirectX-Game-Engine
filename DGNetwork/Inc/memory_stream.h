@@ -10,5 +10,9 @@ namespace DG
 		virtual bool IsInput() const = 0;
 	};
 
+	constexpr int GetRequiredBits(int _value, int bits = 0)
+	{
+		return _value ? GetRequiredBits(_value >> 1, bits + 1) : bits;
+	}
 #include "memory_stream.inl"
 }

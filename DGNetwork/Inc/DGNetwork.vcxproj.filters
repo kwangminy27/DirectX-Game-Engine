@@ -75,6 +75,12 @@
     <ClCompile Include="memory_stream.cpp">
       <Filter>3. Stream\1. MemoryStream</Filter>
     </ClCompile>
+    <ClCompile Include="linking_context.cpp">
+      <Filter>3. Stream\3. LinkingContext</Filter>
+    </ClCompile>
+    <ClCompile Include="replication_manager.cpp">
+      <Filter>5. Replication</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGNetwork_stdafx.h">
@@ -118,6 +124,12 @@
     </ClInclude>
     <ClInclude Include="memory_stream.h">
       <Filter>3. Stream\1. MemoryStream</Filter>
+    </ClInclude>
+    <ClInclude Include="linking_context.h">
+      <Filter>3. Stream\3. LinkingContext</Filter>
+    </ClInclude>
+    <ClInclude Include="replication_manager.h">
+      <Filter>5. Replication</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

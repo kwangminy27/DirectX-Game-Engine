@@ -97,6 +97,15 @@
     <Filter Include="09. Component\9. Text">
       <UniqueIdentifier>{0442d76c-f708-4e73-9194-d0f1a36561c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="13. Video">
+      <UniqueIdentifier>{e7f4c819-051f-460a-8b21-30483a91b4d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="14. AI">
+      <UniqueIdentifier>{da31622d-f663-4d1b-a589-6522b1a299b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="12. Audio">
+      <UniqueIdentifier>{85131709-6f52-485e-8a75-ff5ba18333aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -249,6 +258,9 @@
     <ClInclude Include="Component\text.h">
       <Filter>09. Component\9. Text</Filter>
     </ClInclude>
+    <ClInclude Include="audio_manager.h">
+      <Filter>12. Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -391,6 +403,9 @@
     </ClCompile>
     <ClCompile Include="Component\text.cpp">
       <Filter>09. Component\9. Text</Filter>
+    </ClCompile>
+    <ClCompile Include="audio_manager.cpp">
+      <Filter>12. Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

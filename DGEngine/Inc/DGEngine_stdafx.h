@@ -47,6 +47,7 @@
 #include <DDSTextureLoader.h>
 #include <WICTextureLoader.h>
 #include <ScreenGrab.h>
+#include <Audio.h>
 
 // DGEngine
 #include "macro.h"
