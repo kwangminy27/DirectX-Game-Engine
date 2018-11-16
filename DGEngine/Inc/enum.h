@@ -35,6 +35,8 @@ enum class COMPONENT_TYPE
 	COLLIDER,
 	UI,
 	TEXT,
+	STAGE,
+	TILE,
 	END
 };
 
@@ -136,4 +138,19 @@ enum class TRANSFORM_FLAG
 	SCALE = 1 << 0,
 	ROTATE = 1 << 1,
 	TRANSLATE = 1 << 2
+};
+
+enum class STAGE_TYPE
+{
+	RECT,
+	ISOMETRIC,
+	HONEY,
+	MAX
+};
+
+enum class TILE_OPTION
+{
+	NORMAL,
+	BLOCKED,
+	MAX
 };

@@ -13,12 +13,17 @@
 #include <Component/collider_rect.h>
 #include <Component/collider_circle.h>
 #include <Component/collider_OOBB.h>
+#include <Component/camera.h>
 #include <input_manager.h>
 
 using namespace DG;
 
 void PlayerComponent::Initialize()
 {
+	auto const& camera = scene()->main_camera();
+	auto const& camera_component = std::dynamic_pointer_cast<Camera>(camera->FindComponent(COMPONENT_TYPE::CAMERA));
+	camera_component->set_target(object());
+
 	type_ = static_cast<COMPONENT_TYPE>(USER_COMPONENT_TYPE::PLAYER);
 
 	auto transform = std::dynamic_pointer_cast<Transform>(object()->AddComponent<Transform>("Transform"));

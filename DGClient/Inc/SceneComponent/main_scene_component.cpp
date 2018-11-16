@@ -4,6 +4,8 @@
 #include "UserComponent/monster_component.h"
 #include "UserComponent/missile_component.h"
 
+#include <core.h>
+#include <Scene/scene_manager.h>
 #include <Scene/scene.h>
 #include <Scene/layer.h>
 #include <object.h>
@@ -27,6 +29,9 @@
 #include <Component/title_bar_UI.h>
 
 #include <input_manager.h>
+
+// Stage
+#include <Component/stage.h>
 
 using namespace DG;
 
@@ -58,53 +63,56 @@ void MainSceneComponent::Initialize()
 	auto player = Object::CreateObject("Player", default_layer);
 	auto player_component = player->AddComponent<PlayerComponent>("Player");
 
+	auto const& player_transform = std::static_pointer_cast<Transform>(player->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	player_transform->SetLocalPosition({ 4000.f, 2000.f, 0.f });
+
 	// Child
 	int transform_flag{};
 	//transform_flag = static_cast<int>(TRANSFORM_FLAG::SCALE);
 	transform_flag |= static_cast<int>(TRANSFORM_FLAG::ROTATE);
 	transform_flag |= static_cast<int>(TRANSFORM_FLAG::TRANSLATE);
 
-	auto child = Object::CreateObject("Child", nullptr);
-	player->AddChild(child);
-	auto child_component = child->AddComponent<SlotUI>("Slot");
+	//auto child = Object::CreateObject("Child", nullptr);
+	//player->AddChild(child);
+	//auto child_component = child->AddComponent<SlotUI>("Slot");
 
-	auto const& child_transform = std::dynamic_pointer_cast<Transform>(child->FindComponent(COMPONENT_TYPE::TRANSFORM));
-	child_transform->SetLocalPosition({ 150.f, 0.f, 0.f });
-	child_transform->set_transform_flag(transform_flag);
+	//auto const& child_transform = std::dynamic_pointer_cast<Transform>(child->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	//child_transform->SetLocalPosition({ 150.f, 0.f, 0.f });
+	//child_transform->set_transform_flag(transform_flag);
 
-	auto child_2 = Object::CreateObject("Child", nullptr);
-	player->AddChild(child_2);
-	auto child_2_component = child_2->AddComponent<SlotUI>("Slot");
+	//auto child_2 = Object::CreateObject("Child", nullptr);
+	//player->AddChild(child_2);
+	//auto child_2_component = child_2->AddComponent<SlotUI>("Slot");
 
-	auto const& child_2_transform = std::dynamic_pointer_cast<Transform>(child_2->FindComponent(COMPONENT_TYPE::TRANSFORM));
-	child_2_transform->SetLocalPosition({ 50.f, 0.f, 0.f });
-	child_2_transform->set_transform_flag(transform_flag);
+	//auto const& child_2_transform = std::dynamic_pointer_cast<Transform>(child_2->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	//child_2_transform->SetLocalPosition({ 50.f, 0.f, 0.f });
+	//child_2_transform->set_transform_flag(transform_flag);
 
-	// child's child
-	transform_flag = {};
-	//transform_flag = static_cast<int>(TRANSFORM_FLAG::SCALE);
-	//transform_flag |= static_cast<int>(TRANSFORM_FLAG::ROTATE);
-	transform_flag |= static_cast<int>(TRANSFORM_FLAG::TRANSLATE);
+	//// child's child
+	//transform_flag = {};
+	////transform_flag = static_cast<int>(TRANSFORM_FLAG::SCALE);
+	////transform_flag |= static_cast<int>(TRANSFORM_FLAG::ROTATE);
+	//transform_flag |= static_cast<int>(TRANSFORM_FLAG::TRANSLATE);
 
-	auto child_child = Object::CreateObject("Child", nullptr);
-	child->AddChild(child_child);
-	auto child_child_component = child_child->AddComponent<SlotUI>("Slot");
+	//auto child_child = Object::CreateObject("Child", nullptr);
+	//child->AddChild(child_child);
+	//auto child_child_component = child_child->AddComponent<SlotUI>("Slot");
 
-	auto const& child_child_transform = std::dynamic_pointer_cast<Transform>(child_child->FindComponent(COMPONENT_TYPE::TRANSFORM));
-	child_child_transform->SetLocalPosition({ 100.f, 0.f, 0.f });
-	child_child_transform->set_transform_flag(transform_flag);
+	//auto const& child_child_transform = std::dynamic_pointer_cast<Transform>(child_child->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	//child_child_transform->SetLocalPosition({ 100.f, 0.f, 0.f });
+	//child_child_transform->set_transform_flag(transform_flag);
 
-	// TitleBar_1
-	auto title_bar1 = Object::CreateObject("TitleBar", ui_layer);
-	auto title_bar1_component = std::dynamic_pointer_cast<TitleBarUI>(title_bar1->AddComponent<TitleBarUI>("Bar"));
+	//// TitleBar_1
+	//auto title_bar1 = Object::CreateObject("TitleBar", ui_layer);
+	//auto title_bar1_component = std::dynamic_pointer_cast<TitleBarUI>(title_bar1->AddComponent<TitleBarUI>("Bar"));
 
-	title_bar1_component->set_owner(player);
-	title_bar1_component->set_callback([_p = title_bar1_component.get()](float _time) {
-		auto const& input_manager = InputManager::singleton();
-		auto const& owner_transform = std::dynamic_pointer_cast<Transform>(_p->owner()->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	//title_bar1_component->set_owner(player);
+	//title_bar1_component->set_callback([_p = title_bar1_component.get()](float _time) {
+	//	auto const& input_manager = InputManager::singleton();
+	//	auto const& owner_transform = std::dynamic_pointer_cast<Transform>(_p->owner()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
-		owner_transform->Translation(input_manager->mouse_displacement());
-	});
+	//	owner_transform->Translation(input_manager->mouse_displacement());
+	//});
 
 	monster_component->set_target(player);
 
@@ -170,8 +178,8 @@ void MainSceneComponent::Initialize()
 	icon_2_component->set_current_slot(slot_2);
 
 	// Text
-	auto text = Object::CreateObject("Text", ui_layer);
-	auto text_component = std::dynamic_pointer_cast<Text>(text->AddComponent<Text>("Text"));
+	auto text = Object::CreateObject("FPSText", ui_layer);
+	auto text_component = std::dynamic_pointer_cast<Text>(text->AddComponent<Text>("FPSTextComponent"));
 	auto const& text_transform = std::dynamic_pointer_cast<Transform>(text->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
 	text_transform->Translation({ 0.f, 600.f, 0.f });
@@ -186,6 +194,11 @@ void MainSceneComponent::Initialize()
 	text_component->set_brush_color(DirectX::Colors::Gold.v);
 	text_component->set_shadow_brush_color(DirectX::Colors::Black.v);
 	text_component->set_text_area({ 0.f, 0.f, 200.f, 200.f });
+
+	// Stage
+	auto stage = Object::CreateObject("Stage", default_layer);
+	auto stage_component = std::dynamic_pointer_cast<Stage>(stage->AddComponent<Stage>("StageComponent"));
+	stage_component->CreateTile(STAGE_TYPE::ISOMETRIC, 100, 100, { 80.f, 40.f });
 }
 
 MainSceneComponent::MainSceneComponent(MainSceneComponent const& _other) : SceneComponent(_other)
@@ -216,6 +229,16 @@ void MainSceneComponent::_Input(float _time)
 	}
 	if (GetAsyncKeyState(VK_F9) & 0x8000)
 		AudioManager::singleton()->RemoveSoundEffectInstance("town1_loop");
+}
+
+void MainSceneComponent::_Update(float _time)
+{
+	auto const& text = SceneManager::singleton()->FindObject("FPSText");
+	auto const& text_component = std::static_pointer_cast<Text>(text->FindComponent("FPSTextComponent"));
+
+	auto FPS = Core::singleton()->GetFPS();
+
+	text_component->set_text(to_wstring(FPS));
 }
 
 std::unique_ptr<SceneComponent, std::function<void(SceneComponent*)>> MainSceneComponent::_Clone() const

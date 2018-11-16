@@ -86,6 +86,8 @@ void ResourceManager::Initialize()
 		_CreateTexture2D("Slot", L"slot.png", TEXTURE_PATH);
 		_CreateTexture2D("Apple", L"apple.png", TEXTURE_PATH);
 		_CreateTexture2D("Cake", L"cake.png", TEXTURE_PATH);
+		_CreateTexture2D("Light", L"light.png", TEXTURE_PATH);
+		_CreateTexture2D("BaseTile", L"base_tile.png", TEXTURE_PATH);
 
 		_CreateSampler(
 			LINEAR_SAMPLER,

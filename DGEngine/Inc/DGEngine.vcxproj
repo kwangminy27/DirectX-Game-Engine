@@ -187,7 +187,9 @@
     <ClInclude Include="Component\radio_button_UI.h" />
     <ClInclude Include="Component\renderer.h" />
     <ClInclude Include="Component\slot_UI.h" />
+    <ClInclude Include="Component\stage.h" />
     <ClInclude Include="Component\text.h" />
+    <ClInclude Include="Component\tile.h" />
     <ClInclude Include="Component\title_bar_UI.h" />
     <ClInclude Include="Component\transform.h" />
     <ClInclude Include="Component\UI.h" />
@@ -240,7 +242,9 @@
     <ClCompile Include="Component\radio_button_UI.cpp" />
     <ClCompile Include="Component\renderer.cpp" />
     <ClCompile Include="Component\slot_UI.cpp" />
+    <ClCompile Include="Component\stage.cpp" />
     <ClCompile Include="Component\text.cpp" />
+    <ClCompile Include="Component\tile.cpp" />
     <ClCompile Include="Component\title_bar_UI.cpp" />
     <ClCompile Include="Component\transform.cpp" />
     <ClCompile Include="Component\UI.cpp" />

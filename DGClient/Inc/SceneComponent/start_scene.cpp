@@ -12,6 +12,7 @@
 #include <Component/checkbox_UI.h>
 #include <Component/radio_button_UI.h>
 #include <Component/collider_rect.h>
+#include <Component/material.h>
 
 using namespace DG;
 
@@ -31,6 +32,9 @@ void StartScene::Initialize()
 	button_UI_component->set_callback([this](float _time) {
 		_StartButtonCallback(_time);
 	});
+
+	auto const& button_material = std::dynamic_pointer_cast<Material>(start_button->FindComponent(COMPONENT_TYPE::MATERIAL));
+	button_material->SetTexture("Light", 1, 0, 0);
 
 	auto checkbox = Object::CreateObject("CheckboxObj", ui_layer);
 	auto checkbox_ui_component = std::dynamic_pointer_cast<CheckboxUI>(checkbox->AddComponent<CheckboxUI>("CheckboxUI"));
@@ -74,8 +78,6 @@ void StartScene::Initialize()
 		_p1->set_checkbox_state(CHECKBOX_STATE::NORMAL);
 		_p2->set_checkbox_state(CHECKBOX_STATE::CHECKED);
 	});
-
-	// TitleBar
 }
 
 StartScene::StartScene(StartScene const& _other) : SceneComponent(_other)

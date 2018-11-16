@@ -21,6 +21,7 @@ namespace DG
 		void set_height(float _height);
 		void set_near(float _near);
 		void set_far(float _far);
+		void set_target(std::shared_ptr<Object> const& _target);
 
 	private:
 		Camera() = default;
@@ -44,5 +45,6 @@ namespace DG
 		float height_{};
 		float near_{};
 		float far_{};
+		std::weak_ptr<Object> target_{};
 	};
 }

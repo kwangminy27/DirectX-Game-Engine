@@ -138,7 +138,7 @@ void InputManager::Update()
 	mouse_world_position_ = mouse_client_position_ + std::dynamic_pointer_cast<Transform>(camera->FindComponent(COMPONENT_TYPE::TRANSFORM))->GetLocalPosition();
 
 	auto const& mouse_transform = std::dynamic_pointer_cast<Transform>(mouse_->FindComponent(COMPONENT_TYPE::TRANSFORM));
-	mouse_transform->SetLocalPosition(mouse_client_position_);
+	mouse_transform->SetLocalPosition(mouse_world_position_);
 
 	if (!mouse_cursor_show_state_ && mouse_client_position_.x <= 0.f && mouse_client_position_.x >= static_cast<float>(RESOLUTION::WIDTH) && mouse_client_position_.y <= 0.f && mouse_client_position_.y >= static_cast<float>(RESOLUTION::HEIGHT))
 	{
@@ -167,14 +167,6 @@ void InputManager::Render(float _time)
 	mouse_transform->_Update(_time);
 
 	mouse_->_Render(_time);
-}
-
-void InputManager::UpdateMouseColliderPosition()
-{
-	auto const& camera_transform = std::dynamic_pointer_cast<Transform>(SceneManager::singleton()->scene()->main_camera()->FindComponent(COMPONENT_TYPE::TRANSFORM));
-	auto const& mouse_world_collider = std::dynamic_pointer_cast<ColliderPoint>(mouse_->FindComponent("MouseWorldCollider"));
-
-	mouse_world_collider->set_relative_info(camera_transform->GetLocalPosition());
 }
 
 bool InputManager::KeyPush(std::string const& _tag) const

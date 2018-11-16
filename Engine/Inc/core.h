@@ -18,6 +18,8 @@ namespace DG
 		HINSTANCE instance() const;
 		HWND window() const;
 
+		int GetFPS() const;
+
 	private:
 		Core() = default;
 		Core(Core const&) = delete;

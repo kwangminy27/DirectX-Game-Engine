@@ -34,13 +34,16 @@ cbuffer Button : register(b10)
 }
 
 Texture2D g_texture : register(t0);
+Texture2D g_texture_2 : register(t1);
 SamplerState g_sampler : register(s0);
 
 PS_OUTPUT_SINGLE_TARGET ButtonPS(VS_OUTPUT_POSITION_TEX input)
 {
 	PS_OUTPUT_SINGLE_TARGET output = (PS_OUTPUT_SINGLE_TARGET)0;
+	
+	float4 color = g_texture_2.Sample(g_sampler, input.uv);
 
-	output.target = g_texture.Sample(g_sampler, input.uv) * g_diffuse * g_color;
+	output.target = g_texture.Sample(g_sampler, input.uv) * g_diffuse * g_color + float4(color.r, color.r, color.r, 0.f);
 
 	return output;
 }

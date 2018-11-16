@@ -136,6 +136,11 @@ HWND Core::window() const
 	return window_;
 }
 
+int Core::GetFPS() const
+{
+	return timer_->frame_per_second();
+}
+
 void Core::_Release()
 {
 	AudioManager::singleton().reset();

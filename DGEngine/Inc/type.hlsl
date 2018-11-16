@@ -75,4 +75,5 @@ cbuffer Button : register(b10)
 }
 
 Texture2D g_texture : register(t0);
+Texture2D g_texture_2 : register(t1);
 SamplerState g_sampler : register(s0);

@@ -106,6 +106,9 @@
     <Filter Include="12. Audio">
       <UniqueIdentifier>{85131709-6f52-485e-8a75-ff5ba18333aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="09. Component\10. Stage">
+      <UniqueIdentifier>{66176287-49b1-47e4-8eb1-56aed27800b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -261,6 +264,12 @@
     <ClInclude Include="audio_manager.h">
       <Filter>12. Audio</Filter>
     </ClInclude>
+    <ClInclude Include="Component\stage.h">
+      <Filter>09. Component\10. Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\tile.h">
+      <Filter>09. Component\10. Stage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DGEngine_stdafx.cpp">
@@ -406,6 +415,12 @@
     </ClCompile>
     <ClCompile Include="audio_manager.cpp">
       <Filter>12. Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\stage.cpp">
+      <Filter>09. Component\10. Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\tile.cpp">
+      <Filter>09. Component\10. Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

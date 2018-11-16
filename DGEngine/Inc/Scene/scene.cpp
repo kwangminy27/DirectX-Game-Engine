@@ -196,7 +196,6 @@ void Scene::_Update(float _time)
 	}
 
 	main_camera_->_Update(_time);
-	InputManager::singleton()->UpdateMouseColliderPosition();
 }
 
 void Scene::_LateUpdate(float _time)

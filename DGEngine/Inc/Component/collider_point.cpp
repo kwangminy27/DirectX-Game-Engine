@@ -74,6 +74,9 @@ void ColliderPoint::_LateUpdate(float _time)
 {
 	Math::Vector3 object_position = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM))->GetWorldPosition();
 
+	if (collision_group_tag_ == "UI")
+		object_position -= std::static_pointer_cast<Transform>(scene()->main_camera()->FindComponent(COMPONENT_TYPE::TRANSFORM))->GetWorldPosition();
+
 	final_info_ = object_position + relative_info_;
 
 	collider_min_ = final_info_;

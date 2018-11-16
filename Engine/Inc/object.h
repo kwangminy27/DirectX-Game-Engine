@@ -14,6 +14,7 @@ namespace DG
 		friend class Scene;
 		friend class Layer;
 		friend class InputManager;
+		friend class Stage;
 	public:
 		static std::shared_ptr<Object> CreatePrototype(std::string const& _tag, bool _next_scene_flag);
 		static std::shared_ptr<Object> CreateClone(std::string const& _tag, std::string const& _prototype_tag, std::shared_ptr<Layer> const& _layer, bool _next_scene_flag);

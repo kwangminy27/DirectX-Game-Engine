@@ -173,6 +173,37 @@ void ServerManager::ExcuteTCPEventSelectLoop()
 	}
 }
 
+//void ServerManager::ExcuteTCPIOCPLoop()
+//{
+	//std::vector<std::unique_ptr<std::thread>> worker_thread_vector{};
+	//std::unique_ptr<std::thread> accept_thread{};
+
+	//HANDLE iocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE, nullptr, NULL, 0);
+
+	//for(int i = 0; i < 6; ++i)
+	//	worker_thread_vector.push_back(std::make_unique<thread>(WorkFunc));
+	//accept_thread = std::make_unique<thread>(AcceptFunc);
+
+	//while (true)
+	//	std::this_thread::sleep_for(1s);
+
+	//for (auto const& _worker_thread : worker_thread_vector)
+	//	_worker_thread->join();
+	//accept_thread->join();
+//}
+
+//void ServerManager::WorkFunc(HANDLE _iocp)
+//{
+//	DWORD io_size{};
+//	ULONG_PTR key{};
+//	OverlapEx* overlapped{};
+//	bool result{};
+//}
+//
+//void ServerManager::AcceptFunc()
+//{
+//}
+
 void ServerManager::_Release()
 {
 	WSACleanup();

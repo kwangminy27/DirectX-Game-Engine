@@ -23,8 +23,6 @@ namespace DG
 		void LateUpdate(float _time);
 		void Render(float _time);
 
-		void UpdateMouseColliderPosition();
-
 		bool KeyPush(std::string const& _tag) const;
 		bool KeyPressed(std::string const& _tag) const;
 		bool KeyUp(std::string const& _tag) const;

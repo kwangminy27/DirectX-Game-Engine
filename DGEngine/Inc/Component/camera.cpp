@@ -75,6 +75,11 @@ void Camera::set_far(float _far)
 	_CreateProjectionMatrix(camera_type_);
 }
 
+void Camera::set_target(std::shared_ptr<Object> const& _target)
+{
+	target_ = _target;
+}
+
 Camera::Camera(Camera const& _other) : Component(_other)
 {
 	camera_type_ = _other.camera_type_;
@@ -105,12 +110,24 @@ void Camera::_Release()
 
 void Camera::_Update(float _time)
 {
-	auto const& transform = std::dynamic_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
+	auto const& transform = std::static_pointer_cast<Transform>(object()->FindComponent(COMPONENT_TYPE::TRANSFORM));
 
-	memcpy_s(&view_._41, sizeof(Math::Vector3), &transform->local()._41, sizeof(Math::Vector3));
-	view_._41 *= -1.f;
-	view_._42 *= -1.f;
-	view_._43 *= -1.f;
+	auto const& target = target_.lock();
+	if (target)
+	{
+		auto const& target_transform = std::static_pointer_cast<Transform>(target->FindComponent(COMPONENT_TYPE::TRANSFORM));
+
+		auto target_position = target_transform->GetWorldPosition();
+		target_position += Math::Vector3{ 0.f, target_transform->GetWorldScale().y * 0.5f, 0.f };
+		target_position -= Math::Vector3{ static_cast<float>(RESOLUTION::WIDTH) * 0.5f, static_cast<float>(RESOLUTION::HEIGHT) * 0.5f, 0.f };
+
+		transform->SetLocalPosition(target_position);
+
+		memcpy_s(&view_._41, sizeof(Math::Vector3), &target_position, sizeof(Math::Vector3));
+		view_._41 *= -1.f;
+		view_._42 *= -1.f;
+		view_._43 *= -1.f;
+	}
 }
 
 std::unique_ptr<Component, std::function<void(Component*)>> Camera::_Clone() const
