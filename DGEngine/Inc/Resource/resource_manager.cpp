@@ -49,6 +49,16 @@ void ResourceManager::Initialize()
 			tex_rect_indices, 2, 6, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R16_UINT
 		);
 
+		// InstanceTexRect
+		Math::Matrix matrix[10000]{};
+
+		_CreateMesh(
+			"InstanceTexRect", INSTANCE_TEX_SHADER, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
+			tex_rect, sizeof(VertexTex), 4, D3D11_USAGE_DEFAULT,
+			tex_rect_indices, 2, 6, D3D11_USAGE_DEFAULT, DXGI_FORMAT_R16_UINT,
+			matrix, sizeof(Math::Matrix), 10000, D3D11_USAGE_DYNAMIC
+		);
+
 		// ColliderRect
 		Math::Vector3 collider_rect[5]{
 			Math::Vector3{ 0.f, 1.f, 0.f },
@@ -151,6 +161,30 @@ std::shared_ptr<Animation2DClipDesc> const& ResourceManager::FindAnimation2DClip
 
 void ResourceManager::_Release()
 {
+}
+
+void ResourceManager::_CreateMesh(
+	std::string const& _tag, std::string const& _vertex_shader_tag, D3D11_PRIMITIVE_TOPOLOGY _topology,
+	void* _vtx_data, int _vtx_size, int _vtx_count, D3D11_USAGE _vtx_usage,
+	void* _idx_data, int _idx_size, int _idx_count, D3D11_USAGE _idx_usage, DXGI_FORMAT _idx_format,
+	void* _inst_data, int _inst_size, int _inst_count, D3D11_USAGE _inst_usage)
+{
+	if (FindMesh(_tag))
+		throw exception{ "ResourceManager::_CreateMesh" };
+
+	auto mesh_buffer = shared_ptr<Mesh>{ new Mesh, [](Mesh* _p) {
+		_p->_Release();
+		delete _p;
+	} };
+
+	mesh_buffer->_CreateMesh(
+		_tag, _vertex_shader_tag, _topology,
+		_vtx_data, _vtx_size, _vtx_count, _vtx_usage,
+		_idx_data, _idx_size, _idx_count, _idx_usage, _idx_format,
+		_inst_data, _inst_size, _inst_count, _inst_usage
+	);
+
+	mesh_map_.insert(make_pair(_tag, move(mesh_buffer)));
 }
 
 void ResourceManager::_CreateMesh(

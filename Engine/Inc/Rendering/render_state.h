@@ -8,6 +8,7 @@ namespace DG
 	{
 		friend class RenderingManager;
 		friend class Renderer;
+		friend class Stage;
 	public:
 		virtual void Initialize() = 0;
 

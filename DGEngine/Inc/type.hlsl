@@ -15,6 +15,13 @@ struct VS_INPUT_POSITION_TEX
 	float2 uv : TEXCOORD;
 };
 
+struct VS_INPUT_POSITION_TEX_INSTANCE
+{
+	float3 position : POSITION;
+	float2 uv : TEXCOORD;
+	float4x4 world : WORLD;
+};
+
 struct VS_OUTPUT_POS
 {
 	float4 position : SV_POSITION;

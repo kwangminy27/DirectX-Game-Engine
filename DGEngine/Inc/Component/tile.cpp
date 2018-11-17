@@ -7,7 +7,6 @@
 #include "Rendering/shader.h"
 #include "object.h"
 #include "Component/transform.h"
-#include "Component/renderer.h"
 #include "Component/material.h"
 #include "collider_rect.h"
 
@@ -20,13 +19,8 @@ void Tile::Initialize()
 		type_ = COMPONENT_TYPE::TILE;
 
 		auto transform = object()->AddComponent<Transform>("Transform");
-		auto renderer = std::dynamic_pointer_cast<Renderer>(object()->AddComponent<Renderer>("Renderer"));
 
-		renderer->set_shader_tag(BASIC_TEX_SHADER);
-		renderer->set_mesh_tag("TexRect");
-		renderer->set_render_state(ALPHA_BLEND);
-
-		auto material = std::dynamic_pointer_cast<Material>(object()->AddComponent<Material>("Material"));
+		auto material = std::static_pointer_cast<Material>(object()->AddComponent<Material>("Material"));
 
 		MaterialConstantBuffer material_constant_buffer{};
 		material_constant_buffer.diffuse = DirectX::Colors::White.v;

@@ -10,22 +10,47 @@ void Mesh::Render()
 {
 	auto const& context = Device::singleton()->context();
 
-	for (auto const& mesh_container : mesh_container_vector_)
+	for (auto const& _mesh_container : mesh_container_vector_)
 	{
-		context->IASetPrimitiveTopology(mesh_container->topology);
+		context->IASetPrimitiveTopology(_mesh_container->topology);
 
-		UINT stride{ static_cast<UINT>(mesh_container->VB.size) };
-		UINT offset{};
-		context->IASetVertexBuffers(0, 1, mesh_container->VB.buffer.GetAddressOf(), &stride, &offset);
+		std::vector<UINT> stride{};
+		std::vector<UINT> offset{};
+		std::vector<ID3D11Buffer*> buffer{};
 
-		if (mesh_container->IB_vector.empty())
-			context->Draw(mesh_container->VB.count, 0);
+		for (auto const& _VB : _mesh_container->VB_vector)
+		{
+			stride.push_back(_VB.size);
+			offset.push_back(0);
+			buffer.push_back(_VB.buffer.Get());
+		}
+
+		context->IASetVertexBuffers(0, static_cast<UINT>(_mesh_container->VB_vector.size()), buffer.data(), stride.data(), offset.data());
+
+		if (_mesh_container->IB_vector.empty())
+		{
+			if (_mesh_container->VB_vector.size() == 1)
+				context->Draw(_mesh_container->VB_vector.at(static_cast<int>(VERTEX_BUFFER_TYPE::VERTEX)).count, 0);
+			else
+				context->DrawInstanced(_mesh_container->VB_vector.at(static_cast<int>(VERTEX_BUFFER_TYPE::VERTEX)).count, _mesh_container->VB_vector.at(static_cast<int>(VERTEX_BUFFER_TYPE::INSTANCE)).count, 0, 0);
+		}
 		else
 		{
-			for (auto const& IB : mesh_container->IB_vector)
+			if (_mesh_container->VB_vector.size() == 1)
 			{
-				context->IASetIndexBuffer(IB.buffer.Get(), IB.format, 0);
-				context->DrawIndexed(IB.count, 0, 0);
+				for (auto const& IB : _mesh_container->IB_vector)
+				{
+					context->IASetIndexBuffer(IB.buffer.Get(), IB.format, 0);
+					context->DrawIndexed(IB.count, 0, 0);
+				}
+			}
+			else
+			{
+				for (auto const& IB : _mesh_container->IB_vector)
+				{
+					context->IASetIndexBuffer(IB.buffer.Get(), IB.format, 0);
+					context->DrawIndexedInstanced(IB.count, _mesh_container->VB_vector.at(static_cast<int>(VERTEX_BUFFER_TYPE::INSTANCE)).count, 0, 0, 0);
+				}
 			}
 		}
 	}
@@ -34,22 +59,33 @@ void Mesh::Render()
 void Mesh::Render(int _container_idx, int _subset_idx)
 {
 	auto const& context = Device::singleton()->context();
+	auto const& mesh_container = mesh_container_vector_.at(_container_idx);
 
-	context->IASetPrimitiveTopology(mesh_container_vector_.at(_container_idx)->topology);
+	context->IASetPrimitiveTopology(mesh_container->topology);
 
-	UINT stride{ static_cast<UINT>(mesh_container_vector_.at(_container_idx)->VB.size) };
-	UINT offset{};
-	context->IASetVertexBuffers(0, 1, mesh_container_vector_.at(_container_idx)->VB.buffer.GetAddressOf(), &stride, &offset);
+	std::vector<UINT> stride{};
+	std::vector<UINT> offset{};
+	std::vector<ID3D11Buffer*> buffer{};
 
-	if (mesh_container_vector_.at(_container_idx)->IB_vector.empty())
-		context->Draw(mesh_container_vector_.at(_container_idx)->VB.count, 0);
+	for (auto const& _VB : mesh_container->VB_vector)
+	{
+		stride.push_back(_VB.size);
+		offset.push_back(0);
+		buffer.push_back(_VB.buffer.Get());
+	}
+
+	context->IASetVertexBuffers(0, static_cast<UINT>(mesh_container->VB_vector.size()), buffer.data(), stride.data(), offset.data());
+
+	auto const& IB = mesh_container->IB_vector.at(_subset_idx);
+	if (mesh_container->VB_vector.size() == 1)
+	{
+		context->IASetIndexBuffer(IB.buffer.Get(), IB.format, 0);
+		context->DrawIndexed(IB.count, 0, 0);
+	}
 	else
 	{
-		for (auto const& IB : mesh_container_vector_.at(_container_idx)->IB_vector)
-		{
-			context->IASetIndexBuffer(IB.buffer.Get(), IB.format, 0);
-			context->DrawIndexed(IB.count, 0, 0);
-		}
+		context->IASetIndexBuffer(IB.buffer.Get(), IB.format, 0);
+		context->DrawIndexedInstanced(IB.count, mesh_container->VB_vector.at(static_cast<int>(VERTEX_BUFFER_TYPE::INSTANCE)).count, 0, 0, 0);
 	}
 }
 
@@ -61,6 +97,16 @@ size_t Mesh::GetContainerSize() const
 size_t Mesh::GetSubsetSize(int _container_idx) const
 {
 	return mesh_container_vector_.at(_container_idx)->IB_vector.size();
+}
+
+Microsoft::WRL::ComPtr<ID3D11Buffer> Mesh::GetInstanceBuffer(int _container_idx, int _subset_idx)
+{
+	return mesh_container_vector_.at(_container_idx)->VB_vector.at(static_cast<int>(VERTEX_BUFFER_TYPE::INSTANCE)).buffer;
+}
+
+void Mesh::SetInstanceCount(int _count, int _container_idx, int _subset_idx)
+{
+	mesh_container_vector_.at(_container_idx)->VB_vector.at(static_cast<int>(VERTEX_BUFFER_TYPE::INSTANCE)).count = _count;
 }
 
 Math::Vector3 const& Mesh::center() const
@@ -115,12 +161,14 @@ void Mesh::_Release()
 void Mesh::_CreateMesh(
 	std::string const& _tag, std::string const& _vertex_shader_tag, D3D11_PRIMITIVE_TOPOLOGY _topology,
 	void* _vtx_data, int _vtx_size, int _vtx_count, D3D11_USAGE _vtx_usage,
-	void* _idx_data, int _idx_size, int _idx_count, D3D11_USAGE _idx_usage, DXGI_FORMAT _idx_format)
+	void* _idx_data, int _idx_size, int _idx_count, D3D11_USAGE _idx_usage, DXGI_FORMAT _idx_format,
+	void* _inst_data, int _inst_size, int _inst_count, D3D11_USAGE _inst_usage)
 {
 	set_tag(_tag);
 
 	auto mesh_container_buffer = std::shared_ptr<MeshContainer>{ new MeshContainer, [](MeshContainer* _p) {
-		delete[] _p->VB.data;
+		for (auto& VB : _p->VB_vector)
+			delete[] VB.data;
 		for (auto& IB : _p->IB_vector)
 			delete[] IB.data;
 		delete _p;
@@ -128,8 +176,33 @@ void Mesh::_CreateMesh(
 	mesh_container_buffer->topology = _topology;
 
 	mesh_container_vector_.push_back(move(mesh_container_buffer));
+	mesh_container_vector_.at(mesh_container_vector_.size() - 1)->VB_vector.resize(2);
 
-	_CreateVertexBuffer(_vtx_data, _vtx_size, _vtx_count, _vtx_usage);
+	_CreateVertexBuffer(_vtx_data, _vtx_size, _vtx_count, _vtx_usage, VERTEX_BUFFER_TYPE::VERTEX);
+	_CreateVertexBuffer(_inst_data, _inst_size, _inst_count, _inst_usage, VERTEX_BUFFER_TYPE::INSTANCE);
+	_CreateIndexBuffer(_idx_data, _idx_size, _idx_count, _idx_usage, _idx_format);
+}
+
+void Mesh::_CreateMesh(
+	std::string const& _tag, std::string const& _vertex_shader_tag, D3D11_PRIMITIVE_TOPOLOGY _topology,
+	void* _vtx_data, int _vtx_size, int _vtx_count, D3D11_USAGE _vtx_usage,
+	void* _idx_data, int _idx_size, int _idx_count, D3D11_USAGE _idx_usage, DXGI_FORMAT _idx_format)
+{
+	set_tag(_tag);
+
+	auto mesh_container_buffer = std::shared_ptr<MeshContainer>{ new MeshContainer, [](MeshContainer* _p) {
+		for (auto& VB : _p->VB_vector)
+			delete[] VB.data;
+		for (auto& IB : _p->IB_vector)
+			delete[] IB.data;
+		delete _p;
+	} };
+	mesh_container_buffer->topology = _topology;
+
+	mesh_container_vector_.push_back(move(mesh_container_buffer));
+	mesh_container_vector_.at(mesh_container_vector_.size() - 1)->VB_vector.resize(1);
+
+	_CreateVertexBuffer(_vtx_data, _vtx_size, _vtx_count, _vtx_usage, VERTEX_BUFFER_TYPE::VERTEX);
 	_CreateIndexBuffer(_idx_data, _idx_size, _idx_count, _idx_usage, _idx_format);
 }
 
@@ -140,7 +213,8 @@ void Mesh::_CreateMesh(
 	set_tag(_tag);
 
 	auto mesh_container_buffer = std::shared_ptr<MeshContainer>{ new MeshContainer, [](MeshContainer* _p) {
-		delete[] _p->VB.data;
+		for (auto& VB : _p->VB_vector)
+			delete[] VB.data;
 		for (auto& IB : _p->IB_vector)
 			delete[] IB.data;
 		delete _p;
@@ -148,20 +222,23 @@ void Mesh::_CreateMesh(
 	mesh_container_buffer->topology = _topology;
 
 	mesh_container_vector_.push_back(move(mesh_container_buffer));
+	mesh_container_vector_.at(mesh_container_vector_.size() - 1)->VB_vector.resize(1);
 
-	_CreateVertexBuffer(_vtx_data, _vtx_size, _vtx_count, _vtx_usage);
+	_CreateVertexBuffer(_vtx_data, _vtx_size, _vtx_count, _vtx_usage, VERTEX_BUFFER_TYPE::VERTEX);
 }
 
-void Mesh::_CreateVertexBuffer(void* _data, int _size, int _count, D3D11_USAGE _usage)
+void Mesh::_CreateVertexBuffer(void* _data, int _size, int _count, D3D11_USAGE _usage, VERTEX_BUFFER_TYPE _type)
 {
+	auto const& device = Device::singleton()->device();
+
 	auto& mesh_container = mesh_container_vector_.at(mesh_container_vector_.size() - 1);
-	mesh_container->VB.size = _size;
-	mesh_container->VB.count = _count;
-	mesh_container->VB.usage = _usage;
+	mesh_container->VB_vector.at(static_cast<int>(_type)).size = _size;
+	mesh_container->VB_vector.at(static_cast<int>(_type)).count = _count;
+	mesh_container->VB_vector.at(static_cast<int>(_type)).usage = _usage;
 
 	int byte_width = _size * _count;
-	mesh_container->VB.data = new char[byte_width];
-	memcpy_s(mesh_container->VB.data, byte_width, _data, byte_width);
+	mesh_container->VB_vector.at(static_cast<int>(_type)).data = new char[byte_width];
+	memcpy_s(mesh_container->VB_vector.at(static_cast<int>(_type)).data, byte_width, _data, byte_width);
 
 	D3D11_BUFFER_DESC buffer_desc{};
 	buffer_desc.ByteWidth = byte_width;
@@ -172,9 +249,12 @@ void Mesh::_CreateVertexBuffer(void* _data, int _size, int _count, D3D11_USAGE _
 		buffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 	D3D11_SUBRESOURCE_DATA subresource_data{};
-	subresource_data.pSysMem = mesh_container->VB.data;
+	subresource_data.pSysMem = mesh_container->VB_vector.at(static_cast<int>(_type)).data;
 
-	ThrowIfFailed(Device::singleton()->device()->CreateBuffer(&buffer_desc, &subresource_data, &mesh_container->VB.buffer));
+	ThrowIfFailed(device->CreateBuffer(&buffer_desc, &subresource_data, &mesh_container->VB_vector.at(static_cast<int>(_type)).buffer));
+
+	if (_type == VERTEX_BUFFER_TYPE::INSTANCE)
+		return;
 
 	char* vertices = static_cast<char*>(_data);
 
@@ -237,29 +317,4 @@ void Mesh::_CreateIndexBuffer(void* _data, int _size, int _count, D3D11_USAGE _u
 	ThrowIfFailed(Device::singleton()->device()->CreateBuffer(&buffer_desc, &subresource_data, &IB.buffer));
 
 	mesh_container->IB_vector.push_back(move(IB));
-}
-
-void Mesh::_UpdateVertexBuffer(void* _data, int _mesh_container_idx)
-{
-	if (_mesh_container_idx < 0 || _mesh_container_idx >= mesh_container_vector_.size())
-		throw exception{ "Mesh::_UpdateVertexBuffer" };
-
-	auto& mesh_container = mesh_container_vector_.at(_mesh_container_idx);
-
-	int byte_width = mesh_container->VB.size * mesh_container->VB.count;
-	memcpy_s(mesh_container->VB.data, byte_width, _data, byte_width);
-
-	switch (mesh_container->VB.usage)
-	{
-	case D3D11_USAGE_DEFAULT:
-		Device::singleton()->context()->UpdateSubresource(mesh_container->VB.buffer.Get(), 0, nullptr, _data, 0, 0);
-		break;
-
-	case D3D11_USAGE_DYNAMIC:
-		D3D11_MAPPED_SUBRESOURCE mapped_subresource{};
-		Device::singleton()->context()->Map(mesh_container->VB.buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_subresource);
-		memcpy_s(mapped_subresource.pData, byte_width, _data, byte_width);
-		Device::singleton()->context()->Unmap(mesh_container->VB.buffer.Get(), 0);
-		break;
-	}
 }

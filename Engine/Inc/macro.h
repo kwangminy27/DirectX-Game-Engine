@@ -19,6 +19,7 @@
 // ========== Shader Key ==========
 #define BASIC_SHADER "BasicShader"
 #define BASIC_TEX_SHADER "BasicTexShader"
+#define INSTANCE_TEX_SHADER "InstanceTexShader"
 #define BASIC_ANIMATION_2D_SHADER "BasicAnimation2DShader"
 #define COLLIDER_SHADER "ColliderShader"
 #define COLLIDER_CIRCLE_SHADER "ColliderCircleShader"

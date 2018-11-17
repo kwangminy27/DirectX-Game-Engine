@@ -109,6 +109,9 @@
     <Filter Include="09. Component\10. Stage">
       <UniqueIdentifier>{66176287-49b1-47e4-8eb1-56aed27800b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. Rendering\1. Shader\1. HLSL\4. Instancing">
+      <UniqueIdentifier>{bd6f370e-f8a6-49a7-88d2-f35dd75751d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DGEngine_stdafx.h">
@@ -485,6 +488,12 @@
     </FxCompile>
     <FxCompile Include="RadioButtonPS.hlsl">
       <Filter>05. Rendering\1. Shader\1. HLSL\3. UI</Filter>
+    </FxCompile>
+    <FxCompile Include="InstanceTexVS.hlsl">
+      <Filter>05. Rendering\1. Shader\1. HLSL\4. Instancing</Filter>
+    </FxCompile>
+    <FxCompile Include="InstanceTexPS.hlsl">
+      <Filter>05. Rendering\1. Shader\1. HLSL\4. Instancing</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

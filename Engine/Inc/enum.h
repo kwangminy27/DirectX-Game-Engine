@@ -154,3 +154,10 @@ enum class TILE_OPTION
 	BLOCKED,
 	MAX
 };
+
+enum class VERTEX_BUFFER_TYPE
+{
+	VERTEX,
+	INSTANCE,
+	MAX
+};

@@ -1,10 +1,17 @@
 #include "DGEngine_stdafx.h"
 #include "stage.h"
 
+#include "device.h"
+#include "Resource/resource_manager.h"
+#include "Resource/mesh.h"
+#include "Rendering/rendering_manager.h"
+#include "Rendering/shader.h"
+#include "Rendering/render_state.h"
 #include "Scene/scene.h"
 #include "object.h"
 #include "tile.h"
 #include "transform.h"
+#include "Component/material.h"
 
 using namespace DG;
 
@@ -200,9 +207,49 @@ void Stage::_Collision(float _time)
 
 void Stage::_Render(float _time)
 {
+	auto const& resource_manager = ResourceManager::singleton();
+	auto const& rendering_manager = RenderingManager::singleton();
+
+	std::vector<Math::Matrix> matrix_vector{};
 	for (int i = view_range_idx_y_.first; i <= view_range_idx_y_.second; ++i)
+	{
 		for (int j = view_range_idx_x_.first; j <= view_range_idx_x_.second; ++j)
-			tile_vector_2d_.at(i).at(j)->_Render(_time);
+		{
+			auto const& tile_transform = std::static_pointer_cast<Transform>(tile_vector_2d_.at(i).at(j)->FindComponent(COMPONENT_TYPE::TRANSFORM));
+			auto tile_world = tile_transform->world();
+
+			tile_world = tile_world.Transpose();
+
+			matrix_vector.push_back(std::move(tile_world));
+		}
+	}
+
+	auto const& context = Device::singleton()->context();
+	auto const& instance_buffer = resource_manager->FindMesh("InstanceTexRect")->GetInstanceBuffer(0, 0);
+
+	D3D11_MAPPED_SUBRESOURCE mapped_resource{};
+	context->Map(instance_buffer.Get(), 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
+
+	int visible_object_count = static_cast<int>(matrix_vector.size());
+	memcpy_s(mapped_resource.pData, sizeof(Math::Matrix) * visible_object_count, matrix_vector.data(), sizeof(Math::Matrix) * visible_object_count);
+
+	context->Unmap(instance_buffer.Get(), 0);
+
+	auto const& mesh = resource_manager->FindMesh("InstanceTexRect");
+	auto const& shader = rendering_manager->FindShader(INSTANCE_TEX_SHADER);
+	auto const& render_state = rendering_manager->FindRenderState(ALPHA_BLEND);
+	auto const& material = std::static_pointer_cast<Material>(tile_vector_2d_.at(0).at(0)->FindComponent(COMPONENT_TYPE::MATERIAL));
+
+	shader->SetShader();
+
+	render_state->_SetState();
+
+	material->SetToShader(0, 0);
+
+	mesh->SetInstanceCount(visible_object_count, 0, 0);
+	mesh->Render();
+
+	render_state->_SetBackState();
 }
 
 std::unique_ptr<Component, std::function<void(Component*)>> Stage::_Clone() const

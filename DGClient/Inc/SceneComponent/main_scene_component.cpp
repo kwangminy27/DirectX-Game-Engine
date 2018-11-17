@@ -64,7 +64,7 @@ void MainSceneComponent::Initialize()
 	auto player_component = player->AddComponent<PlayerComponent>("Player");
 
 	auto const& player_transform = std::static_pointer_cast<Transform>(player->FindComponent(COMPONENT_TYPE::TRANSFORM));
-	player_transform->SetLocalPosition({ 4000.f, 2000.f, 0.f });
+	player_transform->SetLocalPosition({ 8000.f, 4000.f, 0.f });
 
 	// Child
 	int transform_flag{};
@@ -198,7 +198,7 @@ void MainSceneComponent::Initialize()
 	// Stage
 	auto stage = Object::CreateObject("Stage", default_layer);
 	auto stage_component = std::dynamic_pointer_cast<Stage>(stage->AddComponent<Stage>("StageComponent"));
-	stage_component->CreateTile(STAGE_TYPE::ISOMETRIC, 100, 100, { 80.f, 40.f });
+	stage_component->CreateTile(STAGE_TYPE::ISOMETRIC, 200, 200, { 80.f, 40.f });
 }
 
 MainSceneComponent::MainSceneComponent(MainSceneComponent const& _other) : SceneComponent(_other)
