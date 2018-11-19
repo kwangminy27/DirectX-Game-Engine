@@ -30,6 +30,16 @@ std::shared_ptr<TCPSocket> SocketManager::CreateTCPSocket(int _address_family)
 	return std::shared_ptr<TCPSocket>{ new TCPSocket{ s } };
 }
 
+std::shared_ptr<TCPSocket> SocketManager::CreateOverlappedTCPSocket(int _address_family)
+{
+	SOCKET s = WSASocket(_address_family, SOCK_STREAM, IPPROTO_TCP, nullptr, NULL, WSA_FLAG_OVERLAPPED);
+
+	if(s == INVALID_SOCKET)
+		throw std::exception{ "SocketManager::CreateOverlappedTCPSocket" };
+
+	return std::shared_ptr<TCPSocket>{ new TCPSocket{ s } };
+}
+
 fd_set* SocketManager::FillSetFromVector(fd_set& _set, std::vector<std::shared_ptr<TCPSocket>> const* _sockets)
 {
 	if (_sockets)

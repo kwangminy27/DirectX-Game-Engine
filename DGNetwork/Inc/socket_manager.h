@@ -16,6 +16,7 @@ namespace DG
 
 		std::shared_ptr<UDPSocket> CreateUDPSocket(int _address_family);
 		std::shared_ptr<TCPSocket> CreateTCPSocket(int _address_family);
+		std::shared_ptr<TCPSocket> CreateOverlappedTCPSocket(int _address_family);
 
 		fd_set* FillSetFromVector(fd_set& _out_set, std::vector<std::shared_ptr<TCPSocket>> const* _in_sockets);
 		void FillVectorFromSet(

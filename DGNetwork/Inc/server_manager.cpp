@@ -173,38 +173,215 @@ void ServerManager::ExcuteTCPEventSelectLoop()
 	}
 }
 
-//void ServerManager::ExcuteTCPIOCPLoop()
-//{
-	//std::vector<std::unique_ptr<std::thread>> worker_thread_vector{};
-	//std::unique_ptr<std::thread> accept_thread{};
+void ServerManager::ExcuteTCPIOCPLoop()
+{
+	iocp_ = CreateIoCompletionPort(INVALID_HANDLE_VALUE, nullptr, NULL, 0);
 
-	//HANDLE iocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE, nullptr, NULL, 0);
+	for (auto i = 0; i < clients_.size(); ++i)
+	{
+		clients_[i].receive_overlapped_ex.operation = IO_OPERATION::RECV;
+		clients_[i].receive_overlapped_ex.wsa_buffer.buf = reinterpret_cast<char*>(clients_[i].receive_overlapped_ex.buffer);
+		clients_[i].receive_overlapped_ex.wsa_buffer.len = 1024;
+	}
 
-	//for(int i = 0; i < 6; ++i)
-	//	worker_thread_vector.push_back(std::make_unique<thread>(WorkFunc));
-	//accept_thread = std::make_unique<thread>(AcceptFunc);
+	std::vector<std::unique_ptr<std::thread>> worker_thread_vector{};
 
-	//while (true)
-	//	std::this_thread::sleep_for(1s);
+	for (int i = 0; i < 6; ++i)
+		worker_thread_vector.push_back(std::make_unique<thread>(WorkerThreadFunc));
 
-	//for (auto const& _worker_thread : worker_thread_vector)
-	//	_worker_thread->join();
-	//accept_thread->join();
-//}
+	std::unique_ptr<std::thread> accept_thread = std::make_unique<thread>(AcceptThreadFunc);
 
-//void ServerManager::WorkFunc(HANDLE _iocp)
-//{
-//	DWORD io_size{};
-//	ULONG_PTR key{};
-//	OverlapEx* overlapped{};
-//	bool result{};
-//}
-//
-//void ServerManager::AcceptFunc()
-//{
-//}
+	while (true)
+	{
+		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
+			break;
+
+		std::this_thread::sleep_for(1s);
+	}
+
+	accept_thread->join();
+
+	for (auto const& _worker_thread : worker_thread_vector)
+		_worker_thread->join();
+}
+
+void ServerManager::ProcessPacket()
+{
+	auto const& server_manager = ServerManager::singleton();
+	auto& clients = server_manager->clients();
+}
+
+HANDLE ServerManager::iocp()
+{
+	return iocp_;
+}
+
+std::array<Client, 100>& ServerManager::clients()
+{
+	return clients_;
+}
 
 void ServerManager::_Release()
 {
 	WSACleanup();
+}
+
+void DG::WorkerThreadFunc()
+{
+	auto const& server_manager = ServerManager::singleton();
+	auto& clients = server_manager->clients();
+
+	DWORD io_size{};
+	ULONG_PTR key{};
+	OverlappedEx* overlapped_ex{};
+	bool result{};
+
+	while (true)
+	{
+		result = GetQueuedCompletionStatus(server_manager->iocp(), &io_size, &key, reinterpret_cast<LPOVERLAPPED*>(&overlapped_ex), INFINITE);
+
+		if (result == false)
+			throw std::exception{ "WorkerThreadFunc" };
+
+		if (io_size == 0)
+		{
+			std::cout << "클라이언트 " << clients.at(key).id << " 해제" << std::endl;
+
+			clients.at(key).tcp_socket = nullptr;
+			clients.at(key).packet_size = 0;
+			clients.at(key).previous_data = 0;
+			clients.at(key).is_connected = false;
+
+			continue;
+		}
+
+		switch (overlapped_ex->operation)
+		{
+		case IO_OPERATION::RECV:
+		{
+			unsigned char* buffer = overlapped_ex->buffer;
+			int remained = io_size;
+
+			while (remained > 0)
+			{
+				if (clients.at(key).packet_size == 0)
+					clients.at(key).packet_size = buffer[0];
+
+				int required = clients.at(key).packet_size - clients.at(key).previous_data;
+
+				if (remained >= required)
+				{
+					memcpy_s(clients.at(key).packet_buffer + clients.at(key).previous_data, required, buffer, required);
+
+					server_manager->ProcessPacket();
+
+					buffer += required;
+					remained -= required;
+					clients.at(key).packet_size = 0;
+					clients.at(key).previous_data = 0;
+				}
+				else
+				{
+					memcpy_s(clients.at(key).packet_buffer + clients.at(key).previous_data, remained, buffer, remained);
+
+					clients.at(key).previous_data += remained;
+					remained = 0;
+				}
+			}
+
+			DWORD flags{};
+			result = WSARecv(
+				clients.at(key).tcp_socket->socket(),
+				&clients.at(key).receive_overlapped_ex.wsa_buffer,
+				1,
+				nullptr,
+				&flags,
+				&clients.at(key).receive_overlapped_ex.overlapped,
+				nullptr
+			);
+
+			if (result != 0)
+			{
+				if (WSAGetLastError() != WSA_IO_PENDING)
+					throw std::exception{ "WorkerThreadFunc" };
+			}
+			break;
+		}
+		case IO_OPERATION::SEND:
+			delete overlapped_ex; // Send는 매번 동적할당해서 보냄. 따라서, 완료된 경우 해제 해줘야 함.
+			break;
+
+		default:
+			throw std::exception{ "WorkerThreadFunc" };
+			break;
+		}
+	}
+}
+
+void DG::AcceptThreadFunc()
+{
+	auto const& server_manager = ServerManager::singleton();
+	auto const& socket_manager = SocketManager::singleton();
+
+	auto& clients = server_manager->clients();
+	auto listen_socket = socket_manager->CreateOverlappedTCPSocket(AF_INET);
+
+	SocketAddress server_address(INADDR_ANY, 666);
+	listen_socket->Bind(server_address);
+	listen_socket->Listen(10);
+	
+	while (true)
+	{
+		SocketAddress new_client_address{};
+		auto new_socket = listen_socket->Accept(new_client_address);
+
+		int new_id = -1;
+		for (auto i = 0; i < clients.size(); ++i)
+		{
+			if (clients.at(i).is_connected == false)
+			{
+				new_id = i;
+				break;
+			}
+		}
+
+		if (new_id == -1)
+		{
+			std::cout << "서버가 수용 가능한 인원을 초과했습니다." << std::endl;
+			continue;
+		}
+
+		HANDLE result = CreateIoCompletionPort(
+			reinterpret_cast<HANDLE>(new_socket->socket()),
+			server_manager->iocp(),
+			new_id,
+			NULL
+		);
+
+		if (result == NULL)
+			throw std::exception{ "AcceptThreadFunc" };
+
+		clients.at(new_id).tcp_socket = new_socket;
+		clients.at(new_id).id = new_id;
+		clients.at(new_id).is_connected = true;
+
+		std::cout << "클라이언트 " << new_id << " 접속" << endl;
+
+		DWORD flags{};
+		int result_2 = WSARecv(
+			clients.at(new_id).tcp_socket->socket(),
+			&clients.at(new_id).receive_overlapped_ex.wsa_buffer,
+			1,
+			nullptr,
+			&flags,
+			&clients.at(new_id).receive_overlapped_ex.overlapped,
+			nullptr
+		);
+
+		if (result_2 != 0)
+		{
+			if (WSAGetLastError() != WSA_IO_PENDING)
+				throw std::exception{ "AcceptThreadFunc" };
+		}
+	}
 }
